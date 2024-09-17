@@ -1,0 +1,20 @@
+.custom-select {
+    background-color: #f8f9fa; /* Fondo claro */
+    color: #495057; /* Color del texto */
+    border: 1px solid #ced4da; /* Borde gris claro */
+    border-radius: 0.25rem; /* Bordes redondeados */
+    padding: 0.375rem 0.75rem; /* Espaciado interno */
+    font-size: 1rem; /* Tamaño de fuente */
+    line-height: 1.5; /* Altura de línea */
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; /* Transiciones suaves */
+  }
+  
+  .custom-select:focus {
+    border-color: #80bdff; /* Color del borde al enfocar */
+    outline: 0; /* Quitar el borde del enfoque predeterminado */
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25); /* Sombra del borde al enfocar */
+  }
+  
+  .custom-select option {
+    background-color: #ffffff; /* Fondo blanco para opciones */
+  }
