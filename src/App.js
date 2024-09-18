@@ -114,8 +114,7 @@ function App() {
       </header>
 
       <div className="content-container">
-      <div className="content"> 
-      
+      <div className="absolute-container2"> 
       <form onSubmit={handleSubmit} className="form">
        
         
@@ -133,12 +132,12 @@ function App() {
         </button>
       
         </form>
-        </div>
-        </div>
+        
+        
 
   
 
-      <div className="absolute-container" align="left">
+
         {isLoading && <p>Cargando datos...</p>}
         {error && <p style={{ color: 'red' }}>{error}</p>}
         {apiData && (
@@ -155,7 +154,7 @@ function App() {
           </div>
         )}
       </div>
-
+</div>
 
         {/* ToastContainer para mostrar las alertas */}
         <ToastContainer />

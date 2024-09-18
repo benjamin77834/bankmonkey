@@ -14,7 +14,7 @@ html, body {
   margin: 0;
 }
 .App-logo {
-  width: 2px;
+  width: 10px;
   height: 10px;
   margin: 10px;
   
@@ -268,6 +268,7 @@ p {
 
 
 .absolute-container2 {
+  padding: 30px;
   position: relative;
   height: 80vh; /* Usa toda la altura de la ventana del navegador */
   width: 100%;  
@@ -284,16 +285,17 @@ p {
 
 .content {
   text-align: center;      /* Centra el texto dentro del contenedor */
-  padding: 20px;
+  padding: 30px;
   border: 0px solid #ddd;  /* Opcional: borde */
   border-radius: 5px;     /* Opcional: bordes redondeados */
   background-color: #fff; /* Opcional: color de fondo para el contenido */
 }
 
 .form {
+  padding: 30px;
   display: flex;
   flex-direction: column;  /* Organiza los elementos del formulario en una columna */
-  gap: 10px;               /* Espacio entre los elementos del formulario */
+  gap: 5px;               /* Espacio entre los elementos del formulario */
   align-items: center;     /* Centra los elementos del formulario horizontalmente */
 }
 
