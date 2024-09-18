@@ -146,7 +146,7 @@ const handleAdditionalDataChange = (event) => {
       <form onSubmit={handleSubmit}>
        
         
-          Numero Celular:
+          
           <input
             type="text"
             name="name"
