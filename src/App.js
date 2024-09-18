@@ -119,7 +119,7 @@ function App() {
       <form onSubmit={handleSubmit}>
        
         
-          <p>Numero Celular:</p>
+          
           <input
             type="text"
             name="name"
@@ -128,7 +128,7 @@ function App() {
           />
         
         <button className="orange-button" disabled={isLoading} align="center">
-          {isLoading ? 'Enviando...' : 'Enter'}
+          {isLoading ? 'Enviando...' : 'Numero Celular'}
         </button>
       
         </form>
