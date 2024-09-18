@@ -108,6 +108,8 @@ const handleAdditionalDataChange = (event) => {
       //console.log(flattenedOptions);
       //console.log(msisdn);
       setAdditionalData(msisdn);
+      toast.success('¡ya puedes escoger tus ofertas!');
+
       //data = await response.json();
       //console.log(data)
    
