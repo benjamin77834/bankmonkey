@@ -123,11 +123,12 @@ function App() {
           <input
             type="text"
             name="name"
+            size="12"
             value={formData.name}
             onChange={handleChange}
           />
         
-        <button className="orange-button" disabled={isLoading} align="center">
+        <button className="orange-button" disabled={isLoading} align="left">
           {isLoading ? 'Enviando...' : 'Numero Celular'}
         </button>
       

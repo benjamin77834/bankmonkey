@@ -220,8 +220,8 @@ h1 {
   background-color: #b45ad3;
   color: white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 25px; /* Bordes redondeados */
+  padding: 10px 10px;
+  border-radius: 20px; /* Bordes redondeados */
   cursor: pointer;
   font-size: 26px;
 }

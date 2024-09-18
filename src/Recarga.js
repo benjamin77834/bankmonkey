@@ -148,6 +148,7 @@ const handleAdditionalDataChange = (event) => {
           <input
             type="text"
             name="name"
+            size="12"
 
             value={formData.name}
             onChange={handleChange}
