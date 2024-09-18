@@ -149,7 +149,7 @@ const handleAdditionalDataChange = (event) => {
       <div className="absolute-container2"> 
       
       <form onSubmit={handleSubmit} className="form" align="left">
-   
+   <h33>1 Primer paso pon tu numero para consultar tus ofertas asignadas espera un poco</h33>
           <input
             type="text"
             name="name"
@@ -168,7 +168,7 @@ const handleAdditionalDataChange = (event) => {
        
         <form onSubmit={handleSubmit3} className="form" align="left">
 
-            
+        <h33>2 Segundo Escoge tu oferta Preferida</h33> 
       <label htmlFor="options">Selección Oferta:</label>
 
       <input

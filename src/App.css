@@ -107,7 +107,11 @@ h1 {
   margin-bottom: 1.5rem;
   color: #333;
 }
-
+h33 {
+  font-size: 1.2rem;
+  margin-bottom: .5rem;
+  color: #333;
+}
 /* Grupos del formulario */
 /*.form-group {
   margin-bottom: 1.5rem;
