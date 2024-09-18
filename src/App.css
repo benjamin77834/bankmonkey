@@ -14,9 +14,9 @@ html, body {
   margin: 0;
 }
 .App-logo {
-  width: 50px;
-  height: 150px;
-  margin: 20px;
+  width: 2px;
+  height: 10px;
+  margin: 10px;
   
 }
 
@@ -170,7 +170,7 @@ h1 {
 
 
 .main-content {
-  flex: 1; /* El contenido principal ocupa todo el espacio disponible */
+  flex: 2; /* El contenido principal ocupa todo el espacio disponible */
 }
 
 /* Footer */
@@ -233,7 +233,7 @@ h1 {
 
 .main-content2 {
   flex: 1;
-  padding: 5px 620px; /* Espacio debajo del Header y Footer */
+  padding: 4px 620px; /* Espacio debajo del Header y Footer */
   text-align: center;
   display: flex;
   align-items: center;
@@ -269,7 +269,7 @@ p {
 
 .absolute-container2 {
   position: relative;
-  height: 100vh; /* Usa toda la altura de la ventana del navegador */
+  height: 80vh; /* Usa toda la altura de la ventana del navegador */
   width: 100%;  
   background-color: #f7f9fc; /* Opcional: color de fondo */
 }
@@ -278,13 +278,13 @@ p {
   display: flex;
   justify-content: center; /* Centra horizontalmente */
   align-items: center;     /* Centra verticalmente */
-  min-height: 50vh;       /* Asegura que el contenedor ocupe toda la altura de la ventana */
+  min-height: 60vh;       /* Asegura que el contenedor ocupe toda la altura de la ventana */
   padding-top: 60px;       /* Ajusta el relleno superior para evitar que el contenido se superponga con el encabezado */
 }
 
 .content {
   text-align: center;      /* Centra el texto dentro del contenedor */
-  padding: 10px;
+  padding: 20px;
   border: 0px solid #ddd;  /* Opcional: borde */
   border-radius: 5px;     /* Opcional: bordes redondeados */
   background-color: #fff; /* Opcional: color de fondo para el contenido */
