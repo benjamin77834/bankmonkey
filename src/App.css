@@ -263,7 +263,7 @@ p {
 .absolute-container {
   position: relative;
   height: 70vh; /* Usa toda la altura de la ventana del navegador */
-  background-color: #f0f0f0; /* Opcional: color de fondo */
+  background-color: #f7f9fc; /* Opcional: color de fondo */
 }
 .content-container {
   display: flex;
