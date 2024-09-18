@@ -116,13 +116,13 @@ function App() {
       <div className="content-container">
       <div className="content"> 
       
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="form">
        
         
           <input
             type="text"
             name="name"
-            size="12"
+            size="20"
              placeholder="Tu Numero"
             value={formData.name}
             onChange={handleChange}

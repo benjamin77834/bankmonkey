@@ -135,7 +135,7 @@ const handleAdditionalDataChange = (event) => {
 
 
        <ul className="footer-links">
-       <li><a href="/Recarga">Recarga</a></li>
+      
        <li><a href="/">Consulta de Saldo</a></li>
        </ul>
       </header>
@@ -143,13 +143,13 @@ const handleAdditionalDataChange = (event) => {
       <div className="content-container">
       <div className="absolute-container2"> 
       
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="form" align="left">
    
           <input
             type="text"
             name="name"
-            size="12"
- placeholder="Tu Numero"
+            size="20"
+            placeholder="Tu Numero"
             value={formData.name}
             onChange={handleChange}
           />
@@ -161,7 +161,7 @@ const handleAdditionalDataChange = (event) => {
         </form>
         
        
-        <form onSubmit={handleSubmit3}>
+        <form onSubmit={handleSubmit3} className="form" align="left">
 
             
       <label htmlFor="options">Selección Oferta:</label>

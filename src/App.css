@@ -278,7 +278,7 @@ p {
   display: flex;
   justify-content: center; /* Centra horizontalmente */
   align-items: center;     /* Centra verticalmente */
-  min-height: 30vh;       /* Asegura que el contenedor ocupe toda la altura de la ventana */
+  min-height: 50vh;       /* Asegura que el contenedor ocupe toda la altura de la ventana */
   padding-top: 60px;       /* Ajusta el relleno superior para evitar que el contenido se superponga con el encabezado */
 }
 
