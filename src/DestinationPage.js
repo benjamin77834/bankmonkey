@@ -47,7 +47,7 @@ fetchData();
 
   return (
     <div>
-      <h1>Te vamos enviar a Clip para tu pago</h1>
+      <h3 >Te vamos enviar a Clip para tu pago</h3>
      
       <p>Has seleccionado: {msisdn}</p>
 

@@ -128,10 +128,12 @@ const handleAdditionalDataChange = (event) => {
   };
 
   return (
-    <div className="App" align="center">
+<div className="App" align="center">
             
-       <header className="App-header">
-       <img src={newLogo} alt="Nuevo Logo" className="App_logo" width="100px" align="left" />
+            <header className="App-header">
+            <img src={newLogo} alt="Nuevo Logo" className="App_logo" width="100px" align="left" />
+
+
        <ul className="footer-links">
        <li><a href="/Recarga">Recarga</a></li>
        <li><a href="/">Consulta de Saldo</a></li>
@@ -144,12 +146,12 @@ const handleAdditionalDataChange = (event) => {
       <form onSubmit={handleSubmit}>
        
         
-          <h1>Numero Celular:</h1>
+          Numero Celular:
           <input
             type="text"
             name="name"
             size="12"
-
+ placeholder="Tu Numero"
             value={formData.name}
             onChange={handleChange}
           />
@@ -162,7 +164,9 @@ const handleAdditionalDataChange = (event) => {
         </div>
         </div>
 
- 
+
+        <div className="content-container">
+      <div className="content">  
         <form onSubmit={handleSubmit3}>
 
             
@@ -180,7 +184,7 @@ const handleAdditionalDataChange = (event) => {
         value={selectedOption} 
         onChange={handleChange2}>
 
-        <option value="">--Please choose an option--</option>
+        <option value="">--Escoge Oferta--</option>
         {options.map((item) => (
           <option key={item.idoferta_app} value={item.idoferta_app}   >
             $ {item.precio_minorista} {item.nombre_comercial} {item.descripcion_oferta_comercial} 
@@ -189,7 +193,8 @@ const handleAdditionalDataChange = (event) => {
       </select>
       <button className="orange-button" type="submit">Compra Oferta</button>
     </form>
-
+    </div>
+    </div>
 
         
 

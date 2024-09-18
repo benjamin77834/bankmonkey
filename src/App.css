@@ -159,7 +159,7 @@ h1 {
 
   h1 {
     font-size: 1.5rem;
-  }
+  } 
 
   .submit-btn {
     width: 100%;
@@ -312,4 +312,8 @@ p {
 
 .form button:hover {
   background-color: #0056b3;
+}
+
+h3 {
+  color: white; /* Cambia el color según tu preferencia */
 }

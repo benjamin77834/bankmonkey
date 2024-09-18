@@ -92,8 +92,8 @@ function App() {
             <li>
               <Link to="/recarga"
               
-           
-              >Recarga</Link>
+    
+              >Aqui Recargas!</Link>
             </li>
           </ul>
         </nav>
@@ -119,17 +119,17 @@ function App() {
       <form onSubmit={handleSubmit}>
        
         
-          
           <input
             type="text"
             name="name"
             size="12"
+             placeholder="Tu Numero"
             value={formData.name}
             onChange={handleChange}
           />
         
         <button className="orange-button" disabled={isLoading} align="left">
-          {isLoading ? 'Enviando...' : 'Numero Celular'}
+          {isLoading ? 'Enviando...' : 'Enter'}
         </button>
       
         </form>
