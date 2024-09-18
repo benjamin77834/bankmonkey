@@ -141,12 +141,10 @@ const handleAdditionalDataChange = (event) => {
       </header>
 
       <div className="content-container">
-      <div className="content"> 
+      <div className="absolute-container2"> 
       
       <form onSubmit={handleSubmit}>
-       
-        
-          
+   
           <input
             type="text"
             name="name"
@@ -161,12 +159,8 @@ const handleAdditionalDataChange = (event) => {
         </button>
       
         </form>
-        </div>
-        </div>
-
-
-        <div className="content-container">
-      <div className="content">  
+        
+       
         <form onSubmit={handleSubmit3}>
 
             
