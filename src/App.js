@@ -61,12 +61,12 @@ function App() {
         app: "1",
         "serv": "profile"
       };
+      toast.success('¡Consulta realizandose!, si has recargado puede tardar unos minutos ');
 
       // Realizar la solicitud POST
       const response = await axios.post(`${apiUrl}/prod/profile2`, data);
       console.log(response)
  
-      toast.success('¡Consulta lista!, si has recargado puede tardar unos minutos ');
 
       setApiData(response.data);
        

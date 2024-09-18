@@ -96,6 +96,8 @@ const handleAdditionalDataChange = (event) => {
       };
 
       // Realizar la solicitud POST
+      toast.success('¡Consultando tus ofertas!');
+
       const response = await axios.post(`${apiUrl}/prod/cambaceo_ofertas`, data);
 
       const data2 = response.data;
@@ -114,7 +116,6 @@ const handleAdditionalDataChange = (event) => {
      // console.log(flattenedOptions);
       //setOptions(flattenedOptions);
 
-      toast.success('¡Consulta lista!');
 
     //  setApiData(response.data);
     setOptions(flattenedOptions);   
