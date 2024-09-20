@@ -149,7 +149,7 @@ const handleAdditionalDataChange = (event) => {
       <div className="absolute-container2"> 
       
       <form onSubmit={handleSubmit} className="form" align="left">
-   <h33>1 Primer paso pon tu numero para consultar tus ofertas asignadas espera un poco</h33>
+   <h33>1 Primer paso pon tu numero para consultar!</h33>
           <input
             type="text"
             name="name"
@@ -157,6 +157,7 @@ const handleAdditionalDataChange = (event) => {
             placeholder="Tu Numero"
             value={formData.name}
             onChange={handleChange}
+            
           />
         
         <button className="orange-button" disabled={isLoading} align="center">
