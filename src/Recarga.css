@@ -2,7 +2,7 @@
 
 
     width: 100%;
-    padding: 5px;
+    padding: 1px;
     border: 2px solid #007bff;
     border-radius: 5px;
     font-size: 16px;
@@ -33,4 +33,20 @@
   
   .custom-select option {
     background-color: #ffffff; /* Fondo blanco para opciones */
+  }
+
+  .styled-select {
+    margin: 20px 0;
+    padding: 10px;
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    font-size: 11px;
+    cursor: pointer;
+  }
+  .info-box {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
   }

@@ -31,6 +31,7 @@ function Recarga() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [apiData, setApiData] = useState(null);
+
   const [error, setError] = useState(null);
  
   // Manejar el cambio en los campos del formulario
@@ -52,8 +53,9 @@ function Recarga() {
 const [options, setOptions] = useState([]);
 const [selectedOption, setSelectedOption] = useState('');
 const [msisdn, setAdditionalData] = useState('');
+const [info, setInfo] = useState('');
 console.log(msisdn);
-console.log(selectedOption);
+console.log("select",selectedOption);
 const navigate = useNavigate();
 
 
@@ -68,6 +70,7 @@ const handleSubmit3 = (event) => {
 
 const handleChange2 = (event) => {
     setSelectedOption(event.target.value);
+
   };
 
 const handleAdditionalDataChange = (event) => {
@@ -133,11 +136,14 @@ const handleAdditionalDataChange = (event) => {
   };
 
   return (
-<div className="App" align="center">
+  
+           
+
+            <div className="App" align="center">
             
             <header className="App-header">
             <img src={newLogo} alt="Nuevo Logo" className="App_logo" width="100px" align="left" />
-
+     
 
        <ul className="footer-links">
       
@@ -148,15 +154,15 @@ const handleAdditionalDataChange = (event) => {
       <div className="content-container">
       <div className="absolute-container2"> 
       
-      <form onSubmit={handleSubmit} className="form" align="left">
-   <h33>1 Primer paso pon tu numero para consultar!</h33>
+      <form onSubmit={handleSubmit}  className="form">
           <input
             type="text"
             name="name"
-            size="20"
+            size="12"
             placeholder="Tu Numero"
             value={formData.name}
             onChange={handleChange}
+          
             
           />
         
@@ -165,13 +171,15 @@ const handleAdditionalDataChange = (event) => {
         </button>
       
         </form>
-        
-       
-        <form onSubmit={handleSubmit3} className="form" align="left">
 
-        <h33>2 Segundo Escoge tu oferta Preferida</h33> 
+        {isLoading && <p>Cargando datos...</p>}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+
+        {msisdn && (
+        <form onSubmit={handleSubmit3} className="form" >
+ 
       <label htmlFor="options">Selección Oferta:</label>
-
+      
       <input
             id="msisdn"
             type="hidden"
@@ -179,8 +187,8 @@ const handleAdditionalDataChange = (event) => {
             onChange={handleAdditionalDataChange}
           /> 
 
-      <select id="options"  
-      className="custom-select"
+      <select id="options" size="10"  
+     className="styled-select"
         value={selectedOption} 
         onChange={handleChange2}>
 
@@ -191,16 +199,18 @@ const handleAdditionalDataChange = (event) => {
           </option>
         ))}
       </select>
+      {info && <div className="info-box">{info}</div>}
       <button className="orange-button" type="submit">Compra Oferta</button>
     </form>
-    </div>
-    </div>
 
+)}       
+    </div>
+    </div>
+      
         
-
+  
     
     
-
 
         {/* ToastContainer para mostrar las alertas */}
        

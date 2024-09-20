@@ -115,7 +115,7 @@ function App() {
 
       <div className="content-container">
       <div className="absolute-container2"> 
-      <form onSubmit={handleSubmit} className="form">
+      <form onSubmit={handleSubmit} className="form" >
        
         
           <input
@@ -155,6 +155,8 @@ function App() {
         )}
       </div>
 </div>
+
+
 
         {/* ToastContainer para mostrar las alertas */}
         <ToastContainer />
