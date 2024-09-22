@@ -36,11 +36,11 @@ html, body {
   width: 100%;
   background-color: #262b3b;
   color: #fff;
-  padding: 3px 30px;
+  padding: 2px 40px;
   text-align: center;
   z-index: 1000; /* Asegura que el encabezado esté sobre otros elementos */
 
-  flex: 1;
+  flex: 2;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -136,7 +136,7 @@ h1 {
   color: #333;
 }
 h33 {
-  font-size: 1.2rem;
+  font-size: 1.8rem;
   margin-bottom: .5rem;
   color: #333;
   maxWidth: Dimensions.get('window').width * 0.9;

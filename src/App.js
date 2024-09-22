@@ -181,7 +181,7 @@ function App() {
        
         
           <input
-       
+       className='form input'
             type="number"
             name="name"
             
@@ -206,7 +206,7 @@ function App() {
         {apiData && (
 
             <div align="Center">
-            <h1>Consulta de Saldo:</h1>
+            <h33>Consulta de Saldo:</h33>
 
 
 
@@ -220,7 +220,7 @@ function App() {
      
              <p>----------------------------------------</p> 
             
-            <h1>Comprar oferta :</h1>
+            <h33>Comprar oferta :</h33>
 
             <form onSubmit={handleSubmit3}  >
  
