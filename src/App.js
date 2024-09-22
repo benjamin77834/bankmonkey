@@ -181,9 +181,10 @@ function App() {
        
         
           <input
-            type="text"
+       
+            type="number"
             name="name"
-            size="20"
+            size="11"
              placeholder="Tu Numero"
             value={formData.name}
             onChange={handleChange}
@@ -252,7 +253,6 @@ className="styled-select"
 
 
 
-<Footer />
 
     </div>
 
