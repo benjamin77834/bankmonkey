@@ -191,7 +191,7 @@ function App() {
           />
         
         <button className="orange-button" disabled={isLoading} align="left" className="responsive-button" >
-          {isLoading ? 'Enviando...' : 'Enter'}
+          {isLoading ? 'Enviando...' : 'Consultar'}
         </button>
       
         </form>
@@ -237,9 +237,9 @@ className="responsive-select"
    ))}
  </select>
  <button className="orange-button" disabled={isLoading} align="left" className="responsive-button" >
-          {isLoading ? 'Enviando...' : 'Enter'}
+          {isLoading ? 'Enviando...' : 'Compra !'}
         </button>
-      
+ 
     </form>
 
 </div>
