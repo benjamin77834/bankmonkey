@@ -350,3 +350,13 @@ p {
 h3 {
   color: white; /* Cambia el color según tu preferencia */
 }
+
+
+.styled-select {
+  margin: 20px 0;
+  padding: 10px;
+  border: 2px solid #007bff;
+  border-radius: 5px;
+  font-size: 11px;
+  cursor: pointer;
+}

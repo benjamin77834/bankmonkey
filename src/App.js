@@ -12,20 +12,25 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 //import HomeIcon from './assets/monito.png'; // Asegúrate de la ruta correcta
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Contact from './Contact';
-import Recarga from './Recarga';
-import DestinationPage from './DestinationPage'; // Página de destino
-import newLogo from './assets/monito.png'; // Cambia la ruta según donde esté tu archivo
+//import Recarga from './Recarga';
 
+
+
+import newLogo from './assets/monito.png'; // Cambia la ruta según donde esté tu archivo
 //import postData from './postdata';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+
+//import { useNavigate } from 'react-router-dom';
+//import DestinationPage from './DestinationPage'; // Página de destino
+
 Amplify.configure(awsconfig);
 
 
 
 
-
 function App() {
+ // const navigate = useNavigate();
 
   // Definir el estado para los campos del formulario
   const [formData, setFormData] = useState({
@@ -35,6 +40,9 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [apiData, setApiData] = useState(null);
   const [error, setError] = useState(null);
+  const [msisdn, setAdditionalData] = useState('');
+  const [options, setOptions] = useState([]);
+  const [selectedOption, setSelectedOption] = useState('');
   // Manejar el cambio en los campos del formulario
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -49,6 +57,55 @@ function App() {
 
 
 
+  const handleChange2 = (event) => {
+    setSelectedOption(event.target.value);
+
+  };
+
+
+  const handleSubmit3 = (event) => {
+    event.preventDefault();
+//    console.log(msisdn);
+  //  console.log(selectedOption);
+    if (selectedOption && msisdn ) {
+      // Redirect and pass selectedOption as state
+     // navigate('/DestinationPage', { state: { selectedOption,msisdn } });
+
+
+      const data = {
+        msisdn: msisdn,
+        id_oferta: selectedOption,
+        movil:msisdn,
+        app:"1"
+      };
+      console.log(data);
+      //console.log(apiUrl);
+      const apiUrl = process.env.REACT_APP_API_URL;
+ 
+      const fetchData = async () => {
+        try {
+      const response = await axios.post(`${apiUrl}/prod/genera_pago`, data);
+      //console.log("dess",response);
+      const api=response.data
+      //console.log(api.payment_request_id);
+      if (api.payment_request_id) {
+       window.location.href = 'https://pago.clip.mx/'+api.payment_request_id;
+      }
+      //const pay2=data2.payment_request_id;
+      //console.log(data2);
+      
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+      
+      
+      };
+
+      fetchData();
+
+    }
+  };
+
   // Manejar el envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,6 +113,7 @@ function App() {
       // Obtener la URL del API desde las variables de entorno
       const apiUrl = process.env.REACT_APP_API_URL;
       console.log("urld:",apiUrl)
+      console.log("select",selectedOption);
       const data = {
         msisdn: formData.name,
         app: "1",
@@ -64,12 +122,23 @@ function App() {
       toast.success('¡Consulta realizandose !, si has recargado puede tardar unos minutos ');
 
       // Realizar la solicitud POST
-      const response = await axios.post(`${apiUrl}/prod/profile2`, data);
+      const response = await axios.post(`${apiUrl}/prod/cambaceo_ofertas`, data);
       console.log(response)
  
 
       setApiData(response.data);
-       
+      
+
+      const data2 = response.data;
+
+      //console.log(data2)
+      const flattenedOptions = data2.info.flatMap(info => info);
+      const msisdn=data2.msisdn
+      //console.log(flattenedOptions);
+      //console.log(msisdn);
+      setAdditionalData(msisdn);      
+      setOptions(flattenedOptions);   
+
     } catch (error) {
       toast.error('Error al enviar el formulario.');
     } finally {
@@ -89,21 +158,14 @@ function App() {
 
         <ul className="footer-links">
            
-            <li>
-              <Link to="/recarga"
-              
-    
-              >Aqui Recargas!</Link>
-            </li>
+           
           </ul>
         </nav>
 
         <Routes>
 
-    
-          <Route path="/recarga" element={<Recarga />} />
-          <Route path="/DestinationPage" element={<DestinationPage />} />
-
+       
+       
         
         </Routes>
       </div>
@@ -141,17 +203,43 @@ function App() {
         {isLoading && <p>Cargando datos...</p>}
         {error && <p style={{ color: 'red' }}>{error}</p>}
         {apiData && (
-          <div align="left">
+
+            <div align="Center">
             <h1>Consulta de Saldo:</h1>
 
-            <p><strong>Estatus de Linea:</strong> {apiData.estatus}</p>
-            <p><strong>Datos:</strong> {apiData.datos} GB</p>
-            <p><strong>Mins:</strong> {apiData.llamadas}</p>
-            <p><strong>Sms:</strong> {apiData.sms}</p>
 
-            <p><strong>Vencimiento:</strong> {apiData.fecha_vencimiento}</p>
-      
-          </div>
+
+            
+          <p>Estatus de Linea: {apiData.estatus}</p>
+            <p>Datos: {apiData.datos} GB</p>
+            <p>Mins: {apiData.min}</p>
+            <p>Sms: {apiData.sms}</p>
+
+            <p>Vencimiento: {apiData.fecha_vencimiento}</p>
+     
+             <p>----------------------------------------</p> 
+            
+            <h1>Comprar oferta :</h1>
+
+            <form onSubmit={handleSubmit3}  >
+ 
+<select id="options" size="10"  
+className="styled-select"
+   value={selectedOption} 
+   onChange={handleChange2}>
+
+   <option value="">--Escoge Oferta--</option>
+   {options.map((item) => (
+     <option key={item.idoferta_app} value={item.idoferta_app}   >
+       $ {item.precio_minorista} {item.descripcion_oferta_comercial} 
+     </option>
+   ))}
+ </select>
+
+      <button className="orange-button" type="submit">Compra Oferta</button>
+    </form>
+
+</div>
         )}
       </div>
 </div>
