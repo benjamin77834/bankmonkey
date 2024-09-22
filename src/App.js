@@ -184,7 +184,7 @@ function App() {
        
             type="number"
             name="name"
-            size="11"
+            
              placeholder="Tu Numero"
             value={formData.name}
             onChange={handleChange}
