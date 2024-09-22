@@ -365,9 +365,67 @@ h3 {
 
 .styled-select {
   margin: 20px 0;
-  padding: 10px;
-  border: 2px solid #007bff;
+  padding: 5px;
+  border: 1px solid #007bff;
   border-radius: 5px;
-  font-size: 11px;
+  font-size: 1px;
   cursor: pointer;
+}
+
+
+
+
+.responsive-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #1b2938;
+  border: none;
+  border-radius: 1px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%; /* Ocupa el 100% del ancho del contenedor */
+  max-width: 100px; /* Ancho máximo */
+}
+
+.responsive-button:hover {
+  background-color: #0056b3; /* Color de fondo al pasar el mouse */
+}
+
+@media (max-width: 600px) {
+  .responsive-button {
+    max-width: 90%; /* En pantallas pequeñas, ocupa el 90% */
+  }
+}
+  
+.responsive-input {
+  width: 100%; /* Ocupa el 100% del ancho del contenedor */
+  max-width: 400px; /* Ancho máximo */
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 600px) {
+  .responsive-input {
+    max-width: 90%; /* En pantallas pequeñas, ocupa el 90% */
+  }
+}
+
+.responsive-select {
+  width: 200%; /* Ocupa el 100% del ancho del contenedor */
+  max-width: 400px; /* Ancho máximo */
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 600px) {
+  .responsive-select {
+    max-width: 90%; /* En pantallas pequeñas, ocupa el 90% */
+  }
 }

@@ -177,11 +177,11 @@ function App() {
 
       <div className="content-container">
       <div className="absolute-container2"> 
-      <form onSubmit={handleSubmit} className="form" >
+      <form onSubmit={handleSubmit} className="styled-select" >
        
         
           <input
-       className='form input'
+       className="responsive-input"
             type="number"
             name="name"
             
@@ -190,7 +190,7 @@ function App() {
             onChange={handleChange}
           />
         
-        <button className="orange-button" disabled={isLoading} align="left">
+        <button className="orange-button" disabled={isLoading} align="left" className="responsive-button" >
           {isLoading ? 'Enviando...' : 'Enter'}
         </button>
       
@@ -225,7 +225,7 @@ function App() {
             <form onSubmit={handleSubmit3}  >
  
 <select id="options" size="10"  
-className="styled-select"
+className="responsive-select"
    value={selectedOption} 
    onChange={handleChange2}>
 
@@ -236,8 +236,10 @@ className="styled-select"
      </option>
    ))}
  </select>
-
-      <button className="orange-button" type="submit">Compra Oferta</button>
+ <button className="orange-button" disabled={isLoading} align="left" className="responsive-button" >
+          {isLoading ? 'Enviando...' : 'Enter'}
+        </button>
+      
     </form>
 
 </div>
