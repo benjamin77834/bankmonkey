@@ -242,7 +242,7 @@ className="styled-select"
 </div>
         )}
       </div>
-</div>
+
 
 
 
@@ -256,7 +256,7 @@ className="styled-select"
 
     </div>
 
-
+    </div>
 
 
   );
