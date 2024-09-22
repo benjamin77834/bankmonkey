@@ -1,10 +1,15 @@
 
 
 .App {
-  text-align: center;
+  /*text-align: center;
   display: flex;
   flex-direction: column;
   min-height: 100vh; /* Asegura que ocupe toda la altura de la ventana */
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
 
 }
 
@@ -34,6 +39,12 @@ html, body {
   padding: 3px 30px;
   text-align: center;
   z-index: 1000; /* Asegura que el encabezado esté sobre otros elementos */
+
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  /*padding: 2rem;*/
 
 }
   /*.App-header {

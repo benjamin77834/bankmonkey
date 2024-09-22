@@ -151,7 +151,7 @@ function App() {
             
        <header className="App-header">
        <img src={newLogo} alt="Nuevo Logo" className="App_logo" width="100px" align="left" />
-
+       <p>  Consulta Saldo y Compra</p>
        <Router>
       <div>
         <nav>
