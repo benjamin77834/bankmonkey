@@ -84,6 +84,8 @@ function App() {
  
       const fetchData = async () => {
         try {
+          toast.success('¡Estamos Preparando tu Compra! ');
+
       const response = await axios.post(`${apiUrl}/prod/genera_pago`, data);
       //console.log("dess",response);
       const api=response.data
@@ -179,7 +181,7 @@ function App() {
       <div className="absolute-container2"> 
       <form onSubmit={handleSubmit} className="styled-select" >
        
-        
+       <h33>1. Consulta tu Saldo y Compra</h33> 
           <input
        className="responsive-input"
             type="number"
@@ -220,7 +222,7 @@ function App() {
      
              <p>----------------------------------------</p> 
             
-            <h33>Comprar oferta :</h33>
+            <h33>2. Compra tu  oferta :</h33>
 
             <form onSubmit={handleSubmit3}  >
  
