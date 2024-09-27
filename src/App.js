@@ -157,11 +157,8 @@ function App() {
        <Router>
       <div>
         <nav>
-
-
         <ul className="footer-links">
-           
-           
+            
           </ul>
         </nav>
 
