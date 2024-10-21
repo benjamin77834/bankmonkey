@@ -46,7 +46,7 @@ const PageFrame = ({ url }) => {
           src={url} 
           title="Contenido Externo" 
           width="500px" 
-          height="500px"
+          height="400px"
           style={{ border: 'none' }} 
         />
       </div>
