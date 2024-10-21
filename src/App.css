@@ -141,6 +141,14 @@ h33 {
   color: #333;
   maxWidth: Dimensions.get('window').width * 0.9;
 }
+
+h333 {
+  font-size: 1.2rem;
+  margin-bottom: .5rem;
+  color: #333;
+  maxWidth: Dimensions.get('window').width * 0.9;
+}
+
 /* Grupos del formulario */
 /*.form-group {
   margin-bottom: 1.5rem;
