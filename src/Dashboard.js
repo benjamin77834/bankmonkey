@@ -160,7 +160,7 @@ const Dashboard = () => {
 <button className="orange-button"  onClick={handleChangeui}> Reportes </button>  
 
 
-     {/*  <button className="orange-button"   onClick={toggleForm}> Activación</button>*/}
+       <button className="orange-button"   onClick={toggleForm}> Activación</button>
        
        </>
 
