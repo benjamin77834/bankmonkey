@@ -9,11 +9,11 @@ import './App.css';
 import Footer from './Footer';
 
 //import React, { useEffect } from 'react';  // Asegúrate de incluir useEffect
-//<<<<<<< HEAD
+
 //import { get, post } from '@aws-amplify/api-rest';  // Importar los métodos que usas
-//=======
+
 import { get, post } from '@aws-amplify/api-rest';  // Importar los métodos que usas
-//>>>>>>> 408a3686154c69d4c38a1aae5d77b43f210d1327
+
 
 import React, { useState } from 'react';
 import axios from 'axios';

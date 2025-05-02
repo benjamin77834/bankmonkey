@@ -26,7 +26,7 @@ const Login = () => {
   
   
     <div align="left">
-      <h2></h2>
+      
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <form onSubmit={handleLogin} className="responsive-form">
         <div align="left">
