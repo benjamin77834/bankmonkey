@@ -14,14 +14,15 @@
     "axios": "^1.7.7",
     "dotenv": "^16.4.5",
     "html5-qrcode": "^2.3.8",
-    "quagga": "^0.12.1",
+    "quagga": "^0.6.16",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-gauge-chart": "^0.5.1",
     "react-icons": "^5.3.0",
     "react-router-dom": "^6.26.2",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "react-toastify": "^10.0.6",
+    "svgo": "^3.3.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -36,7 +37,6 @@
       "react-app/jest"
     ]
   },
-  
   "browserslist": {
     "production": [
       ">0.2%",
