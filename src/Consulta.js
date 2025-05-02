@@ -253,7 +253,7 @@ function Consulta() {
    
                <form onSubmit={handleSubmit3}  >
     
-   <select id="options" size="10"  width="100%"
+   <select id="options" size="12"  width="90%"
    className="responsive-select"
       value={selectedOption} 
       onChange={handleChange2}>
