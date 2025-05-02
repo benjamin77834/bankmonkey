@@ -200,7 +200,7 @@ function Consulta() {
     style={{ width: '100%', height: '80px' }}
   />
   <div style={{ marginTop: '6px', fontSize: '20px', color: '#000000' }}>
-    {apiData.datos} GB
+    {apiData.datos} Gb
   </div>
 </div>
 
@@ -215,11 +215,11 @@ function Consulta() {
         textColor="#3498db"
         colors={['#000000', '#c34609']} 
         hideText={true} // Oculta el texto interno
-        formatTextValue={() => `${apiData.sms} SMS`}
+        formatTextValue={() => `${apiData.sms} Sms`}
         style={{ width: '100%', height: '80px' }}
       />
   <div style={{ marginTop: '6px', fontSize: '20px', color: '#000000' }}>
-    {apiData.sms} sms
+    {apiData.sms} Sms
   </div>
 
     </div>
@@ -239,7 +239,7 @@ function Consulta() {
       />
 
 <div style={{ marginTop: '6px', fontSize: '20px', color: '#000000' }}>
-    {apiData.min} min
+    {apiData.min} Min
   </div>
 
 
