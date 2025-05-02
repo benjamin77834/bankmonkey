@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
+import GaugeChart from 'react-gauge-chart';
 function Consulta() {
     // const navigate = useNavigate();
     // const location = useLocation();  // Obtenemos la ubicación actual
@@ -168,10 +169,82 @@ function Consulta() {
    
 
              <h7><p>Estatus de Linea: {apiData.estatus}</p></h7>
-             <h7><p>Datos: {apiData.datos} GB</p></h7>
-             <h7> <p>Mins: {apiData.min} Sms: {apiData.sms}</p></h7>
    
              <h7> <p>Vencimiento: {apiData.fecha_vencimiento}</p></h7> 
+
+
+
+             {apiData?.datos && (
+
+
+
+<div style={{ 
+    display: 'flex', 
+    justifyContent: 'center', 
+    gap: '10px', 
+    flexWrap: 'nowrap', 
+    marginTop: '20px' 
+  }}>
+    
+    {/* Gauge para GB */}
+
+
+    <div style={{ textAlign: 'center', width: '27%' }}>
+  <GaugeChart
+    id="gauge-gb"
+    nrOfLevels={5}
+    percent={Math.min(apiData.datos / 50, 1)}
+    colors={['#000000', '#c34609']}
+    hideText={true} // Oculta el texto interno
+    style={{ width: '100%', height: '80px' }}
+  />
+  <div style={{ marginTop: '6px', fontSize: '20px', color: '#000000' }}>
+    {apiData.datos} GB
+  </div>
+</div>
+
+
+
+    {/* Gauge para SMS */}
+    <div style={{ width: '27%', textAlign: 'center' }}>
+      <GaugeChart
+        id="gauge-sms"
+        nrOfLevels={5}
+        percent={Math.min(apiData.sms / 2000, 1)}
+        textColor="#3498db"
+        colors={['#000000', '#c34609']} 
+        hideText={true} // Oculta el texto interno
+        formatTextValue={() => `${apiData.sms} SMS`}
+        style={{ width: '100%', height: '80px' }}
+      />
+  <div style={{ marginTop: '6px', fontSize: '20px', color: '#000000' }}>
+    {apiData.sms} sms
+  </div>
+
+    </div>
+
+    {/* Gauge para Minutos */}
+    <div style={{ width: '27%', textAlign: 'center' }}>
+      <GaugeChart
+        id="gauge-mins"
+        nrOfLevels={5}
+        percent={Math.min(apiData.min / 5000, 1)}
+        textColor="#2ecc71"
+        colors={['#000000', '#c34609']} 
+        hideText={true} // Oculta el texto interno
+        formatTextValue={() => `${apiData.min} Min`}
+        style={{ width: '100%', height: '80px' }}
+      />
+
+<div style={{ marginTop: '6px', fontSize: '20px', color: '#000000' }}>
+    {apiData.min} min
+  </div>
+
+
+    </div>
+  </div>
+)}
+
      
                
                <h33>2. Compra oferta :</h33>

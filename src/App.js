@@ -79,7 +79,8 @@ const PageFrame = ({ url }) => {
         </nav>
 
         <Routes>
-        <Route path="/Consulta" element={<Consulta />} />
+   
+        <Route path="/" element={<Consulta />} /> {/* <- Esto es lo nuevo */}
         <Route
           path="/Consulta"
           element={
@@ -102,6 +103,7 @@ const PageFrame = ({ url }) => {
 
 
 
+
         </Routes>
       </div>
     </Router>
@@ -109,7 +111,9 @@ const PageFrame = ({ url }) => {
 
 
       </header>
-      
+
+
+
 </div>
 
 
