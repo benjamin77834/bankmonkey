@@ -12,6 +12,7 @@ function Consulta() {
        name: '',
        email: '',
      });
+     
      const [isLoading, setIsLoading] = useState(false);
      const [apiData, setApiData] = useState(''  );
      //console.log(apiData);

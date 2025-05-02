@@ -10,6 +10,14 @@
       "StackName": "amplify-reactmonk-dev-03fe0",
       "StackId": "arn:aws:cloudformation:us-east-1:034711235858:stack/amplify-reactmonk-dev-03fe0/2ec8e0b0-277c-11f0-83ad-12318577294b",
       "AmplifyAppId": "d1vums2r6f3anf"
+    },
+    "categories": {
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d1vums2r6f3anf",
+          "type": "manual"
+        }
+      }
     }
   }
 }
