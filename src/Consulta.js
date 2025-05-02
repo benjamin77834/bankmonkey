@@ -223,6 +223,7 @@ function Consulta() {
 
     </div>
 
+
     {/* Gauge para Minutos */}
     <div style={{ width: '27%', textAlign: 'center' }}>
       <GaugeChart
