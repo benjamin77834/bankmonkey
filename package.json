@@ -1,9 +1,8 @@
-{
+
   "name": "monkeyapp",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-<<<<<<< HEAD
     "@aws-amplify/api-rest": "^4.0.56",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -15,25 +14,6 @@
     "react-gauge-chart": "^0.5.1",
     "react-scripts": "5.0.1",
     "react-toastify": "^10.0.6",
-=======
-    "@aws-amplify/api": "^6.0.49",
-    "@aws-amplify/api-graphql": "^4.3.0",
-    "@aws-amplify/api-rest": "^4.0.47",
-    "@aws-amplify/ui-react": "^6.3.1",
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "aws-amplify": "^6.6.0",
-    "axios": "^1.7.7",
-    "html5-qrcode": "^2.3.8",
-    "quagga": "^0.12.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-icons": "^5.3.0",
-    "react-router-dom": "^6.26.2",
-    "react-scripts": "5.0.1",
-    "react-toastify": "^10.0.5",
->>>>>>> 408a3686154c69d4c38a1aae5d77b43f210d1327
     "web-vitals": "^2.1.4"
   },
   "scripts": {
