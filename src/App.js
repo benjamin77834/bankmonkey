@@ -109,8 +109,6 @@ const PageFrame = ({ url }) => {
       <Route path="/Cobertura" element={<PageFrame url={iframeUrl} />} />
 
 
-
-
         </Routes>
       </div>
     </Router>
