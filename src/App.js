@@ -2,8 +2,6 @@
 import './App.css';
 import Footer from './Footer';
 
-
-
 import { get, post } from '@aws-amplify/api-rest';  // Importar los métodos que usas
 
 
@@ -11,9 +9,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-//import HomeIcon from './assets/monito.png'; // Asegúrate de la ruta correcta
+
 import Contact from './Contact';
-//import Recarga from './Recarga';
+
 import Login from './Login';
 
 import ProtectedRoute from './ProtectedRoute';
