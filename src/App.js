@@ -1,20 +1,19 @@
-<<<<<<< HEAD
+
 //import { Amplify } from 'aws-amplify';
 //import awsconfig from './aws-exports';
-=======
-import { Amplify } from 'aws-amplify';
-import awsconfig from './aws-exports';
->>>>>>> 408a3686154c69d4c38a1aae5d77b43f210d1327
+
+//import { Amplify } from 'aws-amplify';
+//import awsconfig from './aws-exports';
 //import { withAuthenticator } from '@aws-amplify/ui-react';
 import './App.css';
 import Footer from './Footer';
 
 //import React, { useEffect } from 'react';  // Asegúrate de incluir useEffect
-<<<<<<< HEAD
+//<<<<<<< HEAD
 //import { get, post } from '@aws-amplify/api-rest';  // Importar los métodos que usas
-=======
+//=======
 import { get, post } from '@aws-amplify/api-rest';  // Importar los métodos que usas
->>>>>>> 408a3686154c69d4c38a1aae5d77b43f210d1327
+//>>>>>>> 408a3686154c69d4c38a1aae5d77b43f210d1327
 
 import React, { useState } from 'react';
 import axios from 'axios';
@@ -24,15 +23,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import Contact from './Contact';
 //import Recarga from './Recarga';
 import Login from './Login';
-<<<<<<< HEAD
 
 import ProtectedRoute from './ProtectedRoute';
-=======
-import Dashboard from './Dashboard';
-import ProtectedRoute from './ProtectedRoute';
-import Consulta from './Consulta';
-import AppLogo from './logo';
->>>>>>> 408a3686154c69d4c38a1aae5d77b43f210d1327
 
 //import newLogo from './assets/monito.png'; // Cambia la ruta según donde esté tu archivo
 //import postData from './postdata';
@@ -40,19 +32,12 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 
 import { useNavigate } from 'react-router-dom';
 //import DestinationPage from './DestinationPage'; // Página de destino
-<<<<<<< HEAD
 //import { useLocation } from 'react-router-dom';
 //Amplify.configure(awsconfig);
 
 import Consulta from './Consulta';
 import AppLogo from './logo';
 import Dashboard from './Dashboard';
-=======
-import { useLocation } from 'react-router-dom';
-Amplify.configure(awsconfig);
-
-
->>>>>>> 408a3686154c69d4c38a1aae5d77b43f210d1327
 
 function App() {
  // const navigate = useNavigate();
@@ -102,12 +87,8 @@ const PageFrame = ({ url }) => {
         </nav>
 
         <Routes>
-<<<<<<< HEAD
    
         <Route path="/" element={<Consulta />} /> {/* <- Esto es lo nuevo */}
-=======
-        <Route path="/Consulta" element={<Consulta />} />
->>>>>>> 408a3686154c69d4c38a1aae5d77b43f210d1327
         <Route
           path="/Consulta"
           element={
@@ -130,10 +111,6 @@ const PageFrame = ({ url }) => {
 
 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 408a3686154c69d4c38a1aae5d77b43f210d1327
         </Routes>
       </div>
     </Router>
@@ -141,13 +118,9 @@ const PageFrame = ({ url }) => {
 
 
       </header>
-<<<<<<< HEAD
 
 
 
-=======
-      
->>>>>>> 408a3686154c69d4c38a1aae5d77b43f210d1327
 </div>
 
 

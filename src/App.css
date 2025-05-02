@@ -20,11 +20,7 @@ html, body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-<<<<<<< HEAD
   background-color: #2f0f13;
-=======
-  background-color: #f9f9f9;
->>>>>>> 408a3686154c69d4c38a1aae5d77b43f210d1327
 }
 .App-logo {
   width: 10px;
@@ -38,11 +34,7 @@ html, body {
   top: 0;
   left: 0;
   width: 100%;
-<<<<<<< HEAD
   background-color: #2f0f13;
-=======
-  background-color: #262b3b;
->>>>>>> 408a3686154c69d4c38a1aae5d77b43f210d1327
   color: #fff;
   padding: 2px 40px;
   text-align: center;
@@ -144,18 +136,13 @@ h1 {
   color: #333;
 }
 h33 {
-<<<<<<< HEAD
   font-size: 1.5rem;
-=======
-  font-size: 1.8rem;
->>>>>>> 408a3686154c69d4c38a1aae5d77b43f210d1327
   margin-bottom: .5rem;
   color: #333;
   maxWidth: Dimensions.get('window').width * 0.9;
 }
 
 h333 {
-<<<<<<< HEAD
   font-size: 1.1rem;
   margin-bottom: .5rem;
   color: #333;
@@ -164,9 +151,6 @@ h333 {
 
 h7 {
   font-size: 1rem;
-=======
-  font-size: 1.2rem;
->>>>>>> 408a3686154c69d4c38a1aae5d77b43f210d1327
   margin-bottom: .5rem;
   color: #333;
   maxWidth: Dimensions.get('window').width * 0.9;
@@ -334,11 +318,7 @@ p {
 .absolute-container2 {
   padding: 30px;
   position: relative;
-<<<<<<< HEAD
   height: 100vh; /* Usa toda la altura de la ventana del navegador */
-=======
-  height: 80vh; /* Usa toda la altura de la ventana del navegador */
->>>>>>> 408a3686154c69d4c38a1aae5d77b43f210d1327
   width: 100%;  
   background-color: #f7f9fc; /* Opcional: color de fondo */
 }
@@ -347,13 +327,8 @@ p {
   display: flex;
   justify-content: center; /* Centra horizontalmente */
   align-items: center;     /* Centra verticalmente */
-<<<<<<< HEAD
   min-height: 55vh;       /* Asegura que el contenedor ocupe toda la altura de la ventana */
   padding-top: 55px;       /* Ajusta el relleno superior para evitar que el contenido se superponga con el encabezado */
-=======
-  min-height: 60vh;       /* Asegura que el contenedor ocupe toda la altura de la ventana */
-  padding-top: 60px;       /* Ajusta el relleno superior para evitar que el contenido se superponga con el encabezado */
->>>>>>> 408a3686154c69d4c38a1aae5d77b43f210d1327
 }
 
 .content {

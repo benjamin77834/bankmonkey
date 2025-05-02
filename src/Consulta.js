@@ -1,10 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
-<<<<<<< HEAD
 import GaugeChart from 'react-gauge-chart';
-=======
->>>>>>> 408a3686154c69d4c38a1aae5d77b43f210d1327
 function Consulta() {
     // const navigate = useNavigate();
     // const location = useLocation();  // Obtenemos la ubicación actual
@@ -138,11 +135,7 @@ function Consulta() {
        
          <form onSubmit={handleSubmit} className="styled-select" >
           
-<<<<<<< HEAD
           <h33>1. Consulta</h33> 
-=======
-          <h1>1. Consulta tu Saldo y Compra</h1> 
->>>>>>> 408a3686154c69d4c38a1aae5d77b43f210d1327
              <input
           className="responsive-input"
                type="number"
@@ -166,7 +159,6 @@ function Consulta() {
    
            {isLoading && <p>Cargando datos...</p>}
            {error && <p style={{ color: 'red' }}>{error}</p>}
-<<<<<<< HEAD
 
  
            {apiData && (
@@ -261,32 +253,6 @@ function Consulta() {
                <form onSubmit={handleSubmit3}  >
     
    <select id="options" size="10"  width="100%"
-=======
-           <p>Estatus de Linea: {apiData.estatus}</p>
- 
-           {apiData && (
-   
-               <div align="center">
-               <h33>Consulta de Saldo:</h33>
-   
-   
-   
-               
-             <h333><p>Estatus de Linea: {apiData.estatus}</p></h333>
-             <h333><p>Datos: {apiData.datos} GB</p></h333>
-             <h333> <p>Mins: {apiData.min}</p></h333>
-             <h333>   <p>Sms: {apiData.sms}</p></h333>
-   
-             <h333> <p>Vencimiento: {apiData.fecha_vencimiento}</p></h333> 
-        
-                <p>----------------------------------------</p> 
-               
-               <h33>2. Compra tu  oferta :</h33>
-   
-               <form onSubmit={handleSubmit3}  >
-    
-   <select id="options" size="10"  
->>>>>>> 408a3686154c69d4c38a1aae5d77b43f210d1327
    className="responsive-select"
       value={selectedOption} 
       onChange={handleChange2}>
