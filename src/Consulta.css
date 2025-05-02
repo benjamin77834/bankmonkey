@@ -415,8 +415,9 @@
   }
   
   .responsive-select {
-    width: 100%; /* Ocupa el 100% del ancho del contenedor */
-    max-width: 500px; /* Ancho máximo */
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto; /* Centra horizontalmente */
     padding: 10px;
     font-size: 16px;
     border: 1px solid #ccc;
