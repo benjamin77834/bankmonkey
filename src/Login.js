@@ -52,7 +52,7 @@ const Login = () => {
           />
         </div>
 
-        <button className="orange-button" className="responsive-button" type="submit">Login</button>
+        <button  className="responsive-button" type="submit">Login</button>
       </form>
     </div>
 
