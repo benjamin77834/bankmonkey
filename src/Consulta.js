@@ -1,7 +1,9 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
+
 import GaugeChart from 'react-gauge-chart';
+
 function Consulta() {
     // const navigate = useNavigate();
     // const location = useLocation();  // Obtenemos la ubicación actual
