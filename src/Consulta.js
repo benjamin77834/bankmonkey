@@ -90,8 +90,6 @@ function Consulta() {
        try {
          // Obtener la URL del API desde las variables de entorno
          const apiUrl = process.env.REACT_APP_API_URL;
-         //console.log("urld:",apiUrl)
-         //console.log("select",selectedOption);
          const data = {
            msisdn: formData.name,
            app: "1",
