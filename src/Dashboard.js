@@ -4,8 +4,14 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import React, { useState, useEffect, useRef  } from 'react';
 //import Quagga from 'quagga';  // Importamos QuaggaJS
+<<<<<<< HEAD
 //import { Html5QrcodeScanner } from "html5-qrcode";
 import './Dashboard.css';
+=======
+import { Html5QrcodeScanner } from "html5-qrcode";
+
+//console.log(nombre);
+>>>>>>> 408a3686154c69d4c38a1aae5d77b43f210d1327
 
 const Dashboard = () => {
   const [username, setUsername] = useState(null); // Estado para almacenar el valor de localStorage
@@ -22,7 +28,10 @@ const Dashboard = () => {
   const scannerRef = useRef(null);
   //console.log(options);
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 408a3686154c69d4c38a1aae5d77b43f210d1327
   const [selectedOption, setSelectedOption] = useState('');
  // const [selectedOption, setSelectedOption] = useState('');
   useEffect(() => {
@@ -43,6 +52,7 @@ const Dashboard = () => {
   }
 
 
+<<<<<<< HEAD
 
 
 
@@ -60,6 +70,22 @@ const Dashboard = () => {
   const toggleScanner = () => {
     if (!scannerActive) {
    //   startScanner();
+=======
+  const startScanner = () => {
+    const html5QrCodeScanner = new Html5QrcodeScanner(
+      "reader", { fps: 10, qrbox: 250 });
+
+    html5QrCodeScanner.render((decodedText, decodedResult) => {
+      setCodigoBarras(decodedText); // El código escaneado
+      html5QrCodeScanner.clear();   // Detenemos el escáner tras leer el código
+      setScannerActive(false);
+    });
+  };
+
+  const toggleScanner = () => {
+    if (!scannerActive) {
+      startScanner();
+>>>>>>> 408a3686154c69d4c38a1aae5d77b43f210d1327
       setScannerActive(true);
     }
   };
@@ -163,6 +189,10 @@ const Dashboard = () => {
 <button className="orange-button"  onClick={handleChangeui}> Reportes </button>  
 
 
+<<<<<<< HEAD
+=======
+       <button className="orange-button"   onClick={toggleForm}> Activación</button>
+>>>>>>> 408a3686154c69d4c38a1aae5d77b43f210d1327
        
        </>
 
@@ -225,6 +255,7 @@ const Dashboard = () => {
                 required
               />
 
+<<<<<<< HEAD
 
 <form autocomplete="off" id="data-icc" name="data-icc" enctype="multipart/form-data" action="https://recargas.monkeyfon.com/chango/validaiccz.php" method="POST" novalidate>
 
@@ -239,6 +270,26 @@ const Dashboard = () => {
 
 
       
+=======
+</div>
+
+
+            <div>
+      <button onClick={toggleScanner}>
+        {scannerActive ? "Detener Escáner" : "Iniciar Escáner"}
+      </button>
+
+      {/* Contenedor para el escáner */}
+      <div id="reader" style={{ width: "100%", height: "200px" }}></div>
+
+      {/* Mostrar el código escaneado */}
+      <div>
+        <label htmlFor="codigoBarras">Código de Barras:</label>
+        <input type="text" id="codigoBarras" value={codigoBarras} onChange={(e) => setMsisdn(e.target.value)} placeholder="Dame ICC" />
+      </div>
+    </div>
+
+>>>>>>> 408a3686154c69d4c38a1aae5d77b43f210d1327
             <button type="submit" className="orange-button responsive-button">
               Activar
             </button>

@@ -21,7 +21,10 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+<<<<<<< HEAD
 .env
+=======
+>>>>>>> 408a3686154c69d4c38a1aae5d77b43f210d1327
 
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend

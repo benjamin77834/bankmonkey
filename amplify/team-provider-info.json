@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "monkeyapp": {
     "awscloudformation": {
       "AuthRoleName": "amplify-reactmonk-monkeyapp-750d3-authRole",
@@ -10,6 +11,19 @@
       "StackName": "amplify-reactmonk-monkeyapp-750d3",
       "StackId": "arn:aws:cloudformation:us-east-1:034711235858:stack/amplify-reactmonk-monkeyapp-750d3/fab0b030-7558-11ef-9adb-12274bb4e161",
       "AmplifyAppId": "d1dpt6kqarka83"
+=======
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-monkeyapp-dev-ce2a8-authRole",
+      "UnauthRoleArn": "arn:aws:iam::034711235858:role/amplify-monkeyapp-dev-ce2a8-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::034711235858:role/amplify-monkeyapp-dev-ce2a8-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-monkeyapp-dev-ce2a8-deployment",
+      "UnauthRoleName": "amplify-monkeyapp-dev-ce2a8-unauthRole",
+      "StackName": "amplify-monkeyapp-dev-ce2a8",
+      "StackId": "arn:aws:cloudformation:us-east-1:034711235858:stack/amplify-monkeyapp-dev-ce2a8/dbde2ab0-708b-11ef-a9c4-0ebf2cbec7a5",
+      "AmplifyAppId": "d2wvur34ifel10"
+>>>>>>> 408a3686154c69d4c38a1aae5d77b43f210d1327
     }
   }
 }

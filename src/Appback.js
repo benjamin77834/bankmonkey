@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 //import { Amplify } from 'aws-amplify';
 //import awsconfig from './aws-exports';
+=======
+import { Amplify } from 'aws-amplify';
+import awsconfig from './aws-exports';
+>>>>>>> 408a3686154c69d4c38a1aae5d77b43f210d1327
 //import { withAuthenticator } from '@aws-amplify/ui-react';
 import './App.css';
 import Footer from './Footer';

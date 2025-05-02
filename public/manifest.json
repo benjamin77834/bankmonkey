@@ -1,6 +1,11 @@
 {
+<<<<<<< HEAD
   "short_name": "React App",
   "name": "Create React App Sample",
+=======
+  "short_name": "MonkeyPhone App",
+  "name": "Consulta y Recarga",
+>>>>>>> 408a3686154c69d4c38a1aae5d77b43f210d1327
   "icons": [
     {
       "src": "favicon.ico",
