@@ -93,11 +93,7 @@ const PageFrame = ({ url }) => {
       <p>
         <Link to="/login" style={{ marginLeft: '2px', color: 'white' }}>Inicia sesión</Link> | 
                                                                                                                                                          
-<<<<<<< HEAD
         <Link to="/Consulta" style={{ marginLeft: '2px', color: 'white' }} >Consulta de Saldo</Link>|
-=======
-        <Link to="/Consulta" style={{ marginLeft: '2px', color: 'white' }} >Consulta de Saldo</Link>
->>>>>>> 408a3686154c69d4c38a1aae5d77b43f210d1327
       
           
           <Link to="/Cobertura"  style={{ marginLeft: '2px', color: 'white' }} onClick={() => setIframeUrl('https://recargas.monkeyfon.com/chango/cobertura_appx.php')}>Cobertura</Link>

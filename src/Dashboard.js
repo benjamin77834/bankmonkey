@@ -4,14 +4,8 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import React, { useState, useEffect, useRef  } from 'react';
 //import Quagga from 'quagga';  // Importamos QuaggaJS
-<<<<<<< HEAD
 //import { Html5QrcodeScanner } from "html5-qrcode";
 import './Dashboard.css';
-=======
-import { Html5QrcodeScanner } from "html5-qrcode";
-
-//console.log(nombre);
->>>>>>> 408a3686154c69d4c38a1aae5d77b43f210d1327
 
 const Dashboard = () => {
   const [username, setUsername] = useState(null); // Estado para almacenar el valor de localStorage
