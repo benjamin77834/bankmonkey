@@ -18,7 +18,8 @@
       "respectprimarykeyattributesonconnectionfield": true,
       "shoulddeepmergedirectiveconfigdefaults": false,
       "populateownerfieldforstaticgroupauth": true,
-      "subscriptionsinheritprimaryauth": false
+      "subscriptionsinheritprimaryauth": false,
+      "enablegen2migration": false
     },
     "frontend-ios": {
       "enablexcodeintegration": true
@@ -58,7 +59,6 @@
       "overrides": true
     }
   },
-  "debug": {}
   "debug": {
     "shareProjectConfig": true
   }
