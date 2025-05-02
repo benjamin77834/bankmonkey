@@ -265,7 +265,7 @@ function Consulta() {
         </option>
       ))}
     </select>
-    <button className="orange-button" disabled={isLoading} align="left" className="responsive-button" >
+    <button  disabled={isLoading} align="center" className="responsive-button" >
              {isLoading ? 'Enviando...' : 'Compra'}
            </button>
     
