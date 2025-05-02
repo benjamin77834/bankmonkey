@@ -1,0 +1,52 @@
+.custom-select {
+
+
+    width: 100%;
+    padding: 1px;
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    font-size: 16px;
+    appearance: none;
+    background-color: white;
+    background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10"%3E%3Cpath fill="%23007bff" d="M0 2l5 5 5-5z"/%3E%3C/svg%3E');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 20px;
+    cursor: pointer;
+  
+    &:focus {
+      outline: none;
+      border-color: #0056b3;
+    }
+  
+    @media (max-width: 600px) {
+      font-size: 14px;
+    }
+
+  }
+  
+  .custom-select:focus {
+    border-color: #80bdff; /* Color del borde al enfocar */
+    outline: 0; /* Quitar el borde del enfoque predeterminado */
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25); /* Sombra del borde al enfocar */
+  }
+  
+  .custom-select option {
+    background-color: #ffffff; /* Fondo blanco para opciones */
+  }
+
+  .styled-select {
+    margin: 20px 0;
+    padding: 10px;
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    font-size: 11px;
+    cursor: pointer;
+  }
+  .info-box {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+  }
