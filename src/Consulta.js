@@ -251,7 +251,7 @@ function Consulta() {
                
                <h33>2. Compra oferta :</h33>
    
-               <form onSubmit={handleSubmit}  >
+               <form onSubmit={handleSubmit3}  >
     
    <select id="options" size="12"  width="90%"
    className="responsive-select"
