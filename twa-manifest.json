@@ -2,7 +2,7 @@
   "packageId": "com.monkeyfon.app.twa",
   "host": "app.monkeyfon.com",
   "name": "MonkeyPhone",
-  "launcherName": "Monkeyapp",
+  "launcherName": "MonkeyPhone",
   "display": "standalone",
   "themeColor": "#000000",
   "themeColorDark": "#000000",
@@ -12,7 +12,7 @@
   "navigationDividerColorDark": "#000000",
   "backgroundColor": "#FFFFFF",
   "enableNotifications": true,
-  "startUrl": "/",
+  "startUrl": "Consulta",
   "iconUrl": "https://app.monkeyfon.com/monito.png",
   "splashScreenFadeOutDuration": 300,
   "signingKey": {
