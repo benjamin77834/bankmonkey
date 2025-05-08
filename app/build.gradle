@@ -23,7 +23,7 @@ plugins {
 def twaManifest = [
     applicationId: 'com.monkeyfon.app.twa',
     hostName: 'app.monkeyfon.com', // The domain being opened in the TWA.
-    launchUrl: 'Consulta', // The start path for the TWA. Must be relative to the domain.
+    launchUrl: '/', // The start path for the TWA. Must be relative to the domain.
     name: 'MonkeyPhone', // The application name.
     launcherName: 'MonkeyPhone', // The name shown on the Android Launcher.
     themeColor: '#000000', // The color used for the status bar.

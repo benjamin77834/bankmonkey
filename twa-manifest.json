@@ -12,7 +12,7 @@
   "navigationDividerColorDark": "#000000",
   "backgroundColor": "#FFFFFF",
   "enableNotifications": true,
-  "startUrl": "Consulta",
+  "startUrl": "/",
   "iconUrl": "https://app.monkeyfon.com/monito.png",
   "splashScreenFadeOutDuration": 300,
   "signingKey": {
