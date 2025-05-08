@@ -1,4 +1,6 @@
 {
+  "start_url": "/Consulta",
+  "display": "standalone",
   "short_name": "React App",
   "name": "Create React App Sample",
   "icons": [
