@@ -9,7 +9,7 @@ const Footer = () => {
       <ul className="footer-links">
 
  
-        <li><a href="/contact">Contáctanos</a></li>
+        <li><a href="/Mensajeria">Contáctanos</a></li>
       </ul>
     </div>
   </footer>

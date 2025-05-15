@@ -3,8 +3,9 @@ import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 
 import GaugeChart from 'react-gauge-chart';
+import { useNavigate } from 'react-router-dom';
 
-function Consulta() {
+function Esim() {
     // const navigate = useNavigate();
     // const location = useLocation();  // Obtenemos la ubicación actual
      // Definir el estado para los campos del formulario
@@ -12,11 +13,7 @@ function Consulta() {
        name: '',
        email: '',
      });
-     
-
-
-
-
+     const navigate = useNavigate();
      const [isLoading, setIsLoading] = useState(false);
      const [apiData, setApiData] = useState(''  );
      //console.log(apiData);
@@ -24,9 +21,13 @@ function Consulta() {
      const [msisdn, setAdditionalData] = useState('');
      const [options, setOptions] = useState([]);
      const [selectedOption, setSelectedOption] = useState('');
-  
-     // Manejar el cambio en los campos del formulario
-     const handleChange = (e) => {
+     const [mostrarCampo, setMostrarCampo] = useState(false);
+    const [comentario, setComentario] = useState('');    
+    const [mail, setMail] = useState('');    
+    const [msisdnported, setMsisdnported] = useState('');    
+    //const [nip, setNip] = useState('');
+  //  const [msisdnported, setComentario] = useState('');
+    const handleChange = (e) => {
        const { name, value } = e.target;
        setFormData({
          ...formData,
@@ -34,13 +35,11 @@ function Consulta() {
        });
    
    
-   
+
      };
    
    
-
-
-
+   
      const handleChange2 = (event) => {
        setSelectedOption(event.target.value);
    
@@ -50,8 +49,9 @@ function Consulta() {
      const handleSubmit3 = (event) => {
        event.preventDefault();
    //    console.log(msisdn);
-     //  console.log(selectedOption);
-       if (selectedOption && msisdn ) {
+       console.log(selectedOption);
+       console.log(mail);
+       if (selectedOption && mail ) {
          // Redirect and pass selectedOption as state
         // navigate('/DestinationPage', { state: { selectedOption,msisdn } });
    
@@ -59,27 +59,25 @@ function Consulta() {
          const data = {
            msisdn: msisdn,
            id_oferta: selectedOption,
-           movil:msisdn,
+           movil:msisdnported,
+           mail:mail,
+           nip:comentario,
+
            app:"1"
          };
+         localStorage.setItem('formData', JSON.stringify(data));
+         console.log('Guardado:', JSON.parse(localStorage.getItem('formData'))); 
          console.log(data);
          //console.log(apiUrl);
-         const apiUrl = process.env.REACT_APP_API_URL;
+         //const apiUrl = process.env.REACT_APP_API_URL;
     
          const fetchData = async () => {
            try {
              toast.success('¡Estamos Preparando tu Compra! ');
-   
-         const response = await axios.post(`${apiUrl}/prod/genera_pago`, data);
-         //console.log("dess",response);
-         const api=response.data
-         //console.log(api.payment_request_id);
-         if (api.payment_request_id) {
-          window.location.href = 'https://pago.clip.mx/'+api.payment_request_id;
-         }
-         //const pay2=data2.payment_request_id;
-         //console.log(data2);
-         
+    
+             // Redirigir al otro formulario
+             navigate('/Ofertaesim');
+
          } catch (error) {
            console.error('Error fetching data:', error);
          }
@@ -99,17 +97,14 @@ function Consulta() {
          // Obtener la URL del API desde las variables de entorno
          const apiUrl = process.env.REACT_APP_API_URL;
          const data = {
-           msisdn: formData.name,
-           name: formData.name,
-           app: "1",
-           "serv": "profile"
+           device: formData.name,
+           app: "1"
+   
          };
-         toast.success('¡Consulta realizandose !, si has recargado puede tardar unos minutos ');
-         localStorage.setItem('formData', JSON.stringify(data));
-         console.log('Guardado:', JSON.parse(localStorage.getItem('formData'))); 
-         console.log(data); 
+         toast.success('¡Consulta tu disposito y escogelo ');
+   
          // Realizar la solicitud POST
-         const response = await axios.post(`${apiUrl}/prod/cambaceo_ofertas`, data);
+         const response = await axios.post(`${apiUrl}/prod/esimconsulta`, data);
          //console.log(response)
     
    
@@ -117,12 +112,13 @@ function Consulta() {
          
    
          const data2 = response.data;
-   
-         //console.log(data2)
-         const flattenedOptions = data2.info.flatMap(info => info);
+         console.log("hi")
+        // console.log(data2)
+        // const flattenedOptions = data2.info.flatMap(info => info);
+         const flattenedOptions = data2;
          const msisdn=data2.msisdn
          console.log(flattenedOptions);
-         //console.log(msisdn);
+         console.log(msisdn);
          setAdditionalData(msisdn);      
          setOptions(flattenedOptions);   
    
@@ -146,13 +142,13 @@ function Consulta() {
        
          <form onSubmit={handleSubmit} className="styled-select" >
           
-          <h33>1. Consulta </h33> 
+          <h33>1. Consulta tu Dispositvo </h33> 
              <input
           className="responsive-input"
-               type="number"
+               type="text"
                name="name"
                
-                placeholder="Tu Numero"
+                placeholder="¿Telefono tienes?"
                value={formData.name}
                onChange={handleChange}
              />
@@ -179,106 +175,96 @@ function Consulta() {
    
    
 
-             <h7><p>Estatus de Linea: {apiData.estatus}</p></h7>
+
    
-             <h7> <p>Vencimiento: {apiData.fecha_vencimiento}</p></h7> 
-
-
-
-             {apiData?.datos && (
-
-
-
-<div style={{ 
-    display: 'flex', 
-    justifyContent: 'center', 
-    gap: '10px', 
-    flexWrap: 'nowrap', 
-    marginTop: '20px' 
-  }}>
-    
-    {/* Gauge para GB */}
-
-
-    <div style={{ textAlign: 'center', width: '27%' }}>
-  <GaugeChart
-    id="gauge-gb"
-    nrOfLevels={5}
-    percent={Math.min(apiData.datos / 50, 1)}
-    colors={['#000000', '#c34609']}
-    hideText={true} // Oculta el texto interno
-    style={{ width: '100%', height: '80px' }}
-  />
-  <div style={{ marginTop: '6px', fontSize: '20px', color: '#000000' }}>
-    {apiData.datos} Gb
-  </div>
-</div>
-
-
-
-    {/* Gauge para SMS */}
-    <div style={{ width: '27%', textAlign: 'center' }}>
-      <GaugeChart
-        id="gauge-sms"
-        nrOfLevels={5}
-        percent={Math.min(apiData.sms / 2000, 1)}
-        textColor="#3498db"
-        colors={['#000000', '#c34609']} 
-        hideText={true} // Oculta el texto interno
-        formatTextValue={() => `${apiData.sms} Sms`}
-        style={{ width: '100%', height: '80px' }}
-      />
-  <div style={{ marginTop: '6px', fontSize: '20px', color: '#000000' }}>
-    {apiData.sms} Sms
-  </div>
-
-    </div>
-
-
-    {/* Gauge para Minutos */}
-    <div style={{ width: '27%', textAlign: 'center' }}>
-      <GaugeChart
-        id="gauge-mins"
-        nrOfLevels={5}
-        percent={Math.min(apiData.min / 5000, 1)}
-        textColor="#2ecc71"
-        colors={['#000000', '#c34609']} 
-        hideText={true} // Oculta el texto interno
-        formatTextValue={() => `${apiData.min} Min`}
-        style={{ width: '100%', height: '80px' }}
-      />
-
-<div style={{ marginTop: '6px', fontSize: '20px', color: '#000000' }}>
-    {apiData.min} Min
-  </div>
-
-
-    </div>
-  </div>
-)}
 
      
                
-               <h33>2. Compra oferta :</h33>
+               <h33>2. Escoge tu Dispositivo : </h33>
    
                <form onSubmit={handleSubmit3}  >
     
-   <select id="options" size="8"  width="90%"
+   <select id="options" size="3"  width="90%"
    className="responsive-select"
       value={selectedOption} 
       onChange={handleChange2}>
    
-      <option value="">--Escoge Oferta--</option>
+      <option value="">--Escoge dispositivo--</option>
       {options.map((item) => (
-        <option key={item.idoferta_app} value={item.idoferta_app}   >
-          $ {item.precio_minorista} {item.descripcion_oferta_comercial} 
+        <option key={item.modelo} value={item.modelo}>
+          {item.modelo} {item.fabricante} 
         </option>
       ))}
     </select>
 
-           <button disabled={isLoading} align="center" className="responsive-button">
-  {isLoading ? 'Enviando...' : 'Compra'}
-</button>
+
+
+
+
+           <h33><p>3. Necesitamos tu Correo para enviarte Esim: </p></h33>
+             <input
+                className="responsive-select"
+           type="text"
+           placeholder="Ingresa tu mail"
+           value={mail}
+           onChange={(e) => setMail(e.target.value)}
+
+               /> 
+
+
+
+      <label> 
+      <h1> ¿Quieres portar tu linea? ,da Clic: </h1>
+        <input
+         className="responsive-select"
+          type="checkbox"
+          checked={mostrarCampo}
+          onChange={(e) => setMostrarCampo(e.target.checked)}
+        />
+     
+      </label>
+
+      {mostrarCampo && (
+        <div style={{ marginTop: '5px' }}>
+          <label>
+            <h33><p>NIP: </p></h33>
+            <input
+              type="number"
+              className="responsive-select2"
+              value={comentario}
+               placeholder="Ingresa tu Nip , puedes mandar sms al 051 con la palabra NIP"
+              onChange={(e) => setComentario(e.target.value)}
+              style={{ marginLeft: '10px' }}
+            />
+                </label>
+  
+
+        <label>
+        <h33><p> Numero a Portar: </p></h33>
+          
+            <input
+              type="number"
+              className="responsive-select2"
+              value={msisdnported}
+               placeholder="Numero a Portar:"
+              onChange={(e) => setMsisdnported(e.target.value)}
+              style={{ marginRight: '10px' }}
+            />
+          </label>
+  
+          </div>
+
+
+     
+      )}
+
+<button  disabled={isLoading} align="center" className="responsive-button" >
+             {isLoading ? 'Enviando...' : 'Compra'}
+           </button>
+
+
+
+
        </form>
    
    </div>
@@ -295,7 +281,7 @@ function Consulta() {
 
    
    
-  );
+     );
    }
    
-   export default Consulta;
+   export default Esim;

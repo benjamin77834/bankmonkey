@@ -23,9 +23,9 @@ html, body {
   background-color: #2f0f13;
 }
 .App-logo {
-  width: 10px;
-  height: 10px;
-  margin: 10px;
+  width: 9px;
+  height: 9px;
+  margin: 9px;
   
 }
 
@@ -442,5 +442,46 @@ h3 {
 @media (max-width: 600px) {
   .responsive-select {
     max-width: 90%; /* En pantallas pequeñas, ocupa el 90% */
+  }
+}
+/* Contenedor del menú */
+/* Estilo de los botones en el menú */
+/* Estilo de los botones en el menú */
+.menu-container {
+  display: flex;
+  flex-direction: row; /* Cambia de columna a fila */
+  justify-content: center; /* Centra los botones en la página */
+  gap: 20px; /* Espacio entre los botones */
+  margin-top: 20px;
+}
+.menu-button {
+  background-color: #2f0f13;
+  color: white;
+  font-size: 12px;
+  padding: 12px 20px;
+  /*border: none;*/ /* ← Aquí aplicamos el borde blanco */
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  width: auto;
+}
+
+
+
+.menu-button:hover {
+  background-color: #4a1a1f;
+}
+
+/* Asegurar que los botones no se vean amontonados en pantallas pequeñas */
+@media (max-width: 768px) {
+  .menu-container {
+    flex-direction: none; /* En pantallas pequeñas, se apilan los botones */
+  }
+
+  .menu-button {
+    width: 80%;
+    font-size: 14px;
   }
 }

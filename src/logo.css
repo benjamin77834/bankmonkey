@@ -2,7 +2,7 @@
     display: flex;
     justify-content: left;  /* Centra el logo horizontalmente */
     align-items: center;      /* Centra el logo verticalmente si es necesario */
-    margin: 10px 2;           /* Margen opcional para separar el logo del contenido */
+    margin: 3px 1;           /* Margen opcional para separar el logo del contenido */
   }
   
   .app-logo {
@@ -13,14 +13,14 @@
   /* Ajustes para pantallas pequeñas */
   @media (max-width: 768px) {
     .app-logo {
-      width: 120px;  /* Reduce el tamaño del logo en pantallas más pequeñas */
+      width: 90px;  /* Reduce el tamaño del logo en pantallas más pequeñas */
     }
   }
   
   /* Ajustes para pantallas aún más pequeñas (móviles) */
   @media (max-width: 480px) {
     .app-logo {
-      width: 100px;  /* Tamaño del logo para móviles */
+      width: 90px;  /* Tamaño del logo para móviles */
     }
   }
   
