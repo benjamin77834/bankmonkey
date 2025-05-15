@@ -5,8 +5,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import React, { Component } from 'react';
-
-
  
         
 //import AppLogo from './logo';
