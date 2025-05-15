@@ -146,7 +146,7 @@ function Consulta() {
        
          <form onSubmit={handleSubmit} className="styled-select" >
           
-          <h33>1. Consulta </h33> 
+          <h33>1. Consulta y Recarga</h33> 
              <input
           className="responsive-input"
                type="number"
