@@ -56,4 +56,11 @@
     overflow-x: hidden; /* 👈 evita scroll lateral en móviles */
     font-family: sans-serif;
   }
-   
+  
+  
+  input,
+textarea,
+select,
+button {
+  font-size: 16px;
+}
