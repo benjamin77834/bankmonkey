@@ -6,11 +6,7 @@ const Footer = () => {
     <footer className="footer">
     <div className="footer-content">
       <p>&copy; {new Date().getFullYear()} Monkey Phone</p>
-      <ul className="footer-links">
-
- 
-        <li><a href="/Mensajeria">Contáctanos</a></li>
-      </ul>
+    
     </div>
   </footer>
 

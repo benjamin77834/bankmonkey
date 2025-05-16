@@ -194,7 +194,7 @@ function Consulta() {
     justifyContent: 'center', 
     gap: '12px', 
     flexWrap: 'nowrap', 
-    marginTop: '40px' 
+    marginTop: '30px' 
   }}>
     
     {/* Gauge para GB */}
@@ -209,7 +209,7 @@ function Consulta() {
     hideText={true} // Oculta el texto interno
     style={{ width: '100%', height: '80px' }}
   />
-  <div style={{ marginTop: '16px', fontSize: '20px', color: '#000000' }}>
+  <div style={{ marginTop: '10px', fontSize: '20px', color: '#000000' }}>
     {apiData.datos} Gb
   </div>
 </div>
@@ -228,7 +228,7 @@ function Consulta() {
         formatTextValue={() => `${apiData.sms} Sms`}
         style={{ width: '100%', height: '80px' }}
       />
-  <div style={{ marginTop: '16px', fontSize: '20px', color: '#000000' }}>
+  <div style={{ marginTop: '10px', fontSize: '20px', color: '#000000' }}>
     {apiData.sms} Sms
   </div>
 
@@ -248,7 +248,7 @@ function Consulta() {
         style={{ width: '100%', height: '80px' }}
       />
 
-<div style={{ marginTop: '16px', fontSize: '20px', color: '#000000', gap: '12px' }}>
+<div style={{ marginTop: '10px', fontSize: '20px', color: '#000000', gap: '12px' }}>
     {apiData.min} Min
   </div>
 
