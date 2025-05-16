@@ -192,9 +192,9 @@ function Consulta() {
 <div style={{ 
     display: 'flex', 
     justifyContent: 'center', 
-    gap: '10px', 
+    gap: '12px', 
     flexWrap: 'nowrap', 
-    marginTop: '20px' 
+    marginTop: '40px' 
   }}>
     
     {/* Gauge para GB */}
@@ -209,7 +209,7 @@ function Consulta() {
     hideText={true} // Oculta el texto interno
     style={{ width: '100%', height: '80px' }}
   />
-  <div style={{ marginTop: '6px', fontSize: '20px', color: '#000000' }}>
+  <div style={{ marginTop: '16px', fontSize: '20px', color: '#000000' }}>
     {apiData.datos} Gb
   </div>
 </div>
@@ -228,7 +228,7 @@ function Consulta() {
         formatTextValue={() => `${apiData.sms} Sms`}
         style={{ width: '100%', height: '80px' }}
       />
-  <div style={{ marginTop: '6px', fontSize: '20px', color: '#000000' }}>
+  <div style={{ marginTop: '16px', fontSize: '20px', color: '#000000' }}>
     {apiData.sms} Sms
   </div>
 
@@ -248,7 +248,7 @@ function Consulta() {
         style={{ width: '100%', height: '80px' }}
       />
 
-<div style={{ marginTop: '6px', fontSize: '20px', color: '#000000' }}>
+<div style={{ marginTop: '16px', fontSize: '20px', color: '#000000', gap: '12px' }}>
     {apiData.min} Min
   </div>
 
@@ -259,7 +259,7 @@ function Consulta() {
 
      
                
-               <h33>2. Compra oferta :</h33>
+               <h3>2. Compra oferta :</h3>
    
                <form onSubmit={handleSubmit3}  >
     
