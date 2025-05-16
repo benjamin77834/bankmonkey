@@ -11,7 +11,7 @@
   /* Responsive para móviles */
   @media screen and (max-width: 768px) {
     .container {
-      width: 95%;
+      width: 80%;
       padding: 1rem;
       font-size: 16px;
     }
@@ -41,7 +41,7 @@
   
   /* Imágenes responsivas */
   img {
-    max-width: 30%;
+    max-width: 25%;
     height: auto;
     display: block;
   }
