@@ -45,6 +45,20 @@ function App() {
       );
 
 
+      const Ofertas = () => (
+        <div style={{ margin: '20px auto', maxWidth: '90%' }}>
+          <iframe
+            src="https://www.monkeyphone.net/"
+            title="Ofertas MonkeyPhone"
+            width="100%"
+            height="800px"
+            style={{ border: 'none' }}
+          />
+        </div>
+      );
+      
+
+
 
   const items = [
     {
@@ -52,6 +66,14 @@ function App() {
       icon: 'pi pi-home',
      url:'/Consulta'
     },
+
+    {
+      label: 'Ofertas',
+      icon: 'pi pi-tags',
+      url: '/Ofertas'
+    }
+,
+
     {
       label: 'Servicios',
       icon: 'pi pi-briefcase',
@@ -110,6 +132,7 @@ function App() {
         <Route path="/Mensajeria" element={<Mensajeria />} />
         <Route path="/Cobertura" element={<PageFrame url="https://recargas.monkeyfon.com/chango/cobertura_appx.php" />} />
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+        <Route path="/Ofertas" element={<Ofertas />} />
 
 
       </Routes>
