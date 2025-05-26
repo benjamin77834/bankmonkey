@@ -1,0 +1,11 @@
+
+.carousel .legend {
+  background: transparent;
+  color: #000;
+  font-weight: bold;
+}
+
+.carousel .slide img {
+  border: none !important;
+  box-shadow: none !important;
+}
