@@ -36,48 +36,48 @@ const CarruselOfertas = () => {
       style={{ border: 'none' }}
     >
         
-      <div>
-        <img src={oferta1} alt="Oferta 1" style={{ border: 'none', height: '100%', objectFit: 'cover'}}/>
+      <div className="zoom-container">
+        <img src={oferta1} alt="Oferta 1"  className="zoom-image"/>
         <p className="legend">Oferta 1</p>
       </div>
-      <div>
-        <img src={oferta2} alt="Oferta 2" style={{ border: 'none',height: '100%', objectFit: 'cover' }}/>
+      <div className="zoom-container">
+        <img src={oferta2} alt="Oferta 2"  className="zoom-image"/>
         <p className="legend">Oferta 2</p>
       </div>
-      <div>
-        <img src={oferta3} alt="Oferta 3" style={{ border: 'none',height: '100%', objectFit: 'cover' }} />
+      <div className="zoom-container">
+        <img src={oferta3} alt="Oferta 3"  className="zoom-image"  />
         <p className="legend">Oferta 3</p>
       </div>
 
-      <div>
-        <img src={oferta4} alt="Oferta 4" style={{ border: 'none',height: '100%', objectFit: 'cover' }}/>
+      <div className="zoom-container">
+        <img src={oferta4} alt="Oferta 4"  className="zoom-image"/>
         <p className="legend">Oferta 4</p>
       </div>
-      <div>
-        <img src={oferta4} alt="Oferta 4" style={{ border: 'none',height: '100%', objectFit: 'cover' }} />
+      <div className="zoom-container">
+        <img src={oferta4} alt="Oferta 4"  className="zoom-image" />
         <p className="legend">Oferta 5</p>
       </div>
-      <div>
-        <img src={oferta5} alt="Oferta 5" style={{ border: 'none' ,height: '100%', objectFit: 'cover'}}/>
+      <div className="zoom-container">
+        <img src={oferta5} alt="Oferta 5"  className="zoom-image"/>
         <p className="legend">Oferta 6</p>
       </div>
-      <div>
-        <img src={oferta6} alt="Oferta 6" style={{ border: 'none' ,height: '100%', objectFit: 'cover'}}/>
+      <div className="zoom-container">
+        <img src={oferta6} alt="Oferta 6"  className="zoom-image"/>
         <p className="legend">Oferta 7</p>
       </div>
 
-      <div>
-        <img src={oferta7} alt="Oferta 7" style={{ border: 'none' ,height: '100%', objectFit: 'cover'}}/>
+      <div className="zoom-container">
+        <img src={oferta7} alt="Oferta 7"  className="zoom-image"/>
         <p className="legend">Oferta 8</p>
       </div>
 
-      <div>
-        <img src={oferta8} alt="Oferta 9" style={{ border: 'none' ,height: '100%', objectFit: 'cover'}}/>
+      <div className="zoom-container">
+        <img src={oferta8} alt="Oferta 9"  className="zoom-image"/>
         <p className="legend">Oferta 9</p>
       </div>
 
-      <div>
-        <img src={oferta9} alt="Oferta 9" style={{ border: 'none' ,height: '100%', objectFit: 'cover'}}/>
+      <div className="zoom-container">
+        <img src={oferta9} alt="Oferta 9"  className="zoom-image"/>
         <p className="legend">Oferta 10</p>
       </div>
     </Carousel>
