@@ -1,12 +1,13 @@
 .zoom-container {
   overflow: hidden;
   width: 100%;
+  height: 100%;
 }
 
 .zoom-image {
   width: 100%;
   height: auto;
-  max-height: 500px;
+  max-height: 800px;
   object-fit: cover;
   transition: transform 0.5s ease;
 }
@@ -42,7 +43,7 @@
 /* Indicadores (los puntitos) con fondo semitransparente */
 .carousel .control-dots {
   background: transparent;
-  bottom: 15px;
+  bottom: 200 px;
 }
 
 .carousel .dot {
