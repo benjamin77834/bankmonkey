@@ -27,3 +27,39 @@
   color: #c0b6b6;
   font-weight: bold;
 }
+/* Quitar fondo blanco/negro a los controles del carrusel */
+.carousel .control-arrow,
+.carousel.carousel-slider .control-arrow {
+  background: transparent;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.carousel .control-arrow:hover {
+  opacity: 1;
+}
+
+/* Indicadores (los puntitos) con fondo semitransparente */
+.carousel .control-dots {
+  background: transparent;
+  bottom: 15px;
+}
+
+.carousel .dot {
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: none;
+}
+
+.carousel .dot.selected {
+  background: #ff6600;
+}
+
+/* Remover fondo de los slides si lo tuviera */
+.carousel .slide {
+  background: transparent;
+}
+
+.carousel .control-arrow::before {
+  color: white;
+  font-size: 32px;
+}

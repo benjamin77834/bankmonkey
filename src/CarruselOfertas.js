@@ -29,8 +29,8 @@ const CarruselOfertas = () => {
       showThumbs={false}
       showStatus={false}
       showIndicators={true}
-      interval={3000}
-      transitionTime={900}  
+      interval={4000}
+      transitionTime={3000}  
       swipeable
       emulateTouch
       style={{ border: 'none' }}
