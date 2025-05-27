@@ -1,5 +1,6 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { BrowserMultiFormatOneDReader } from '@zxing/browser';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -10,7 +11,8 @@ const Dashboard = () => {
   const [selectedOption, setSelectedOption] = useState('');
   const [imei, setimei] = useState('');
   const [activeView, setActiveView] = useState(null);
-  const [imageFile, setImageFile] = useState(null);
+  const videoRef = useRef(null);
+  const codeReader = useRef(null);
 
   useEffect(() => {
     const storedUsername = localStorage.getItem('nombre');
@@ -56,31 +58,16 @@ const Dashboard = () => {
     alert(`Activando línea con IMEI: ${imei}`);
   };
 
-  const handleImageUpload = async (e) => {
-    const file = e.target.files[0];
-    setImageFile(file);
-    if (!file) return;
-
-    const formData = new FormData();
-    formData.append('image', file);
-
-    try {
-      const apiUrl = process.env.REACT_APP_API_URL;
-      const response = await axios.post(`${apiUrl}/scan-imei`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-      if (response.data && response.data.imei) {
-        setimei(response.data.imei);
-        alert(`IMEI detectado: ${response.data.imei}`);
-        console.log('Resultado del escaneo:', response.data);
-      } else {
-        alert('No se pudo detectar un IMEI válido en la imagen.');
-        console.warn('Respuesta inesperada del servidor:', response.data);
+  const startScanner = () => {
+    codeReader.current = new BrowserMultiFormatOneDReader();
+    codeReader.current.decodeFromVideoDevice(null, videoRef.current, (result, err) => {
+      if (result) {
+        const detectedIMEI = result.getText();
+        setimei(detectedIMEI);
+        alert(`IMEI detectado: ${detectedIMEI}`);
+        codeReader.current.reset();
       }
-    } catch (err) {
-      console.error('Error al escanear la imagen:', err);
-      alert('Ocurrió un error al procesar la imagen. Por favor intenta con otra imagen.');
-    }
+    });
   };
 
   return (
@@ -134,13 +121,9 @@ const Dashboard = () => {
                 onChange={(e) => setimei(e.target.value)}
                 required
               />
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="orange-button small-button"
-              />
+              <button type="button" onClick={startScanner} className="orange-button small-button">Escanear Código de Barras</button>
             </div>
+            <video ref={videoRef} style={{ width: '100%', maxWidth: 400 }} />
 
             <form
               autoComplete="off"
