@@ -1,6 +1,8 @@
+import { Html5Qrcode, Html5QrcodeSupportedFormats } from 'html5-qrcode';
+
 import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
-import { Html5Qrcode } from 'html5-qrcode';
+//import { Html5Qrcode } from 'html5-qrcode';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -78,6 +80,7 @@ const Dashboard = () => {
         {
           fps: 10,
           qrbox: 250,
+          formatsToSupport: [Html5QrcodeSupportedFormats.CODE_128] // <-- Solo código de barras
         },
         (decodedText) => {
           setimei(decodedText);
