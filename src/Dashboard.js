@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
-import { BrowserMultiFormatReader } from '@zxing/browser';
+import { BrowserMultiFormatOneDReader } from '@zxing/browser';
 import './Dashboard.css';
 
 const BarcodeScanner = ({ onDetected }) => {
@@ -8,7 +8,7 @@ const BarcodeScanner = ({ onDetected }) => {
   const codeReader = useRef(null);
 
   useEffect(() => {
-    codeReader.current = new BrowserMultiFormatReader();
+    codeReader.current = new BrowserMultiFormatOneDReader();
 
     codeReader.current.decodeFromVideoDevice(null, videoRef.current, (result, err) => {
       if (result) {
