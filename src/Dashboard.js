@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
-import { BrowserMultiFormatOneDReader } from '@zxing/browser';
+import { BrowserMultiFormatReader } from '@zxing/browser';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -59,13 +59,15 @@ const Dashboard = () => {
   };
 
   const startScanner = () => {
-    codeReader.current = new BrowserMultiFormatOneDReader();
+    codeReader.current = new BrowserMultiFormatReader();
     codeReader.current.decodeFromVideoDevice(null, videoRef.current, (result, err) => {
       if (result) {
         const detectedIMEI = result.getText();
-        setimei(detectedIMEI);
-        alert(`IMEI detectado: ${detectedIMEI}`);
-        codeReader.current.reset();
+        if (/^\d{14,20}$/.test(detectedIMEI)) {
+          setimei(detectedIMEI);
+          alert(`IMEI detectado: ${detectedIMEI}`);
+          codeReader.current.reset();
+        }
       }
     });
   };
@@ -123,7 +125,19 @@ const Dashboard = () => {
               />
               <button type="button" onClick={startScanner} className="orange-button small-button">Escanear Código de Barras</button>
             </div>
-            <video ref={videoRef} style={{ width: '80%', maxWidth: 200 }} />
+            <div style={{ position: 'relative', width: '100%', maxWidth: 400 }}>
+              <video ref={videoRef} style={{ width: '100%' }} />
+              <div style={{
+                position: 'absolute',
+                top: '50%',
+                left: 0,
+                width: '100%',
+                height: '2px',
+                backgroundColor: 'red',
+                transform: 'translateY(-1px)',
+                zIndex: 1
+              }} />
+            </div>
 
             <form
               autoComplete="off"
