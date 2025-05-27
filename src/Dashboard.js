@@ -123,7 +123,7 @@ const Dashboard = () => {
               />
               <button type="button" onClick={startScanner} className="orange-button small-button">Escanear Código de Barras</button>
             </div>
-            <video ref={videoRef} style={{ width: '100%', maxWidth: 400 }} />
+            <video ref={videoRef} style={{ width: '80%', maxWidth: 200 }} />
 
             <form
               autoComplete="off"
