@@ -11,6 +11,7 @@ const Dashboard = () => {
   const [selectedOption, setSelectedOption] = useState('');
   const [imei, setimei] = useState('');
   const [activeView, setActiveView] = useState(null);
+  const [scannerStarted, setScannerStarted] = useState(false);
   const videoRef = useRef(null);
   const codeReader = useRef(null);
 
@@ -59,6 +60,9 @@ const Dashboard = () => {
   };
 
   const startScanner = () => {
+    if (scannerStarted) return;
+    setScannerStarted(true);
+
     codeReader.current = new BrowserMultiFormatReader();
     codeReader.current.decodeFromVideoDevice(null, videoRef.current, (result, err) => {
       if (result) {
@@ -67,6 +71,7 @@ const Dashboard = () => {
           setimei(detectedIMEI);
           alert(`IMEI detectado: ${detectedIMEI}`);
           codeReader.current.reset();
+          setScannerStarted(false);
         }
       }
     });
@@ -126,7 +131,7 @@ const Dashboard = () => {
               <button type="button" onClick={startScanner} className="orange-button small-button">Escanear Código de Barras</button>
             </div>
             <div style={{ position: 'relative', width: '100%', maxWidth: 400 }}>
-              <video ref={videoRef} style={{ width: '100%' }} />
+              <video ref={videoRef} style={{ width: '100%', objectFit: 'cover' }} />
               <div style={{
                 position: 'absolute',
                 top: '50%',
