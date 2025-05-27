@@ -159,8 +159,12 @@ const Dashboard = () => {
             </div>
 
             {scannerVisible && (
-              <div id="scanner" style={{ width: "300px", margin: "auto", paddingTop: "10px" }}></div>
-            )}
+  <div style={{ position: 'relative', width: "300px", margin: "auto", paddingTop: "10px" }}>
+    <div id="scanner"></div>
+    <div className="scan-line"></div>
+  </div>
+)}
+
 
             <form
               autoComplete="off"
