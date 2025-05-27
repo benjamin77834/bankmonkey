@@ -1,35 +1,6 @@
 import axios from 'axios';
-import React, { useState, useEffect, useRef } from 'react';
-import { BrowserMultiFormatOneDReader } from '@zxing/browser';
+import React, { useState, useEffect } from 'react';
 import './Dashboard.css';
-
-const BarcodeScanner = ({ onDetected }) => {
-  const videoRef = useRef(null);
-  const codeReader = useRef(null);
-
-  useEffect(() => {
-    codeReader.current = new BrowserMultiFormatOneDReader();
-
-    codeReader.current.decodeFromVideoDevice(null, videoRef.current, (result, err) => {
-      if (result) {
-        onDetected(result.getText());
-        codeReader.current.reset();
-      }
-    });
-
-    return () => {
-      if (codeReader.current) {
-        codeReader.current.reset();
-      }
-    };
-  }, [onDetected]);
-
-  return (
-    <div style={{ textAlign: 'center' }}>
-      <video ref={videoRef} style={{ width: '100%', maxWidth: 400 }} />
-    </div>
-  );
-};
 
 const Dashboard = () => {
   const [username, setUsername] = useState(null);
@@ -39,7 +10,7 @@ const Dashboard = () => {
   const [selectedOption, setSelectedOption] = useState('');
   const [imei, setimei] = useState('');
   const [activeView, setActiveView] = useState(null);
-  const [scannerVisible, setScannerVisible] = useState(false);
+  const [imageFile, setImageFile] = useState(null);
 
   useEffect(() => {
     const storedUsername = localStorage.getItem('nombre');
@@ -85,8 +56,31 @@ const Dashboard = () => {
     alert(`Activando línea con IMEI: ${imei}`);
   };
 
-  const startScanner = () => {
-    setScannerVisible(true);
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    setImageFile(file);
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+      const apiUrl = process.env.REACT_APP_API_URL;
+      const response = await axios.post(`${apiUrl}/scan-imei`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      if (response.data && response.data.imei) {
+        setimei(response.data.imei);
+        alert(`IMEI detectado: ${response.data.imei}`);
+        console.log('Resultado del escaneo:', response.data);
+      } else {
+        alert('No se pudo detectar un IMEI válido en la imagen.');
+        console.warn('Respuesta inesperada del servidor:', response.data);
+      }
+    } catch (err) {
+      console.error('Error al escanear la imagen:', err);
+      alert('Ocurrió un error al procesar la imagen. Por favor intenta con otra imagen.');
+    }
   };
 
   return (
@@ -140,15 +134,13 @@ const Dashboard = () => {
                 onChange={(e) => setimei(e.target.value)}
                 required
               />
-              <button type="button" onClick={startScanner} className="orange-button small-button">Escanear IMEI</button>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="orange-button small-button"
+              />
             </div>
-
-            {scannerVisible && (
-              <BarcodeScanner onDetected={(text) => {
-                setimei(text);
-                setScannerVisible(false);
-              }} />
-            )}
 
             <form
               autoComplete="off"
