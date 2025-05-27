@@ -1,9 +1,35 @@
-import { Html5Qrcode, Html5QrcodeSupportedFormats } from 'html5-qrcode';
-
 import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
-//import { Html5Qrcode } from 'html5-qrcode';
+import { BrowserMultiFormatReader } from '@zxing/browser';
 import './Dashboard.css';
+
+const BarcodeScanner = ({ onDetected }) => {
+  const videoRef = useRef(null);
+  const codeReader = useRef(null);
+
+  useEffect(() => {
+    codeReader.current = new BrowserMultiFormatReader();
+
+    codeReader.current.decodeFromVideoDevice(null, videoRef.current, (result, err) => {
+      if (result) {
+        onDetected(result.getText());
+        codeReader.current.reset();
+      }
+    });
+
+    return () => {
+      if (codeReader.current) {
+        codeReader.current.reset();
+      }
+    };
+  }, [onDetected]);
+
+  return (
+    <div style={{ textAlign: 'center' }}>
+      <video ref={videoRef} style={{ width: '100%', maxWidth: 400 }} />
+    </div>
+  );
+};
 
 const Dashboard = () => {
   const [username, setUsername] = useState(null);
@@ -14,7 +40,6 @@ const Dashboard = () => {
   const [imei, setimei] = useState('');
   const [activeView, setActiveView] = useState(null);
   const [scannerVisible, setScannerVisible] = useState(false);
-  const scannerRef = useRef(null);
 
   useEffect(() => {
     const storedUsername = localStorage.getItem('nombre');
@@ -63,46 +88,6 @@ const Dashboard = () => {
   const startScanner = () => {
     setScannerVisible(true);
   };
-
-  useEffect(() => {
-    if (scannerVisible) {
-      const scannerElement = document.getElementById("scanner");
-      if (!scannerElement) {
-        console.error("El elemento con id='scanner' no existe.");
-        return;
-      }
-
-      const html5QrCode = new Html5Qrcode("scanner");
-      scannerRef.current = html5QrCode;
-
-      html5QrCode.start(
-        { facingMode: "environment" },
-        {
-          fps: 10,
-          qrbox: 250,
-          formatsToSupport: [Html5QrcodeSupportedFormats.CODE_128] // <-- Solo código de barras
-        },
-        (decodedText) => {
-          setimei(decodedText);
-          html5QrCode.stop().then(() => {
-            setScannerVisible(false);
-          }).catch((err) => console.error("Error al detener el escáner:", err));
-        },
-        (errorMessage) => {
-          // Error de lectura
-        }
-      ).catch((err) => {
-        console.error("Error al iniciar escáner:", err);
-      });
-    }
-
-    return () => {
-      if (scannerRef.current) {
-        scannerRef.current.stop().catch(() => {});
-        scannerRef.current = null;
-      }
-    };
-  }, [scannerVisible]);
 
   return (
     <div className="content-container">
@@ -159,12 +144,11 @@ const Dashboard = () => {
             </div>
 
             {scannerVisible && (
-  <div style={{ position: 'relative', width: "300px", margin: "auto", paddingTop: "10px" }}>
-    <div id="scanner"></div>
-    <div className="scan-line"></div>
-  </div>
-)}
-
+              <BarcodeScanner onDetected={(text) => {
+                setimei(text);
+                setScannerVisible(false);
+              }} />
+            )}
 
             <form
               autoComplete="off"
