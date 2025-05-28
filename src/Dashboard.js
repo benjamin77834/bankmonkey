@@ -12,7 +12,6 @@ const Dashboard = () => {
   const [imei, setimei] = useState('');
   const [activeView, setActiveView] = useState(null);
   const [scannerStarted, setScannerStarted] = useState(false);
-
   const videoRef = useRef(null);
   const codeReader = useRef(null);
 
@@ -60,41 +59,19 @@ const Dashboard = () => {
     alert(`Activando línea con IMEI: ${imei}`);
   };
 
-  const stopScanner = () => {
-    if (codeReader.current) {
-      codeReader.current.reset();
-      setScannerStarted(false);
-    }
-    if (videoRef.current?.srcObject) {
-      const tracks = videoRef.current.srcObject.getTracks();
-      tracks.forEach((track) => track.stop());
-      videoRef.current.srcObject = null;
-    }
-  };
-
   const startScanner = async () => {
     if (scannerStarted || !videoRef.current) return;
-    setScannerStarted(true);
 
     try {
+      setScannerStarted(true);
+      codeReader.current = new BrowserMultiFormatReader();
+
       const devices = await navigator.mediaDevices.enumerateDevices();
       const videoInputDevices = devices.filter(device => device.kind === 'videoinput');
 
-      const constraints = {
-        video: {
-          deviceId: videoInputDevices.length > 0 ? videoInputDevices[0].deviceId : undefined,
-          facingMode: 'environment',
-          focusMode: 'continuous',
-        }
-      };
+      const selectedDeviceId = videoInputDevices[0]?.deviceId;
 
-      const stream = await navigator.mediaDevices.getUserMedia(constraints);
-      videoRef.current.srcObject = stream;
-      videoRef.current.play();
-
-      codeReader.current = new BrowserMultiFormatReader();
-
-      await codeReader.current.decodeFromVideoDevice(null, videoRef.current, (result, err) => {
+      await codeReader.current.decodeFromVideoDevice(selectedDeviceId, videoRef.current, (result, error) => {
         if (result) {
           const detectedIMEI = result.getText();
           if (/^\d{14,20}$/.test(detectedIMEI)) {
@@ -102,14 +79,28 @@ const Dashboard = () => {
             alert(`IMEI detectado: ${detectedIMEI}`);
             stopScanner();
           }
-        } else if (err) {
-          // No hagas nada, errores sin código son esperados
         }
       });
-    } catch (e) {
-      console.error('Error iniciando el escáner:', e);
+
+    } catch (err) {
+      console.error("Error iniciando el escáner:", err);
       stopScanner();
     }
+  };
+
+  const stopScanner = () => {
+    if (codeReader.current) {
+      codeReader.current.reset();
+      codeReader.current = null;
+    }
+
+    if (videoRef.current?.srcObject) {
+      const tracks = videoRef.current.srcObject.getTracks();
+      tracks.forEach(track => track.stop());
+      videoRef.current.srcObject = null;
+    }
+
+    setScannerStarted(false);
   };
 
   return (
@@ -163,14 +154,21 @@ const Dashboard = () => {
                 onChange={(e) => setimei(e.target.value)}
                 required
               />
-              <button type="button" onClick={startScanner} className="orange-button small-button">Escanear Código de Barras</button>
-              {scannerStarted && (
-                <button type="button" onClick={stopScanner} className="orange-button small-button red">Detener Escáner</button>
-              )}
+              <div style={{ marginTop: '10px' }}>
+                {!scannerStarted ? (
+                  <button type="button" onClick={startScanner} className="orange-button small-button">
+                    Escanear Código de Barras
+                  </button>
+                ) : (
+                  <button type="button" onClick={stopScanner} className="orange-button small-button red">
+                    Detener Escáner
+                  </button>
+                )}
+              </div>
             </div>
 
-            <div style={{ position: 'relative', width: '100%', maxWidth: 400 }}>
-              <video ref={videoRef} style={{ width: '100%', objectFit: 'cover' }} />
+            <div style={{ position: 'relative', width: '100%', maxWidth: 400, marginTop: '10px' }}>
+              <video ref={videoRef} style={{ width: '100%', objectFit: 'cover' }} muted playsInline />
               <div style={{
                 position: 'absolute',
                 top: '50%',
@@ -183,17 +181,6 @@ const Dashboard = () => {
               }} />
             </div>
 
-            <form
-              autoComplete="off"
-              encType="multipart/form-data"
-              action="https://recargas.monkeyfon.com/chango/validaiccz.php"
-              method="POST"
-              noValidate
-            >
-              <input type="file" accept="image/*" className="file-hiden" name="icc" id="icc" />
-              <button type="submit" className="my_btn w-100 btn_disable">Validar</button>
-            </form>
-
             <button type="submit" className="orange-button responsive-button">Activar</button>
           </form>
         )}
@@ -203,3 +190,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
