@@ -70,7 +70,7 @@ const Dashboard = () => {
       { facingMode: "environment" },
       config,
       (decodedText) => {
-        if (/^\d{14,20}$/.test(decodedText)) {
+        if (/^\d{3,20}$/.test(decodedText)) {
           setimei(decodedText);
           alert(`IMEI detectado: ${decodedText}`);
           stopScanner();
