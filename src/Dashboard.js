@@ -85,7 +85,7 @@ const Dashboard = () => {
       await codeReader.current.decodeFromVideoDevice(null, videoRef.current, (result, err) => {
         if (result) {
           const detectedIMEI = result.getText();
-          if (/^\d{14,20}$/.test(detectedIMEI)) {
+          if (/^\d{3,20}$/.test(detectedIMEI)) {
             setimei(detectedIMEI);
             alert(`IMEI detectado: ${detectedIMEI}`);
             codeReader.current.reset();
