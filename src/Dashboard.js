@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
-import { BrowserMultiFormatReader } from '@zxing/browser';
+import { BrowserMultiFormatReader, NotFoundException } from '@zxing/browser';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -59,22 +59,46 @@ const Dashboard = () => {
     alert(`Activando línea con IMEI: ${imei}`);
   };
 
-  const startScanner = () => {
-    if (scannerStarted) return;
+  const startScanner = async () => {
+    if (scannerStarted || !videoRef.current) return;
     setScannerStarted(true);
 
-    codeReader.current = new BrowserMultiFormatReader();
-    codeReader.current.decodeFromVideoDevice(null, videoRef.current, (result, err) => {
-      if (result) {
-        const detectedIMEI = result.getText();
-        if (/^\d{5,20}$/.test(detectedIMEI)) {
-          setimei(detectedIMEI);
-          alert(`IMEI detectado: ${detectedIMEI}`);
-          codeReader.current.reset();
-          setScannerStarted(false);
+    try {
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const videoInputDevices = devices.filter(device => device.kind === 'videoinput');
+
+      const constraints = {
+        video: {
+          deviceId: videoInputDevices.length > 0 ? videoInputDevices[0].deviceId : undefined,
+          facingMode: 'environment',
+          focusMode: 'continuous',
+          zoom: { ideal: 2.0 } // intenta establecer zoom digital
         }
-      }
-    });
+      };
+
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      videoRef.current.srcObject = stream;
+      videoRef.current.play();
+
+      codeReader.current = new BrowserMultiFormatReader();
+
+      await codeReader.current.decodeFromVideoDevice(null, videoRef.current, (result, err) => {
+        if (result) {
+          const detectedIMEI = result.getText();
+          if (/^\d{14,20}$/.test(detectedIMEI)) {
+            setimei(detectedIMEI);
+            alert(`IMEI detectado: ${detectedIMEI}`);
+            codeReader.current.reset();
+            setScannerStarted(false);
+          }
+        } else if (err && !(err instanceof NotFoundException)) {
+          console.error('Error de escaneo:', err);
+        }
+      });
+    } catch (e) {
+      console.error('Error iniciando el escáner:', e);
+      setScannerStarted(false);
+    }
   };
 
   return (
@@ -130,7 +154,7 @@ const Dashboard = () => {
               />
               <button type="button" onClick={startScanner} className="orange-button small-button">Escanear Código de Barras</button>
             </div>
-            <div style={{ position: 'relative', width: '100%', maxWidth: '100%' }}>
+            <div style={{ position: 'relative', width: '100%', maxWidth: 400 }}>
               <video ref={videoRef} style={{ width: '100%', objectFit: 'cover' }} />
               <div style={{
                 position: 'absolute',
