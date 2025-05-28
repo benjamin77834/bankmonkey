@@ -12,6 +12,7 @@ const Dashboard = () => {
   const [imei, setimei] = useState('');
   const [activeView, setActiveView] = useState(null);
   const [scannerStarted, setScannerStarted] = useState(false);
+  const [scanning, setScanning] = useState(false);
   const scannerRef = useRef(null);
 
   useEffect(() => {
@@ -61,8 +62,9 @@ const Dashboard = () => {
   const startScanner = async () => {
     if (scannerStarted) return;
     setScannerStarted(true);
-    const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+    setScanning(true);
 
+    const config = { fps: 10, qrbox: { width: 250, height: 250 } };
     const html5QrCode = new Html5Qrcode("reader");
     scannerRef.current = html5QrCode;
 
@@ -70,7 +72,7 @@ const Dashboard = () => {
       { facingMode: "environment" },
       config,
       (decodedText) => {
-        if (/^\d{3,20}$/.test(decodedText)) {
+        if (/^\d{14,20}$/.test(decodedText)) {
           setimei(decodedText);
           alert(`IMEI detectado: ${decodedText}`);
           stopScanner();
@@ -82,6 +84,7 @@ const Dashboard = () => {
     ).catch(err => {
       console.error("Error al iniciar el escáner:", err);
       setScannerStarted(false);
+      setScanning(false);
     });
   };
 
@@ -90,6 +93,7 @@ const Dashboard = () => {
       scannerRef.current.stop().then(() => {
         scannerRef.current.clear();
         setScannerStarted(false);
+        setScanning(false);
       }).catch(err => {
         console.error("Error al detener el escáner:", err);
       });
@@ -159,6 +163,7 @@ const Dashboard = () => {
                 )}
               </div>
             </div>
+            {scanning && <div style={{ color: 'green', marginTop: '10px' }}>🔍 Escaneando, por favor acerque el código...</div>}
             <div id="reader" style={{ width: '100%', maxWidth: 400, marginTop: '10px' }}></div>
             <button type="submit" className="orange-button responsive-button">Activar</button>
           </form>
