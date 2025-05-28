@@ -130,7 +130,7 @@ const Dashboard = () => {
               />
               <button type="button" onClick={startScanner} className="orange-button small-button">Escanear Código de Barras</button>
             </div>
-            <div style={{ position: 'relative', width: '100%', maxWidth: 600 }}>
+            <div style={{ position: 'relative', width: '100%', maxWidth: '100%' }}>
               <video ref={videoRef} style={{ width: '100%', objectFit: 'cover' }} />
               <div style={{
                 position: 'absolute',
