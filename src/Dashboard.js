@@ -14,6 +14,7 @@ const Dashboard = () => {
   const [scannerStarted, setScannerStarted] = useState(false);
   const [scanning, setScanning] = useState(false);
   const scannerRef = useRef(null);
+  const imeiInputRef = useRef(null);
 
   useEffect(() => {
     const storedUsername = localStorage.getItem('nombre');
@@ -74,6 +75,9 @@ const Dashboard = () => {
       (decodedText) => {
         if (/^\d{14,20}$/.test(decodedText)) {
           setimei(decodedText);
+          if (imeiInputRef.current) {
+            imeiInputRef.current.value = decodedText;
+          }
           alert(`IMEI detectado: ${decodedText}`);
           stopScanner();
         }
@@ -148,6 +152,7 @@ const Dashboard = () => {
                 type="text"
                 id="imei"
                 value={imei}
+                ref={imeiInputRef}
                 onChange={(e) => setimei(e.target.value)}
                 required
               />
