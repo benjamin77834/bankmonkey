@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
-import { BrowserMultiFormatReader, NotFoundException } from '@zxing/browser';
+import { BrowserMultiFormatReader } from '@zxing/browser';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -12,6 +12,7 @@ const Dashboard = () => {
   const [imei, setimei] = useState('');
   const [activeView, setActiveView] = useState(null);
   const [scannerStarted, setScannerStarted] = useState(false);
+
   const videoRef = useRef(null);
   const codeReader = useRef(null);
 
@@ -59,6 +60,18 @@ const Dashboard = () => {
     alert(`Activando línea con IMEI: ${imei}`);
   };
 
+  const stopScanner = () => {
+    if (codeReader.current) {
+      codeReader.current.reset();
+      setScannerStarted(false);
+    }
+    if (videoRef.current?.srcObject) {
+      const tracks = videoRef.current.srcObject.getTracks();
+      tracks.forEach((track) => track.stop());
+      videoRef.current.srcObject = null;
+    }
+  };
+
   const startScanner = async () => {
     if (scannerStarted || !videoRef.current) return;
     setScannerStarted(true);
@@ -72,7 +85,6 @@ const Dashboard = () => {
           deviceId: videoInputDevices.length > 0 ? videoInputDevices[0].deviceId : undefined,
           facingMode: 'environment',
           focusMode: 'continuous',
-          zoom: { ideal: 2.0 } // intenta establecer zoom digital
         }
       };
 
@@ -85,19 +97,18 @@ const Dashboard = () => {
       await codeReader.current.decodeFromVideoDevice(null, videoRef.current, (result, err) => {
         if (result) {
           const detectedIMEI = result.getText();
-          if (/^\d{3,20}$/.test(detectedIMEI)) {
+          if (/^\d{14,20}$/.test(detectedIMEI)) {
             setimei(detectedIMEI);
             alert(`IMEI detectado: ${detectedIMEI}`);
-            codeReader.current.reset();
-            setScannerStarted(false);
+            stopScanner();
           }
-        } else if (err && !(err instanceof NotFoundException)) {
-          console.error('Error de escaneo:', err);
+        } else if (err) {
+          // No hagas nada, errores sin código son esperados
         }
       });
     } catch (e) {
       console.error('Error iniciando el escáner:', e);
-      setScannerStarted(false);
+      stopScanner();
     }
   };
 
@@ -153,7 +164,11 @@ const Dashboard = () => {
                 required
               />
               <button type="button" onClick={startScanner} className="orange-button small-button">Escanear Código de Barras</button>
+              {scannerStarted && (
+                <button type="button" onClick={stopScanner} className="orange-button small-button red">Detener Escáner</button>
+              )}
             </div>
+
             <div style={{ position: 'relative', width: '100%', maxWidth: 400 }}>
               <video ref={videoRef} style={{ width: '100%', objectFit: 'cover' }} />
               <div style={{
