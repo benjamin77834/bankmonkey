@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
-import { BrowserMultiFormatReader } from '@zxing/browser';
+import { Html5Qrcode } from 'html5-qrcode';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -12,8 +12,7 @@ const Dashboard = () => {
   const [imei, setimei] = useState('');
   const [activeView, setActiveView] = useState(null);
   const [scannerStarted, setScannerStarted] = useState(false);
-  const videoRef = useRef(null);
-  const codeReader = useRef(null);
+  const scannerRef = useRef(null);
 
   useEffect(() => {
     const storedUsername = localStorage.getItem('nombre');
@@ -60,47 +59,41 @@ const Dashboard = () => {
   };
 
   const startScanner = async () => {
-    if (scannerStarted || !videoRef.current) return;
+    if (scannerStarted) return;
+    setScannerStarted(true);
+    const config = { fps: 10, qrbox: { width: 250, height: 250 } };
 
-    try {
-      setScannerStarted(true);
-      codeReader.current = new BrowserMultiFormatReader();
+    const html5QrCode = new Html5Qrcode("reader");
+    scannerRef.current = html5QrCode;
 
-      const devices = await navigator.mediaDevices.enumerateDevices();
-      const videoInputDevices = devices.filter(device => device.kind === 'videoinput');
-
-      const selectedDeviceId = videoInputDevices[0]?.deviceId;
-
-      await codeReader.current.decodeFromVideoDevice(selectedDeviceId, videoRef.current, (result, error) => {
-        if (result) {
-          const detectedIMEI = result.getText();
-          if (/^\d{14,20}$/.test(detectedIMEI)) {
-            setimei(detectedIMEI);
-            alert(`IMEI detectado: ${detectedIMEI}`);
-            stopScanner();
-          }
+    html5QrCode.start(
+      { facingMode: "environment" },
+      config,
+      (decodedText) => {
+        if (/^\d{14,20}$/.test(decodedText)) {
+          setimei(decodedText);
+          alert(`IMEI detectado: ${decodedText}`);
+          stopScanner();
         }
-      });
-
-    } catch (err) {
-      console.error("Error iniciando el escáner:", err);
-      stopScanner();
-    }
+      },
+      (errorMessage) => {
+        console.warn(`Scan error: ${errorMessage}`);
+      }
+    ).catch(err => {
+      console.error("Error al iniciar el escáner:", err);
+      setScannerStarted(false);
+    });
   };
 
   const stopScanner = () => {
-    if (codeReader.current) {
-      codeReader.current.reset();
-      codeReader.current = null;
+    if (scannerRef.current) {
+      scannerRef.current.stop().then(() => {
+        scannerRef.current.clear();
+        setScannerStarted(false);
+      }).catch(err => {
+        console.error("Error al detener el escáner:", err);
+      });
     }
-
-    if (videoRef.current?.srcObject) {
-      const tracks = videoRef.current.srcObject.getTracks();
-      tracks.forEach(track => track.stop());
-      videoRef.current.srcObject = null;
-    }
-
-    setScannerStarted(false);
   };
 
   return (
@@ -166,21 +159,7 @@ const Dashboard = () => {
                 )}
               </div>
             </div>
-
-            <div style={{ position: 'relative', width: '100%', maxWidth: 400, marginTop: '10px' }}>
-              <video ref={videoRef} style={{ width: '100%', objectFit: 'cover' }} muted playsInline />
-              <div style={{
-                position: 'absolute',
-                top: '50%',
-                left: 0,
-                width: '100%',
-                height: '2px',
-                backgroundColor: 'red',
-                transform: 'translateY(-1px)',
-                zIndex: 1
-              }} />
-            </div>
-
+            <div id="reader" style={{ width: '100%', maxWidth: 400, marginTop: '10px' }}></div>
             <button type="submit" className="orange-button responsive-button">Activar</button>
           </form>
         )}
@@ -190,4 +169,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
