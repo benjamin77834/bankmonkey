@@ -131,7 +131,7 @@ const Dashboard = () => {
     const dataUrl = canvas.toDataURL('image/png');
     const { data: { text } } = await Tesseract.recognize(dataUrl, 'eng');
 
-    const match = text.match(/\d{14,20}/);
+    const match = text.match(/\d{3,20}/);
     if (match) {
       const detectedIMEI = match[0];
       setimei(detectedIMEI);

@@ -2,7 +2,7 @@ import React from 'react';
 
 
 const Mensajeria = () => {
-  const phoneNumber = "525635013278"; // Número en formato internacional sin "+"
+  const phoneNumber = "525623688854"; // Número en formato internacional sin "+"
   const message = "Hola requiero ayuda!";
 
   const handleClick = () => {
