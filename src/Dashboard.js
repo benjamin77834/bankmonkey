@@ -101,7 +101,6 @@ const Dashboard = () => {
       setScanning(false);
     });
 
-    // Auto OCR fallback cada 5 segundos
     ocrIntervalRef.current = setInterval(handleOCR, 5000);
   };
 
@@ -131,7 +130,7 @@ const Dashboard = () => {
     const dataUrl = canvas.toDataURL('image/png');
     const { data: { text } } = await Tesseract.recognize(dataUrl, 'eng');
 
-    const match = text.match(/\d{3,20}/);
+    const match = text.match(/\d{14,20}/);
     if (match) {
       const detectedIMEI = match[0];
       setimei(detectedIMEI);
@@ -140,6 +139,41 @@ const Dashboard = () => {
       }
       alert(`IMEI detectado con OCR: ${detectedIMEI}`);
       stopScanner();
+    }
+  };
+
+  const enviarARekognition = async () => {
+    const video = document.querySelector("video");
+    if (!video) return;
+
+    const canvas = document.createElement("canvas");
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    const dataUrl = canvas.toDataURL("image/jpeg");
+
+    try {
+      const response = await fetch('https://l0sqt7a9v0.execute-api.us-east-1.amazonaws.com/prod/rekogapp', {
+        method: 'POST',
+        body: JSON.stringify({ image: dataUrl }),
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      const result = await response.json();
+      const imeiEncontrado = result.texts.find(text => /^\d{1,20}$/.test(text));
+      if (imeiEncontrado) {
+        setimei(imeiEncontrado);
+        imeiInputRef.current.value = imeiEncontrado;
+        alert(`IMEI detectado con Rekognition: ${imeiEncontrado}`);
+        stopScanner();
+      } else {
+        alert('No se detectó un IMEI válido.');
+      }
+
+    } catch (error) {
+      console.error('Error enviando imagen a Rekognition:', error);
+      alert('Error al procesar la imagen.');
     }
   };
 
@@ -213,6 +247,9 @@ const Dashboard = () => {
                 )}
                 <button type="button" onClick={handleOCR} className="orange-button small-button" style={{ marginLeft: '10px' }}>
                   Leer IMEI por texto (OCR)
+                </button>
+                <button type="button" onClick={enviarARekognition} className="orange-button small-button" style={{ marginLeft: '10px' }}>
+                  Leer IMEI con Rekognition
                 </button>
               </div>
             </div>
