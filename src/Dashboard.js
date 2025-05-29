@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
 import { Html5Qrcode } from 'html5-qrcode';
+import Tesseract from 'tesseract.js';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -9,12 +10,14 @@ const Dashboard = () => {
   const [saldo, setSaldo] = useState(null);
   const [options, setOptions] = useState([]);
   const [selectedOption, setSelectedOption] = useState('');
+  const [selectedTransaction, setSelectedTransaction] = useState(null);
   const [imei, setimei] = useState('');
   const [activeView, setActiveView] = useState(null);
   const [scannerStarted, setScannerStarted] = useState(false);
   const [scanning, setScanning] = useState(false);
   const scannerRef = useRef(null);
   const imeiInputRef = useRef(null);
+  const ocrIntervalRef = useRef(null);
 
   useEffect(() => {
     const storedUsername = localStorage.getItem('nombre');
@@ -49,6 +52,13 @@ const Dashboard = () => {
     } catch (error) {
       console.error('Error al consultar reportes:', error);
     }
+  };
+
+  const handleTransactionChange = (e) => {
+    const selectedId = e.target.value;
+    setSelectedOption(selectedId);
+    const transaction = options.find(item => item.folioventa === selectedId);
+    setSelectedTransaction(transaction);
   };
 
   const handleActivacionClick = () => {
@@ -90,6 +100,9 @@ const Dashboard = () => {
       setScannerStarted(false);
       setScanning(false);
     });
+
+    // Auto OCR fallback cada 5 segundos
+    ocrIntervalRef.current = setInterval(handleOCR, 5000);
   };
 
   const stopScanner = () => {
@@ -98,9 +111,35 @@ const Dashboard = () => {
         scannerRef.current.clear();
         setScannerStarted(false);
         setScanning(false);
+        clearInterval(ocrIntervalRef.current);
       }).catch(err => {
         console.error("Error al detener el escáner:", err);
       });
+    }
+  };
+
+  const handleOCR = async () => {
+    const videoElement = document.querySelector('video');
+    if (!videoElement) return;
+
+    const canvas = document.createElement('canvas');
+    canvas.width = videoElement.videoWidth;
+    canvas.height = videoElement.videoHeight;
+    const context = canvas.getContext('2d');
+    context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+    const dataUrl = canvas.toDataURL('image/png');
+    const { data: { text } } = await Tesseract.recognize(dataUrl, 'eng');
+
+    const match = text.match(/\d{14,20}/);
+    if (match) {
+      const detectedIMEI = match[0];
+      setimei(detectedIMEI);
+      if (imeiInputRef.current) {
+        imeiInputRef.current.value = detectedIMEI;
+      }
+      alert(`IMEI detectado con OCR: ${detectedIMEI}`);
+      stopScanner();
     }
   };
 
@@ -131,7 +170,7 @@ const Dashboard = () => {
               id="options"
               className="responsive-select"
               value={selectedOption}
-              onChange={(e) => setSelectedOption(e.target.value)}
+              onChange={handleTransactionChange}
             >
               <option value="">--Transacciones--</option>
               {options.map((item) => (
@@ -140,6 +179,12 @@ const Dashboard = () => {
                 </option>
               ))}
             </select>
+            {selectedTransaction && (
+              <div className="transaction-details">
+                <p><strong>ICCID:</strong> {selectedTransaction.iccid}</p>
+                <p><strong>SKU:</strong> {selectedTransaction.sku}</p>
+              </div>
+            )}
           </div>
         )}
 
@@ -166,6 +211,9 @@ const Dashboard = () => {
                     Detener Escáner
                   </button>
                 )}
+                <button type="button" onClick={handleOCR} className="orange-button small-button" style={{ marginLeft: '10px' }}>
+                  Leer IMEI por texto (OCR)
+                </button>
               </div>
             </div>
             {scanning && <div style={{ color: 'green', marginTop: '10px' }}>🔍 Escaneando, por favor acerque el código...</div>}
