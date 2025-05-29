@@ -313,9 +313,7 @@ const Dashboard = () => {
               </div>
             </div>
             {scanning && <div style={{ color: 'green', marginTop: '10px' }}>🔍 Escaneando, por favor acerque el código...</div>}
-            <div id="reader" style={{ width: '100%', maxWidth: 400, marginTop: '10px' }}></div>
-            <button type="submit" className="orange-button responsive-button">Activar</button>
-
+           
             <div style={{ marginTop: '10px' }}></div>
             <label>
               <input type="checkbox" checked={portabilidad} onChange={(e) => setPortabilidad(e.target.checked)} /> Portabilidad
@@ -325,7 +323,9 @@ const Dashboard = () => {
                 <input placeholder="NIP de portabilidad" type="text" value={nip} onChange={(e) => setNip(e.target.value)} required />
               </div>
             )}
-            
+             <div id="reader" style={{ width: '100%', maxWidth: 400, marginTop: '10px' }}></div>
+            <button type="submit" className="orange-button responsive-button">Activar</button>
+
           </form>
         )}
       </div>
