@@ -16,10 +16,12 @@ const Dashboard = () => {
   const [activeView, setActiveView] = useState(null);
   const [scannerStarted, setScannerStarted] = useState(false);
   const [scanning, setScanning] = useState(false);
+  const [zoom, setZoom] = useState(1);
   const scannerRef = useRef(null);
   const imeiInputRef = useRef(null);
   const iccInputRef = useRef(null);
   const ocrIntervalRef = useRef(null);
+  const videoTrackRef = useRef(null);
 
   useEffect(() => {
     const storedUsername = localStorage.getItem('nombre');
@@ -72,6 +74,17 @@ const Dashboard = () => {
     alert(`Activando línea con IMEI: ${imei} y ICC: ${icc}`);
   };
 
+  const applyZoom = (factor) => {
+    if (videoTrackRef.current) {
+      const capabilities = videoTrackRef.current.getCapabilities();
+      if (capabilities.zoom) {
+        const newZoom = Math.min(capabilities.zoom.max, Math.max(capabilities.zoom.min, factor));
+        videoTrackRef.current.applyConstraints({ advanced: [{ zoom: newZoom }] });
+        setZoom(newZoom);
+      }
+    }
+  };
+
   const startScanner = async () => {
     if (scannerStarted) return;
     setScannerStarted(true);
@@ -84,7 +97,7 @@ const Dashboard = () => {
     html5QrCode.start(
       { facingMode: "environment" },
       config,
-      (decodedText) => {
+      async (decodedText) => {
         if (/^\d{14,20}$/.test(decodedText)) {
           if (!imei) {
             setimei(decodedText);
@@ -101,7 +114,19 @@ const Dashboard = () => {
       (errorMessage) => {
         console.warn(`Scan error: ${errorMessage}`);
       }
-    ).catch(err => {
+    ).then(() => {
+      const video = document.querySelector("video");
+      if (video && video.srcObject) {
+        const [track] = video.srcObject.getVideoTracks();
+        videoTrackRef.current = track;
+        const capabilities = track.getCapabilities();
+        if (capabilities.zoom) {
+          const defaultZoom = capabilities.zoom.max * 0.9;
+          track.applyConstraints({ advanced: [{ zoom: defaultZoom }] });
+          setZoom(defaultZoom);
+        }
+      }
+    }).catch(err => {
       console.error("Error al iniciar el escáner:", err);
       setScannerStarted(false);
       setScanning(false);
@@ -266,9 +291,17 @@ const Dashboard = () => {
                     Escanear Código de Barras
                   </button>
                 ) : (
-                  <button type="button" onClick={stopScanner} className="orange-button small-button red">
-                    Detener Escáner
-                  </button>
+                  <>
+                    <button type="button" onClick={stopScanner} className="orange-button small-button red">
+                      Detener Escáner
+                    </button>
+                    <button type="button" onClick={() => applyZoom(zoom + 1)} className="orange-button small-button" style={{ marginLeft: '10px' }}>
+                      🔍 Zoom +
+                    </button>
+                    <button type="button" onClick={() => applyZoom(zoom - 1)} className="orange-button small-button" style={{ marginLeft: '10px' }}>
+                      🔎 Zoom -
+                    </button>
+                  </>
                 )}
                 <button type="button" onClick={handleOCR} className="orange-button small-button" style={{ marginLeft: '10px' }}>
                   Leer por texto (OCR)
@@ -289,4 +322,5 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
 
