@@ -12,11 +12,13 @@ const Dashboard = () => {
   const [selectedOption, setSelectedOption] = useState('');
   const [selectedTransaction, setSelectedTransaction] = useState(null);
   const [imei, setimei] = useState('');
+  const [icc, seticc] = useState('');
   const [activeView, setActiveView] = useState(null);
   const [scannerStarted, setScannerStarted] = useState(false);
   const [scanning, setScanning] = useState(false);
   const scannerRef = useRef(null);
   const imeiInputRef = useRef(null);
+  const iccInputRef = useRef(null);
   const ocrIntervalRef = useRef(null);
 
   useEffect(() => {
@@ -67,7 +69,7 @@ const Dashboard = () => {
 
   const handleActivacionSubmit = (e) => {
     e.preventDefault();
-    alert(`Activando línea con IMEI: ${imei}`);
+    alert(`Activando línea con IMEI: ${imei} y ICC: ${icc}`);
   };
 
   const startScanner = async () => {
@@ -84,12 +86,16 @@ const Dashboard = () => {
       config,
       (decodedText) => {
         if (/^\d{14,20}$/.test(decodedText)) {
-          setimei(decodedText);
-          if (imeiInputRef.current) {
-            imeiInputRef.current.value = decodedText;
+          if (!imei) {
+            setimei(decodedText);
+            if (imeiInputRef.current) imeiInputRef.current.value = decodedText;
+            alert(`IMEI detectado: ${decodedText}`);
+          } else {
+            seticc(decodedText);
+            if (iccInputRef.current) iccInputRef.current.value = decodedText;
+            alert(`ICC detectado: ${decodedText}`);
+            stopScanner();
           }
-          alert(`IMEI detectado: ${decodedText}`);
-          stopScanner();
         }
       },
       (errorMessage) => {
@@ -132,13 +138,17 @@ const Dashboard = () => {
 
     const match = text.match(/\d{14,20}/);
     if (match) {
-      const detectedIMEI = match[0];
-      setimei(detectedIMEI);
-      if (imeiInputRef.current) {
-        imeiInputRef.current.value = detectedIMEI;
+      const detected = match[0];
+      if (!imei) {
+        setimei(detected);
+        if (imeiInputRef.current) imeiInputRef.current.value = detected;
+        alert(`IMEI detectado con OCR: ${detected}`);
+      } else {
+        seticc(detected);
+        if (iccInputRef.current) iccInputRef.current.value = detected;
+        alert(`ICC detectado con OCR: ${detected}`);
+        stopScanner();
       }
-      alert(`IMEI detectado con OCR: ${detectedIMEI}`);
-      stopScanner();
     }
   };
 
@@ -154,23 +164,28 @@ const Dashboard = () => {
     const dataUrl = canvas.toDataURL("image/jpeg");
 
     try {
-      const response = await fetch('https://l0sqt7a9v0.execute-api.us-east-1.amazonaws.com/prod/rekogapp', {
+      const response = await fetch('https://<TU-ENDPOINT-LAMBDA>', {
         method: 'POST',
         body: JSON.stringify({ image: dataUrl }),
         headers: { 'Content-Type': 'application/json' }
       });
 
       const result = await response.json();
-      const imeiEncontrado = result.texts.find(text => /^\d{1,20}$/.test(text));
-      if (imeiEncontrado) {
-        setimei(imeiEncontrado);
-        imeiInputRef.current.value = imeiEncontrado;
-        alert(`IMEI detectado con Rekognition: ${imeiEncontrado}`);
-        stopScanner();
+      const numbers = result.texts.filter(text => /^\d{14,20}$/.test(text));
+      if (numbers.length > 0) {
+        if (!imei) {
+          setimei(numbers[0]);
+          if (imeiInputRef.current) imeiInputRef.current.value = numbers[0];
+          alert(`IMEI detectado con Rekognition: ${numbers[0]}`);
+        } else {
+          seticc(numbers[0]);
+          if (iccInputRef.current) iccInputRef.current.value = numbers[0];
+          alert(`ICC detectado con Rekognition: ${numbers[0]}`);
+          stopScanner();
+        }
       } else {
-        alert('No se detectó un IMEI válido.');
+        alert('No se detectó un número válido.');
       }
-
     } catch (error) {
       console.error('Error enviando imagen a Rekognition:', error);
       alert('Error al procesar la imagen.');
@@ -235,6 +250,16 @@ const Dashboard = () => {
                 onChange={(e) => setimei(e.target.value)}
                 required
               />
+              <div style={{ marginTop: '10px' }}></div>
+              <input
+                placeholder="Escanea tu ICCID"
+                type="text"
+                id="icc"
+                value={icc}
+                ref={iccInputRef}
+                onChange={(e) => seticc(e.target.value)}
+                required
+              />
               <div style={{ marginTop: '10px' }}>
                 {!scannerStarted ? (
                   <button type="button" onClick={startScanner} className="orange-button small-button">
@@ -246,10 +271,10 @@ const Dashboard = () => {
                   </button>
                 )}
                 <button type="button" onClick={handleOCR} className="orange-button small-button" style={{ marginLeft: '10px' }}>
-                  Leer IMEI por texto (OCR)
+                  Leer por texto (OCR)
                 </button>
                 <button type="button" onClick={enviarARekognition} className="orange-button small-button" style={{ marginLeft: '10px' }}>
-                  Leer IMEI con Rekognition
+                  Leer con Rekognition
                 </button>
               </div>
             </div>
@@ -264,3 +289,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
