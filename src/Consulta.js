@@ -1,303 +1,221 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
-
 import GaugeChart from 'react-gauge-chart';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Consulta() {
-    // const navigate = useNavigate();
-    // const location = useLocation();  // Obtenemos la ubicación actual
-     // Definir el estado para los campos del formulario
-     const [formData, setFormData] = useState({
-       name: '',
-       email: '',
-     });
-     
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+  });
 
+  const [isLoadingConsulta, setIsLoadingConsulta] = useState(false);
+  const [isLoadingCompra, setIsLoadingCompra] = useState(false);
+  const [apiData, setApiData] = useState(null);
+  const [msisdn, setMsisdn] = useState('');
+  const [options, setOptions] = useState([]);
+  const [selectedOption, setSelectedOption] = useState('');
 
+  // Al cargar, recuperar el número del localStorage
+  useEffect(() => {
+    const savedData = localStorage.getItem('formData');
+    if (savedData) {
+      const parsed = JSON.parse(savedData);
+      setFormData(prev => ({ ...prev, name: parsed.msisdn }));
+    }
+  }, []);
 
+  // Manejo del input
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
-     const [isLoading, setIsLoading] = useState(false);
-     const [apiData, setApiData] = useState(''  );
-     //console.log(apiData);
-     const [error, setError] = useState(null);
-     const [msisdn, setAdditionalData] = useState('');
-     const [options, setOptions] = useState([]);
-     const [selectedOption, setSelectedOption] = useState('');
-  
-     // Manejar el cambio en los campos del formulario
-     const handleChange = (e) => {
-       const { name, value } = e.target;
-       setFormData({
-         ...formData,
-         [name]: value,
-       });
-   
-   
-   
-     };
-   
-   
+  // Selección de oferta
+  const handleChange2 = (event) => {
+    setSelectedOption(event.target.value);
+  };
 
+  // Enviar compra
+  const handleSubmit3 = async (event) => {
+    event.preventDefault();
+    if (selectedOption && msisdn) {
+      const data = {
+        msisdn,
+        id_oferta: selectedOption,
+        movil: msisdn,
+        app: '1',
+      };
 
+      const apiUrl = process.env.REACT_APP_API_URL;
 
-     const handleChange2 = (event) => {
-       setSelectedOption(event.target.value);
-   
-     };
-   
-   
-     const handleSubmit3 = (event) => {
-       event.preventDefault();
-   //    console.log(msisdn);
-     //  console.log(selectedOption);
-       if (selectedOption && msisdn ) {
-         // Redirect and pass selectedOption as state
-        // navigate('/DestinationPage', { state: { selectedOption,msisdn } });
-   
-   
-         const data = {
-           msisdn: msisdn,
-           id_oferta: selectedOption,
-           movil:msisdn,
-           app:"1"
-         };
-         console.log(data);
-         //console.log(apiUrl);
-         const apiUrl = process.env.REACT_APP_API_URL;
-    
-         const fetchData = async () => {
-           try {
-             toast.success('¡Estamos Preparando tu Compra! ');
-   
-         const response = await axios.post(`${apiUrl}/prod/genera_pago`, data);
-         //console.log("dess",response);
-         const api=response.data
-         //console.log(api.payment_request_id);
-         if (api.payment_request_id) {
-          window.location.href = 'https://pago.clip.mx/'+api.payment_request_id;
-         }
-         //const pay2=data2.payment_request_id;
-         //console.log(data2);
-         
-         } catch (error) {
-           console.error('Error fetching data:', error);
-         }
-         
-         
-         };
-   
-         fetchData();
-   
-       }
-     };
-   
-     // Manejar el envío del formulario
-     const handleSubmit = async (e) => {
-       e.preventDefault();
-       try {
-         // Obtener la URL del API desde las variables de entorno
-         const apiUrl = process.env.REACT_APP_API_URL;
-         const data = {
-           msisdn: formData.name,
-           name: formData.name,
-           app: "1",
-           "serv": "profile"
-         };
-         toast.success('¡Consulta realizandose !, si has recargado puede tardar unos minutos ');
-         localStorage.setItem('formData', JSON.stringify(data));
-         console.log('Guardado:', JSON.parse(localStorage.getItem('formData'))); 
-         console.log(data); 
-         // Realizar la solicitud POST
-         const response = await axios.post(`${apiUrl}/prod/cambaceo_ofertas`, data);
-         //console.log(response)
-    
-   
-         setApiData(response.data);
-         
-   
-         const data2 = response.data;
-   
-         //console.log(data2)
-         const flattenedOptions = data2.info.flatMap(info => info);
-         const msisdn=data2.msisdn
-         console.log(flattenedOptions);
-         //console.log(msisdn);
-       //  const fecha=data2.effectiveDate
-        // console.log(fecha);
-         setAdditionalData(msisdn);      
-         setOptions(flattenedOptions);   
-   
-       } catch (error) {
-         toast.error('Error al enviar el formulario.');
-       } finally {
-         setIsLoading(false);
-       }
-     };
-   
-    // const location2 = useLocation();  // Obtenemos la ubicación actual
-   
-     return (
+      try {
+        setIsLoadingCompra(true);
+        toast.success('¡Estamos preparando tu compra!');
 
+        const response = await axios.post(`${apiUrl}/prod/genera_pago`, data);
+        const api = response.data;
 
-   
-         <div className="content-container">
-         <div className="absolute-container2"> 
-       
-   
-       
-         <form onSubmit={handleSubmit} className="styled-select" >
-          
-          <h33>1. Consulta y Recarga </h33> 
-             <input
-          className="responsive-input"
-               type="number"
-               name="name"
-               
-                placeholder="Tu Numero"
-               value={formData.name}
-               onChange={handleChange}
-             />
-           
-           <button className="orange-button" disabled={isLoading} align="left" className="responsive-button" >
-             {isLoading ? 'Enviando...' : 'Consulta'}
-           </button>
-         
-           </form>
-           
-         
-   
-     
-   
-   
-           {isLoading && <p>Cargando datos...</p>}
-           {error && <p style={{ color: 'red' }}>{error}</p>}
+        if (api.payment_request_id) {
+          window.location.href = 'https://pago.clip.mx/' + api.payment_request_id;
+        }
+      } catch (error) {
+        toast.error('Error al generar pago.');
+        console.error('Error:', error);
+      } finally {
+        setIsLoadingCompra(false);
+      }
+    } else {
+      toast.warn('Debes seleccionar una oferta y consultar primero.');
+    }
+  };
 
- 
-           {apiData && (
-   
-               <div align="center">
+  // Enviar consulta
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoadingConsulta(true);
+    try {
+      const apiUrl = process.env.REACT_APP_API_URL;
+      const data = {
+        msisdn: formData.name,
+        name: formData.name,
+        app: '1',
+        serv: 'profile',
+      };
 
-   
-   
+      toast.success('¡Consulta en proceso! Si recargaste, puede tardar unos minutos.');
+      localStorage.setItem('formData', JSON.stringify(data));
 
-             <h7><p>Estatus de Linea: {apiData.estatus}</p></h7>
-   
-             <h7> <p>Vencimiento: {apiData.fecha_vencimiento}</p></h7> 
+      const response = await axios.post(`${apiUrl}/prod/cambaceo_ofertas`, data);
+      const data2 = response.data;
 
+      const flattenedOptions = data2.info.flatMap(info => info);
+      setApiData(data2);
+      setOptions(flattenedOptions);
+      setMsisdn(data2.msisdn);
+    } catch (error) {
+      toast.error('Error al realizar la consulta.');
+      console.error('Error consulta:', error);
+    } finally {
+      setIsLoadingConsulta(false);
+    }
+  };
 
+  return (
+    <div className="content-container">
+      <div className="absolute-container2">
+        {/* FORMULARIO DE CONSULTA */}
+        <form onSubmit={handleSubmit} className="styled-select">
+          <h3>1. Consulta y Recarga</h3>
+          <input
+            className="responsive-input"
+            type="number"
+            name="name"
+            placeholder="Tu Número"
+            value={formData.name}
+            onChange={handleChange}
+          />
+          <button className="responsive-button" disabled={isLoadingConsulta}>
+            {isLoadingConsulta ? 'Consultando...' : 'Consulta'}
+          </button>
+        </form>
 
-             {apiData?.datos && (
+        {/* RESULTADO DE CONSULTA */}
+        {isLoadingConsulta && <p>Cargando datos...</p>}
+        {apiData && (
+          <div align="center">
+            <p><strong>Estatus de Línea:</strong> {apiData.estatus}</p>
+            <p><strong>Vencimiento:</strong> {apiData.fecha_vencimiento}</p>
 
+            {/* GRAFICAS */}
+            {apiData?.datos && (
+              <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                gap: '12px',
+                flexWrap: 'nowrap',
+                marginTop: '30px',
+              }}>
+                {/* GB */}
+                <div style={{ textAlign: 'center', width: '27%' }}>
+                  <GaugeChart
+                    id="gauge-gb"
+                    nrOfLevels={5}
+                    percent={Math.min(apiData.datos / 50, 1)}
+                    colors={['#000000', '#c34609']}
+                    hideText={true}
+                    style={{ width: '100%', height: '80px' }}
+                  />
+                  <div style={{ marginTop: '10px', fontSize: '20px', color: '#000000' }}>
+                    {apiData.datos} Gb
+                  </div>
+                </div>
 
+                {/* SMS */}
+                <div style={{ textAlign: 'center', width: '27%' }}>
+                  <GaugeChart
+                    id="gauge-sms"
+                    nrOfLevels={5}
+                    percent={Math.min(apiData.sms / 2000, 1)}
+                    colors={['#000000', '#c34609']}
+                    hideText={true}
+                    style={{ width: '100%', height: '80px' }}
+                  />
+                  <div style={{ marginTop: '10px', fontSize: '20px', color: '#000000' }}>
+                    {apiData.sms} SMS
+                  </div>
+                </div>
 
-<div style={{ 
-    display: 'flex', 
-    justifyContent: 'center', 
-    gap: '12px', 
-    flexWrap: 'nowrap', 
-    marginTop: '30px' 
-  }}>
-    
-    {/* Gauge para GB */}
+                {/* MINUTOS */}
+                <div style={{ textAlign: 'center', width: '27%' }}>
+                  <GaugeChart
+                    id="gauge-min"
+                    nrOfLevels={5}
+                    percent={Math.min(apiData.min / 5000, 1)}
+                    colors={['#000000', '#c34609']}
+                    hideText={true}
+                    style={{ width: '100%', height: '80px' }}
+                  />
+                  <div style={{ marginTop: '10px', fontSize: '20px', color: '#000000' }}>
+                    {apiData.min} Min
+                  </div>
+                </div>
+              </div>
+            )}
 
+            {/* COMPRA */}
+            <h3>2. Compra oferta:</h3>
+            <form onSubmit={handleSubmit3}>
+              <select
+                id="options"
+                size="8"
+                className="responsive-select"
+                value={selectedOption}
+                onChange={handleChange2}
+              >
+                <option value="">-- Escoge Oferta --</option>
+                {options.map((item) => (
+                  <option key={item.idoferta_app} value={item.idoferta_app}>
+                    $ {item.precio_minorista} {item.descripcion_oferta_comercial}
+                  </option>
+                ))}
+              </select>
+              <button className="responsive-button" disabled={isLoadingCompra}>
+                {isLoadingCompra ? 'Enviando...' : 'Compra'}
+              </button>
+            </form>
+          </div>
+        )}
+      </div>
 
-    <div style={{ textAlign: 'center', width: '27%' }}>
-  <GaugeChart
-    id="gauge-gb"
-    nrOfLevels={5}
-    percent={Math.min(apiData.datos / 50, 1)}
-    colors={['#000000', '#c34609']}
-    hideText={true} // Oculta el texto interno
-    style={{ width: '100%', height: '80px' }}
-  />
-  <div style={{ marginTop: '10px', fontSize: '20px', color: '#000000' }}>
-    {apiData.datos} Gb
-  </div>
-</div>
-
-
-
-    {/* Gauge para SMS */}
-    <div style={{ width: '27%', textAlign: 'center' }}>
-      <GaugeChart
-        id="gauge-sms"
-        nrOfLevels={5}
-        percent={Math.min(apiData.sms / 2000, 1)}
-        textColor="#3498db"
-        colors={['#000000', '#c34609']} 
-        hideText={true} // Oculta el texto interno
-        formatTextValue={() => `${apiData.sms} Sms`}
-        style={{ width: '100%', height: '80px' }}
-      />
-  <div style={{ marginTop: '10px', fontSize: '20px', color: '#000000' }}>
-    {apiData.sms} Sms
-  </div>
-
+      {/* Toast */}
+      <ToastContainer />
     </div>
-
-
-    {/* Gauge para Minutos */}
-    <div style={{ width: '27%', textAlign: 'center' }}>
-      <GaugeChart
-        id="gauge-mins"
-        nrOfLevels={5}
-        percent={Math.min(apiData.min / 5000, 1)}
-        textColor="#2ecc71"
-        colors={['#000000', '#c34609']} 
-        hideText={true} // Oculta el texto interno
-        formatTextValue={() => `${apiData.min} Min`}
-        style={{ width: '100%', height: '80px' }}
-      />
-
-<div style={{ marginTop: '10px', fontSize: '20px', color: '#000000', gap: '12px' }}>
-    {apiData.min} Min
-  </div>
-
-
-    </div>
-  </div>
-)}
-
-     
-               
-               <h3>2. Compra oferta :</h3>
-   
-               <form onSubmit={handleSubmit3}  >
-    
-   <select id="options" size="8"  width="90%"
-   className="responsive-select"
-      value={selectedOption} 
-      onChange={handleChange2}>
-   
-      <option value="">--Escoge Oferta--</option>
-      {options.map((item) => (
-        <option key={item.idoferta_app} value={item.idoferta_app}   >
-          $ {item.precio_minorista} {item.descripcion_oferta_comercial} 
-        </option>
-      ))}
-    </select>
-
-           <button disabled={isLoading} align="center" className="responsive-button">
-  {isLoading ? 'Enviando...' : 'Compra'}
-</button>
-       </form>
-   
-   </div>
-           )}
-         </div>
-       {/* ToastContainer para mostrar las alertas */}
-       <ToastContainer />
-   </div>
-   
-   
-     
-   
-   
-
-   
-   
   );
-   }
-   
-   export default Consulta;
+}
+
+export default Consulta;
