@@ -401,12 +401,7 @@ const Dashboard = () => {
                     </button>
                   </>
                 )}
-                <button type="button" onClick={handleOCR} className="orange-button small-button" style={{ marginLeft: '10px' }}>
-                  Leer por texto (OCR)
-                </button>
-                <button type="button" onClick={enviarARekognition} className="orange-button small-button" style={{ marginLeft: '10px' }}>
-                  Leer con Rekognition
-                </button>
+
               </div>
             </div>
             {scanning && <div style={{ color: 'green', marginTop: '10px' }}>🔍 Escaneando, por favor acerque el código...</div>}
@@ -422,7 +417,7 @@ const Dashboard = () => {
             )}
 
 <div>
-    <h2>Reportes Disponibles</h2>
+    <h2>Ofertas Disponibles</h2>
     <select id="options" size="8"  width="90%"
    className="responsive-select"
       value={selectedOption} 
