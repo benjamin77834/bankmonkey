@@ -123,6 +123,8 @@ function Consulta() {
          const msisdn=data2.msisdn
          console.log(flattenedOptions);
          //console.log(msisdn);
+       //  const fecha=data2.effectiveDate
+        // console.log(fecha);
          setAdditionalData(msisdn);      
          setOptions(flattenedOptions);   
    

@@ -3,6 +3,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Html5Qrcode } from 'html5-qrcode';
 import Tesseract from 'tesseract.js';
 import './Dashboard.css';
+import { ToastContainer, toast } from 'react-toastify';
+
+//const [isLoading, setIsLoading] = useState(false);
 
 const Dashboard = () => {
   const [username, setUsername] = useState(null);
@@ -24,6 +27,10 @@ const Dashboard = () => {
   const videoTrackRef = useRef(null);
   const [portabilidad, setPortabilidad] = useState(false);
   const [nip, setNip] = useState('');
+  //const [isLoading, setIsLoading] = useState(false);
+  const [apiData, setApiData] = useState(''  );
+
+  
   useEffect(() => {
     const storedUsername = localStorage.getItem('nombre');
     const storedIdvendedor = localStorage.getItem('id_vendedor');
@@ -66,14 +73,104 @@ const Dashboard = () => {
     setSelectedTransaction(transaction);
   };
 
-  const handleActivacionClick = () => {
+  const handleActivacionClick = async (event) => {
+    event.preventDefault();
     setActiveView('activacion');
+    try {
+      const data = { idvendedor: id_vendedor, app: '1', id: '140' };
+      const apiUrl = process.env.REACT_APP_API_URL;
+      const response = await axios.post(`${apiUrl}/prod/ofertasapp`, data);
+//console.log(response);
+
+     // setApiData(response.data);
+         
+   
+///      const data2 = response.data;
+      //const fecha=data2.effectiveDate
+      //console.log(fecha);
+
+      const responseBody = typeof response.data.body === 'string'
+      ? JSON.parse(response.data.body)
+      : response.data.body;
+
+    const infoArray = responseBody.info;
+
+    console.log('Arreglo info:', infoArray);
+    setOptions(infoArray);   
+      //console.log(data2)
+     //const flattenedOptions = data2.body.flatMap(info => info);
+  //    const msisdn=data2.msisdn
+   //  console.log(flattenedOptions);
+      //console.log(msisdn);
+      //setAdditionalData(msisdn);      
+      //setOptions(flattenedOptions);   
+
+     // setOptions(response.data);
+
+   // setApiData(infoArray);
+
+
+
+    } catch (error) {
+      console.error('Error al consultar reportes:', error);
+    } 
+
+
   };
 
   const handleActivacionSubmit = (e) => {
     e.preventDefault();
     alert(`Activando línea con IMEI: ${imei} y ICC: ${icc}`);
   };
+
+
+
+  const handleChange2 = (event) => {
+    setSelectedOption(event.target.value);
+
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      // Obtener la URL del API desde las variables de entorno
+      const apiUrl = process.env.REACT_APP_API_URL;
+      const data = {
+
+        app: "1",
+        "serv": "profile"
+      };
+      toast.success('¡Consulta realizandose !, si has recargado puede tardar unos minutos ');
+      localStorage.setItem('formData', JSON.stringify(data));
+      //console.log('Guardado:', JSON.parse(localStorage.getItem('formData'))); 
+      console.log(data); 
+      // Realizar la solicitud POST
+      const response = await axios.post(`${apiUrl}/prod/ofertasapp`, data);
+      console.log(response)
+ 
+
+     setApiData(response.data);
+      
+
+      const data2 = response.data;
+
+      console.log(data2)
+      const flattenedOptions = data2.info.flatMap(info => info);
+      //const msisdn=data2.msisdn
+      //console.log(flattenedOptions);
+      //console.log(msisdn);
+     // setAdditionalData(msisdn);      
+      setOptions(flattenedOptions);   
+
+    } catch (error) {
+      toast.error('Error al enviar el formulario.');
+    } finally {
+      //setIsLoading(false);
+    }
+  };
+
+
+
 
   const applyZoom = (factor) => {
     if (videoTrackRef.current) {
@@ -99,7 +196,7 @@ const Dashboard = () => {
       { facingMode: "environment" },
       config,
       async (decodedText) => {
-        if (/^\d{14,20}$/.test(decodedText)) {
+        if (/^\d{1,20}$/.test(decodedText)) {
           if (!imei) {
             setimei(decodedText);
             if (imeiInputRef.current) imeiInputRef.current.value = decodedText;
@@ -323,6 +420,30 @@ const Dashboard = () => {
                 <input placeholder="NIP de portabilidad" type="text" value={nip} onChange={(e) => setNip(e.target.value)} required />
               </div>
             )}
+
+<div>
+    <h2>Reportes Disponibles</h2>
+    <select id="options" size="8"  width="90%"
+   className="responsive-select"
+      value={selectedOption} 
+      onChange={handleChange2}>
+   
+      <option value="">--Escoge Oferta--</option>
+      {options.map((item) => (
+        <option key={item.idoferta_app} value={item.idoferta_app}   >
+          $ {item.precio_minorista} {item.descripcion_oferta_comercial} 
+        </option>
+      ))}
+    </select>
+
+
+  </div>
+
+
+
+
+
+
              <div id="reader" style={{ width: '100%', maxWidth: 400, marginTop: '10px' }}></div>
             <button type="submit" className="orange-button responsive-button">Activar</button>
 
