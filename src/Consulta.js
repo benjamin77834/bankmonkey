@@ -5,11 +5,7 @@ import GaugeChart from 'react-gauge-chart';
 import 'react-toastify/dist/ReactToastify.css';
 
 function Consulta() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-  });
-
+  const [formData, setFormData] = useState({ name: '' });
   const [isLoadingConsulta, setIsLoadingConsulta] = useState(false);
   const [isLoadingCompra, setIsLoadingCompra] = useState(false);
   const [apiData, setApiData] = useState(null);
@@ -17,78 +13,38 @@ function Consulta() {
   const [options, setOptions] = useState([]);
   const [selectedOption, setSelectedOption] = useState('');
 
-  // Al cargar, recuperar el número del localStorage
+  const apiUrl = process.env.REACT_APP_API_URL;
+
+  // Recupera el número al cargar y hace la consulta si lo encuentra
   useEffect(() => {
     const savedData = localStorage.getItem('formData');
     if (savedData) {
       const parsed = JSON.parse(savedData);
-      setFormData(prev => ({ ...prev, name: parsed.msisdn }));
+      setFormData({ name: parsed.msisdn });
+      doConsulta(parsed.msisdn);
     }
   }, []);
 
-  // Manejo del input
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setFormData({ ...formData, [name]: value });
   };
 
-  // Selección de oferta
-  const handleChange2 = (event) => {
-    setSelectedOption(event.target.value);
-  };
+  const handleChange2 = (e) => setSelectedOption(e.target.value);
 
-  // Enviar compra
-  const handleSubmit3 = async (event) => {
-    event.preventDefault();
-    if (selectedOption && msisdn) {
-      const data = {
-        msisdn,
-        id_oferta: selectedOption,
-        movil: msisdn,
-        app: '1',
-      };
-
-      const apiUrl = process.env.REACT_APP_API_URL;
-
-      try {
-        setIsLoadingCompra(true);
-        toast.success('¡Estamos preparando tu compra!');
-
-        const response = await axios.post(`${apiUrl}/prod/genera_pago`, data);
-        const api = response.data;
-
-        if (api.payment_request_id) {
-          window.location.href = 'https://pago.clip.mx/' + api.payment_request_id;
-        }
-      } catch (error) {
-        toast.error('Error al generar pago.');
-        console.error('Error:', error);
-      } finally {
-        setIsLoadingCompra(false);
-      }
-    } else {
-      toast.warn('Debes seleccionar una oferta y consultar primero.');
-    }
-  };
-
-  // Enviar consulta
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const doConsulta = async (numero) => {
     setIsLoadingConsulta(true);
     try {
-      const apiUrl = process.env.REACT_APP_API_URL;
+      toast.success('¡Consulta en proceso!');
+
       const data = {
-        msisdn: formData.name,
-        name: formData.name,
+        msisdn: numero,
+        name: numero,
         app: '1',
         serv: 'profile',
       };
 
-      toast.success('¡Consulta en proceso! Si recargaste, puede tardar unos minutos.');
-      localStorage.setItem('formData', JSON.stringify(data));
+      localStorage.setItem('formData', JSON.stringify({ msisdn: numero }));
 
       const response = await axios.post(`${apiUrl}/prod/cambaceo_ofertas`, data);
       const data2 = response.data;
@@ -99,16 +55,52 @@ function Consulta() {
       setMsisdn(data2.msisdn);
     } catch (error) {
       toast.error('Error al realizar la consulta.');
-      console.error('Error consulta:', error);
+      console.error(error);
     } finally {
       setIsLoadingConsulta(false);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    doConsulta(formData.name);
+  };
+
+  const handleSubmit3 = async (e) => {
+    e.preventDefault();
+    if (!selectedOption || !msisdn) {
+      toast.warn('Debes seleccionar una oferta y consultar primero.');
+      return;
+    }
+
+    setIsLoadingCompra(true);
+    try {
+      toast.success('¡Estamos preparando tu compra!');
+      const data = {
+        msisdn,
+        id_oferta: selectedOption,
+        movil: msisdn,
+        app: '1',
+      };
+
+      const response = await axios.post(`${apiUrl}/prod/genera_pago`, data);
+      const api = response.data;
+
+      if (api.payment_request_id) {
+        window.location.href = 'https://pago.clip.mx/' + api.payment_request_id;
+      }
+    } catch (error) {
+      toast.error('Error al generar pago.');
+      console.error(error);
+    } finally {
+      setIsLoadingCompra(false);
     }
   };
 
   return (
     <div className="content-container">
       <div className="absolute-container2">
-        {/* FORMULARIO DE CONSULTA */}
+        {/* FORMULARIO */}
         <form onSubmit={handleSubmit} className="styled-select">
           <h3>1. Consulta y Recarga</h3>
           <input
@@ -124,15 +116,14 @@ function Consulta() {
           </button>
         </form>
 
-        {/* RESULTADO DE CONSULTA */}
-        {isLoadingConsulta && <p>Cargando datos...</p>}
+        {/* RESULTADOS */}
         {apiData && (
           <div align="center">
             <p><strong>Estatus de Línea:</strong> {apiData.estatus}</p>
             <p><strong>Vencimiento:</strong> {apiData.fecha_vencimiento}</p>
 
-            {/* GRAFICAS */}
-            {apiData?.datos && (
+            {/* GRÁFICAS */}
+            {apiData.datos && (
               <div style={{
                 display: 'flex',
                 justifyContent: 'center',
@@ -140,7 +131,6 @@ function Consulta() {
                 flexWrap: 'nowrap',
                 marginTop: '30px',
               }}>
-                {/* GB */}
                 <div style={{ textAlign: 'center', width: '27%' }}>
                   <GaugeChart
                     id="gauge-gb"
@@ -150,12 +140,9 @@ function Consulta() {
                     hideText={true}
                     style={{ width: '100%', height: '80px' }}
                   />
-                  <div style={{ marginTop: '10px', fontSize: '20px', color: '#000000' }}>
-                    {apiData.datos} Gb
-                  </div>
+                  <div style={{ marginTop: '10px', fontSize: '20px' }}>{apiData.datos} Gb</div>
                 </div>
 
-                {/* SMS */}
                 <div style={{ textAlign: 'center', width: '27%' }}>
                   <GaugeChart
                     id="gauge-sms"
@@ -165,12 +152,9 @@ function Consulta() {
                     hideText={true}
                     style={{ width: '100%', height: '80px' }}
                   />
-                  <div style={{ marginTop: '10px', fontSize: '20px', color: '#000000' }}>
-                    {apiData.sms} SMS
-                  </div>
+                  <div style={{ marginTop: '10px', fontSize: '20px' }}>{apiData.sms} SMS</div>
                 </div>
 
-                {/* MINUTOS */}
                 <div style={{ textAlign: 'center', width: '27%' }}>
                   <GaugeChart
                     id="gauge-min"
@@ -180,9 +164,7 @@ function Consulta() {
                     hideText={true}
                     style={{ width: '100%', height: '80px' }}
                   />
-                  <div style={{ marginTop: '10px', fontSize: '20px', color: '#000000' }}>
-                    {apiData.min} Min
-                  </div>
+                  <div style={{ marginTop: '10px', fontSize: '20px' }}>{apiData.min} Min</div>
                 </div>
               </div>
             )}
@@ -211,11 +193,10 @@ function Consulta() {
           </div>
         )}
       </div>
-
-      {/* Toast */}
       <ToastContainer />
     </div>
   );
 }
 
 export default Consulta;
+
