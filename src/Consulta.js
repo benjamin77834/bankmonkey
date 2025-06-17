@@ -39,7 +39,7 @@ function Consulta() {
 
 
       let formData = localStorage.getItem('formData');
-      console.log(formData);
+     // console.log(formData);
 
 
      const data = {
@@ -50,21 +50,24 @@ function Consulta() {
       };
       if (/^\d+$/.test(numero)) {
         console.log("Es un número válido");
+
       } else {
         console.log("No es un número válido");
         const data = {
-          msisdn: "",
+          msisdn: "0000000000",
           name: "",
           app: '1',
           serv: 'profile',
         };
+      //  console.log(data);
       }
 
    //  localStorage.setItem('formData', JSON.stringify({ msisdn: numero }));
-     localStorage.setItem('formData', JSON.stringify(data));
    // console.log(numero);
      console.log(numero);
      //console.log(data);
+
+     localStorage.setItem('formData', JSON.stringify(data));
 
       const response = await axios.post(`${apiUrl}/prod/cambaceo_ofertas`, data);
       const data2 = response.data;
@@ -78,7 +81,7 @@ function Consulta() {
       setMsisdn(data2.msisdn);
      
     } catch (error) {
-      toast.error('Error al realizar la consulta.');
+      toast.error('Checa tu numero al realizar la consulta.');
       console.error(error);
     } finally {
       setIsLoadingConsulta(false);
