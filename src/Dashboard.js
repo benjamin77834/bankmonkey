@@ -3,8 +3,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Html5Qrcode } from 'html5-qrcode';
 import Tesseract from 'tesseract.js';
 import './Dashboard.css';
-import { ToastContainer, toast } from 'react-toastify';
+import  MediaPlay  from './Media';
+import  PdfViewer  from './PdfViewer';
 
+
+import { ToastContainer, toast } from 'react-toastify';
+const videoKey = 'media/pruebaw.mp4';
+const videoKey2 = 'media/pruebaw2.mp4';
+//const [isLoading, setIsLoading] = useState(
 //const [isLoading, setIsLoading] = useState(false);
 
 const Dashboard = () => {
@@ -330,13 +336,29 @@ const Dashboard = () => {
         )}
 
         {activeView === 'saldo' && saldo && (
+
+
+
+
           <div align="center">
             <h1>Consulta de Saldo Vendedor:</h1>
             <h1>$ {saldo}</h1>
+
+
+
+
+
           </div>
+
+
+
         )}
 
         {activeView === 'reportes' && (
+
+
+
+
           <div align="center">
             <select
               id="options"
@@ -438,11 +460,16 @@ const Dashboard = () => {
 
 
 
-
              <div id="reader" style={{ width: '100%', maxWidth: 400, marginTop: '10px' }}></div>
             <button type="submit" className="orange-button responsive-button">Activar</button>
-
+    
           </form>
+
+
+
+
+
+          
         )}
       </div>
     </div>

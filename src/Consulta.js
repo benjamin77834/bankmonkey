@@ -37,22 +37,46 @@ function Consulta() {
     try {
       toast.success('¡Consulta en proceso!');
 
-      const data = {
+
+      let formData = localStorage.getItem('formData');
+      console.log(formData);
+
+
+     const data = {
         msisdn: numero,
-        name: numero,
+        name: "",
         app: '1',
         serv: 'profile',
       };
+      if (/^\d+$/.test(numero)) {
+        console.log("Es un número válido");
+      } else {
+        console.log("No es un número válido");
+        const data = {
+          msisdn: "",
+          name: "",
+          app: '1',
+          serv: 'profile',
+        };
+      }
 
-      localStorage.setItem('formData', JSON.stringify({ msisdn: numero }));
+   //  localStorage.setItem('formData', JSON.stringify({ msisdn: numero }));
+     localStorage.setItem('formData', JSON.stringify(data));
+   // console.log(numero);
+     console.log(numero);
+     //console.log(data);
 
       const response = await axios.post(`${apiUrl}/prod/cambaceo_ofertas`, data);
       const data2 = response.data;
-
+     // console.log(data2);
+     // console.log(data2.msisdn);
+      console.log(data2.info);
       const flattenedOptions = data2.info.flatMap(info => info);
+
       setApiData(data2);
       setOptions(flattenedOptions);
       setMsisdn(data2.msisdn);
+     
     } catch (error) {
       toast.error('Error al realizar la consulta.');
       console.error(error);
