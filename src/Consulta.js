@@ -128,7 +128,7 @@ function Consulta() {
         {apiData && (
           <div align="center">
             <p><strong>Estatus de Línea:</strong> {apiData.estatus}</p>
-            <p><strong>Vencimiento:</strong> {apiData.fecha_vencimiento}</p>
+            <p><strong>Vence:</strong> {apiData.fecha_vencimiento}</p>
 
             {/* GRÁFICAS */}
             {apiData.datos && (
@@ -182,7 +182,7 @@ function Consulta() {
             <form onSubmit={handleSubmit3}>
               <select
                 id="options"
-                size="7"
+                size="6"
                 className="responsive-select"
                 value={selectedOption}
                 onChange={handleChange2}
