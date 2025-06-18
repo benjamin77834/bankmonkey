@@ -1,10 +1,8 @@
 // src/CarruselOfertas.jsx
-
 import './CarruselOfertas.css';
 import React from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-
 
 import oferta1 from './assets/Imagen.png';
 import oferta2 from './assets/Imagen2.png';
@@ -16,97 +14,50 @@ import oferta7 from './assets/Imagen7.png';
 import oferta8 from './assets/Imagen8.png';
 import oferta9 from './assets/Imagen9.png';
 
-
-
+const ofertas = [
+  { img: oferta1, title: 'Oferta 1' },
+  { img: oferta2, title: 'Oferta 2' },
+  { img: oferta3, title: 'Oferta 3' },
+  { img: oferta4, title: 'Oferta 4' },
+  { img: oferta5, title: 'Oferta 5' },
+  { img: oferta6, title: 'Oferta 6' },
+  { img: oferta7, title: 'Oferta 7' },
+  { img: oferta8, title: 'Oferta 8' },
+  { img: oferta9, title: 'Oferta 9' },
+];
 
 const CarruselOfertas = () => {
   return (
-
-    <div style={{ maxWidth: '100%', margin: '0 auto', border: 'none', textAlign: 'center'  }}>
-    <Carousel
-      autoPlay
-      infiniteLoop
-      showThumbs={false}
-      showStatus={false}
-      showIndicators={true}
-      interval={4000}
-      transitionTime={3000}  
-      swipeable
-      emulateTouch
-      style={{ border: 'none' }}
-    >
-        
-      <div className="zoom-container">
-        <img src={oferta1} alt="Oferta 1"  className="zoom-image"/>
-        <p className="legend">Oferta 1</p>
-      </div>
-      <div className="zoom-container">
-        <img src={oferta2} alt="Oferta 2"  className="zoom-image"/>
-        <p className="legend">Oferta 2</p>
-      </div>
-      <div className="zoom-container">
-        <img src={oferta3} alt="Oferta 3"  className="zoom-image"  />
-        <p className="legend">Oferta 3</p>
-      </div>
-
-      <div className="zoom-container">
-        <img src={oferta4} alt="Oferta 4"  className="zoom-image"/>
-        <p className="legend">Oferta 4</p>
-      </div>
-      <div className="zoom-container">
-        <img src={oferta4} alt="Oferta 4"  className="zoom-image" />
-        <p className="legend">Oferta 5</p>
-      </div>
-      <div className="zoom-container">
-        <img src={oferta5} alt="Oferta 5"  className="zoom-image"/>
-        <p className="legend">Oferta 6</p>
-      </div>
-      <div className="zoom-container">
-        <img src={oferta6} alt="Oferta 6"  className="zoom-image"/>
-        <p className="legend">Oferta 7</p>
-      </div>
-
-      <div className="zoom-container">
-        <img src={oferta7} alt="Oferta 7"  className="zoom-image"/>
-        <p className="legend">Oferta 8</p>
-      </div>
-
-      <div className="zoom-container">
-        <img src={oferta8} alt="Oferta 9"  className="zoom-image"/>
-        <p className="legend">Oferta 9</p>
-      </div>
-
-      <div className="zoom-container">
-        <img src={oferta9} alt="Oferta 9"  className="zoom-image"/>
-        <p className="legend">Oferta 10</p>
-      </div>
-    </Carousel>
-
-    <div style={{ marginTop: '20px' }}>
-    <a
-        href="/Consulta"
-        style={{
-          display: 'inline-block',
-          marginTop: '20px',
-          padding: '12px 30px',
-          backgroundColor: '#ff6600',
-          color: 'white',
-          fontSize: '18px',
-          borderRadius: '8px',
-          textDecoration: 'none',
-          fontWeight: 'bold',
-          boxShadow: '0px 4px 8px rgba(0,0,0,0.2)',
-          transition: 'background-color 0.3s ease'
-        }}
-        onMouseOver={e => e.target.style.backgroundColor = '#e65c00'}
-        onMouseOut={e => e.target.style.backgroundColor = '#ff6600'}
+    <div style={{ maxWidth: '100%', margin: '0 auto', textAlign: 'center' }}>
+      <Carousel
+        autoPlay
+        infiniteLoop
+        showThumbs={false}
+        showStatus={false}
+        showIndicators={true}
+        interval={4000}
+        transitionTime={3000}
+        swipeable
+        emulateTouch
       >
-        Comprar ahora
-      </a>
+        {ofertas.map((oferta, index) => (
+          <div className="zoom-container" key={index}>
+            <img src={oferta.img} alt={oferta.title} className="zoom-image" />
+            <p className="legend">{oferta.title}</p>
+          </div>
+        ))}
+      </Carousel>
+
+      <div style={{ marginTop: '20px' }}>
+        <a
+          href="/Consulta"
+          className="boton-comprar"
+        >
+          Comprar ahora
+        </a>
       </div>
     </div>
   );
 };
 
 export default CarruselOfertas;
-////Users/benjamingarcia/sam/monk/reac/monkeyapp/assets/Imagen9.png

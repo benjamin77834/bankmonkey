@@ -15,6 +15,7 @@ import Ofertaesim from './Ofertaesim';
 import CarruselOfertas from './CarruselOfertas';
 
 import Esim from './Esim';
+import Planes from './Planes';
 import Footer from './Footer';
 import Mensajeria from './Mensajeria';
 import ProtectedRoute from './ProtectedRoute';
@@ -74,7 +75,11 @@ function App() {
       icon: 'pi pi-tags',
       url: '/Ofertas'
     }
+
 ,
+
+
+
 
     {
       label: 'Servicios',
@@ -111,12 +116,14 @@ function App() {
   ];
 
   const start = (
+
+
     <img
-        alt="Logo"
-        src={logo}
-        height="100"
-        className="mr-2"
-    />
+  alt="Logo"
+  src={logo}
+  className="logo-responsive mr-2"
+/>
+
 );
 
   return (

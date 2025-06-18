@@ -15,7 +15,6 @@ function Consulta() {
 
   const apiUrl = process.env.REACT_APP_API_URL;
 
-  // Recupera el número al cargar y hace la consulta si lo encuentra
   useEffect(() => {
     const savedData = localStorage.getItem('formData');
     if (savedData) {
@@ -33,55 +32,34 @@ function Consulta() {
   const handleChange2 = (e) => setSelectedOption(e.target.value);
 
   const doConsulta = async (numero) => {
+    if (!/^\d{10}$/.test(numero)) {
+      toast.warn("Número inválido. Debe tener 10 dígitos.");
+      return;
+    }
+
     setIsLoadingConsulta(true);
     try {
       toast.success('¡Consulta en proceso!');
 
-
-      let formData = localStorage.getItem('formData');
-     // console.log(formData);
-
-
-     const data = {
+      const data = {
         msisdn: numero,
         name: "",
         app: '1',
         serv: 'profile',
       };
-      if (/^\d+$/.test(numero)) {
-        console.log("Es un número válido");
 
-      } else {
-        console.log("No es un número válido");
-        const data = {
-          msisdn: "0000000000",
-          name: "",
-          app: '1',
-          serv: 'profile',
-        };
-      //  console.log(data);
-      }
-
-   //  localStorage.setItem('formData', JSON.stringify({ msisdn: numero }));
-   // console.log(numero);
-     console.log(numero);
-     //console.log(data);
-
-     localStorage.setItem('formData', JSON.stringify(data));
+      localStorage.setItem('formData', JSON.stringify(data));
 
       const response = await axios.post(`${apiUrl}/prod/cambaceo_ofertas`, data);
       const data2 = response.data;
-     // console.log(data2);
-     // console.log(data2.msisdn);
-      console.log(data2.info);
-      const flattenedOptions = data2.info.flatMap(info => info);
+
+      const flattenedOptions = (data2.info || []).flatMap(info => info);
 
       setApiData(data2);
       setOptions(flattenedOptions);
       setMsisdn(data2.msisdn);
-     
     } catch (error) {
-      toast.error('Checa tu numero al realizar la consulta.');
+      toast.error('Checa tu número al realizar la consulta.');
       console.error(error);
     } finally {
       setIsLoadingConsulta(false);
@@ -114,7 +92,7 @@ function Consulta() {
       const api = response.data;
 
       if (api.payment_request_id) {
-        window.location.href = 'https://pago.clip.mx/' + api.payment_request_id;
+        window.location.href = `https://pago.clip.mx/${api.payment_request_id}`;
       }
     } catch (error) {
       toast.error('Error al generar pago.');
@@ -128,20 +106,23 @@ function Consulta() {
     <div className="content-container">
       <div className="absolute-container2">
         {/* FORMULARIO */}
-        <form onSubmit={handleSubmit} className="styled-select">
-          <h3>1. Consulta y Recarga</h3>
-          <input
-            className="responsive-input"
-            type="number"
-            name="name"
-            placeholder="Tu Número"
-            value={formData.name}
-            onChange={handleChange}
-          />
-          <button className="responsive-button" disabled={isLoadingConsulta}>
-            {isLoadingConsulta ? 'Consultando...' : 'Consulta'}
-          </button>
-        </form>
+        <form onSubmit={handleSubmit} className="styled-select form-inline">
+  <label htmlFor="name" style={{ flexBasis: '100%', marginBottom: '6px' }}></label>
+  <input
+    id="name"
+    className="responsive-input"
+    type="number"
+    name="name"
+    placeholder="Tu Número"
+    value={formData.name}
+    onChange={handleChange}
+    required
+  />
+  <button className="responsive-button" disabled={isLoadingConsulta}>
+    {isLoadingConsulta ? 'Consultando...' : 'Consulta'}
+  </button>
+</form>
+
 
         {/* RESULTADOS */}
         {apiData && (
@@ -165,7 +146,7 @@ function Consulta() {
                     percent={Math.min(apiData.datos / 50, 1)}
                     colors={['#000000', '#c34609']}
                     hideText={true}
-                    style={{ width: '100%', height: '80px' }}
+                    style={{ width: '100%', height: '70px' }}
                   />
                   <div style={{ marginTop: '10px', fontSize: '20px' }}>{apiData.datos} Gb</div>
                 </div>
@@ -177,7 +158,7 @@ function Consulta() {
                     percent={Math.min(apiData.sms / 2000, 1)}
                     colors={['#000000', '#c34609']}
                     hideText={true}
-                    style={{ width: '100%', height: '80px' }}
+                    style={{ width: '100%', height: '70px' }}
                   />
                   <div style={{ marginTop: '10px', fontSize: '20px' }}>{apiData.sms} SMS</div>
                 </div>
@@ -189,7 +170,7 @@ function Consulta() {
                     percent={Math.min(apiData.min / 5000, 1)}
                     colors={['#000000', '#c34609']}
                     hideText={true}
-                    style={{ width: '100%', height: '80px' }}
+                    style={{ width: '100%', height: '70px' }}
                   />
                   <div style={{ marginTop: '10px', fontSize: '20px' }}>{apiData.min} Min</div>
                 </div>
@@ -197,14 +178,15 @@ function Consulta() {
             )}
 
             {/* COMPRA */}
-            <h3>2. Compra oferta:</h3>
+            <h3>Compra oferta:</h3>
             <form onSubmit={handleSubmit3}>
               <select
                 id="options"
-                size="8"
+                size="7"
                 className="responsive-select"
                 value={selectedOption}
                 onChange={handleChange2}
+                required
               >
                 <option value="">-- Escoge Oferta --</option>
                 {options.map((item) => (
@@ -226,4 +208,3 @@ function Consulta() {
 }
 
 export default Consulta;
-

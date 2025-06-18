@@ -1,66 +1,133 @@
 /* App.css */
 
+/* Reset y tipografía base */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f2f5;
+  color: #333;
+}
+
 /* Contenedor principal */
 .container {
-    width: 80%;
-    margin: auto;
-    padding: 2rem;
-    font-size: 18px;
-  }
-  
-  /* Responsive para móviles */
-  @media screen and (max-width: 768px) {
-    .container {
-      width: 80%;
-      padding: 1rem;
-      font-size: 16px;
-    }
-  }
-  
-  /* Encabezado con flexbox */
-  .header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-  
-  @media screen and (max-width: 768px) {
-    .header {
-      flex-direction: column;
-      align-items: center;
-    }
-  }
-  
-  /* Título personalizado */
-  .h33 {
-    font-size: 1.8rem;
-    margin-bottom: 0.8rem;
-    color: #333;
-    max-width: 80%;
-  }
-  
-  /* Imágenes responsivas */
-  img {
-    max-width: 25%;
-    height: auto;
-    display: block;
-  }
-  
-  * {
-    box-sizing: border-box;
-  }
-  
-  body {
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden; /* 👈 evita scroll lateral en móviles */
-    font-family: sans-serif;
-  }
-  
-  
-  input,
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+  padding: 2rem;
+  font-size: 18px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Encabezado con flexbox */
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+/* Título personalizado */
+.h33 {
+  font-size: 2rem;
+  margin: 0.5rem 0;
+  color: #222;
+  font-weight: 600;
+  max-width: 100%;
+}
+
+/* Imágenes responsivas */
+img {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  display: block;
+  margin: auto;
+  border-radius: 8px;
+}
+
+/* Estilo inputs y botones */
+input,
 textarea,
 select,
 button {
   font-size: 16px;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+button {
+  background-color: #c44609;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #febe06;
+}
+
+/* Responsive para móviles */
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 1rem;
+    font-size: 16px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .h33 {
+    font-size: 1.5rem;
+  }
+
+  img {
+    max-width: 10%;
+    height: auto;
+    display: block;
+
+  }
+}
+
+.logo-responsive {
+  width: 100%;
+  max-width: 180px; /* Ajusta según lo que necesites en escritorio */
+  height: auto;
+}
+
+/* Ajuste opcional para móviles */
+@media screen and (max-width: 768px) {
+  .logo-responsive {
+    max-width: 120px; /* O más pequeño si quieres */
+  }
+}
+html, body, #root, .App {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+iframe {
+  max-width: 100%;
+  width: 100%;
+  height: auto;
 }

@@ -1,19 +1,5 @@
-body {
-  overflow-y: auto;
-}
-
-.App {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh; /* permite que crezca si el contenido es más alto */
-}
-.content {
-  padding-bottom: 100px; /* espacio para que no lo tape el footer */
-}
-
-
 /* =======================
-   RESET Y ESTILOS BASE
+   RESET Y BASE
 ======================= */
 * {
   box-sizing: border-box;
@@ -23,184 +9,195 @@ body {
 
 html, body {
   height: 100%;
-  margin: 0;
-  padding: 0;
   font-family: Arial, sans-serif;
   background-color: #f9f9f9;
+  overflow-y: auto;
 }
 
 /* =======================
    ESTRUCTURA GENERAL
 ======================= */
-.App {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  font-family: Arial, sans-serif;
-}
-
-.App-logo {
-  width: 10px;
-  height: 10px;
-  margin: 10px;
-}
-
-/* =======================
-   HEADER
-======================= */
-.App-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: #262b3b;
-  color: #fff;
-  padding: 2px 40px;
-  text-align: center;
-  z-index: 1000;
-  flex: 2;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-/* =======================
-   FOOTER
-======================= */
-.footer {
-  background-color: #262b3b;
-  color: #fff;
-  padding: 1.5rem 0;
-  text-align: center;
-  width: 100%;
-}
-
-.footer-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
-}
-
-.footer p {
-  margin: 0;
-  font-size: 1rem;
-}
-
-.footer-links {
-  list-style: none;
-  padding: 0;
-  margin: 1rem 0 0;
-}
-
-.footer-links li {
-  display: inline;
-  margin-right: 1rem;
-}
-
-.footer-links li a {
-  color: #262b3b;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.footer-links li a:hover {
-  color: #ccc;
-}
-
-/* =======================
-   CONTENIDO PRINCIPAL
-======================= */
-.main-content {
-  flex: 2;
-}
-
-.main-content2 {
-  flex: 1;
-  padding: 10px 620px;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  border-top: 2px solid #000;
-}
-
 .content-container {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   min-height: 100vh;
-  padding-top: 50px;
+  padding-top: 80px;
+  width: 80%;
 }
 
-.content {
-  text-align: center;
-  padding: 30px;
-  border-radius: 5px;
-  background-color: #fff;
+.absolute-container2 {
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
 }
 
 /* =======================
    FORMULARIOS
 ======================= */
-.responsive-form {
+.styled-select {
+  margin-bottom: 20px;
+}
+
+.responsive-input {
+  width: 20%;
+  padding: 12px 15px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.responsive-select {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 2px solid #5a9bf6;
+  background-color: #f0f4ff;
+  color: #333;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(90, 155, 246, 0.4);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.responsive-select:hover,
+.responsive-select:focus {
+  border-color: #3a6fcc;
+  box-shadow: 0 0 8px rgba(58, 111, 204, 0.7);
+  outline: none;
+}
+
+.responsive-select option {
+  padding: 10px;
+  font-weight: 600;
   background-color: white;
-  padding:
+  color: #333;
+}
 
+/* =======================
+   BOTÓN DE ACCIONES
+======================= */
+.responsive-button {
+  background-color: #c44609;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  cursor: pointer;
+  width: 50%;
+  max-width: 300px;
+  margin: 20px auto 0 auto;
+  display: block;
+  position: relative;
+  z-index: 1000;
+  transition: background-color 0.3s ease;
+}
 
-  html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow-y: auto;
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
+.responsive-button:hover,
+.responsive-button:focus {
+  background-color: #febe06;
+  outline: none;
+}
+
+/* =======================
+   FORMULARIO INLINE
+======================= */
+.form-inline {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.form-inline input.responsive-input {
+  flex: 1 1 auto;
+  max-width: 250px;
+  min-width: 150px;
+  margin-bottom: 0;
+}
+
+.form-inline button.responsive-button {
+  flex: 0 0 auto;
+  max-width: 150px;
+  min-width: 120px;
+  margin: 0;
+}
+
+/* =======================
+   GAUGES
+======================= */
+.gauge-container {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: nowrap;
+  margin-top: 30px;
+}
+
+.gauge-item {
+  text-align: center;
+  width: 150px;
+}
+
+.gauge-item div {
+  margin-top: 10px;
+  font-size: 20px;
+}
+
+/* =======================
+   MEDIA QUERIES
+======================= */
+@media (max-width: 500px) {
+  .gauge-container {
+    flex-wrap: wrap;
   }
-  
 
-  .App {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* No height fija, solo mínimo */
+  .gauge-item {
+    width: 50%;
+    margin: 0 auto 20px auto;
   }
-  
 
-  .offers-container {
-    flex-grow: 1;
+  .content-container {
     padding: 20px;
   }
-  .main-content, .content {
-    padding-bottom: 120px; /* Deja espacio para el botón y el footer */
-  }.buy-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 2000;
-    background-color: #5a9bf6;
-    color: white;
-    border: none;
-    padding: 15px 25px;
-    font-size: 18px;
-    border-radius: 8px;
-    cursor: pointer;
+
+  .responsive-button {
+    font-size: 16px;
+    padding: 10px 16px;
   }
-  
-  .buy-button:hover {
-    background-color: #4a8bd5;
+}
+/* =======================
+   GAUGES CONTAINER RESPONSIVE
+======================= */
+.gauge-container {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: nowrap;
+  margin-top: 30px;
+  overflow-x: auto; /* scroll horizontal si no caben */
+  padding-bottom: 10px; /* espacio para scroll */
+}
+
+.gauge-container > div {
+  text-align: center;
+  width: 150px; /* ancho fijo para gauges */
+  flex: 0 0 auto; /* evita que se reduzcan */
+}
+
+/* Opcional: que el texto de los gauges se vea mejor en móvil */
+@media (max-width: 600px) {
+  .gauge-container > div {
+    width: 120px;
   }
-  .buy-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 2000;
-    background-color: #5a9bf6;
-    color: white;
-    border: none;
-    padding: 15px 25px;
-    font-size: 18px;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-  
-  .buy-button:hover {
-    background-color: #4a8bd5;
-  }
-  
+}
