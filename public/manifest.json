@@ -1,8 +1,8 @@
 {
 
   "display": "standalone",
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "AppMonkey",
+  "name": "App MonkeyPhone",
   "icons": [
     {
       "src": "favicon.ico",
