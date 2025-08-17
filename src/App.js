@@ -13,6 +13,7 @@ import Consulta from './Consulta';
 import Dashboard from './Dashboard';
 import Ofertaesim from './Ofertaesim';
 import CarruselOfertas from './CarruselOfertas';
+import AiraloOffers from './AiraloOffers';
 
 import Esim from './Esim';
 import Planes from './Planes';
@@ -99,7 +100,13 @@ function App() {
       icon: 'pi pi-calculator',
       command: () => { window.location.href = '/Esim'; }
     }
-    , 
+    ,
+    {
+      label: 'Compra de Esim Inter',
+      icon: 'pi pi-calculator',
+      command: () => { window.location.href = '/Ofertasinternacional'; }
+    }
+    ,  
    
     {
         label: 'Cobertura',
@@ -136,6 +143,7 @@ function App() {
         <Route path="/" element={<Consulta />} />
         <Route path="/Consulta" element={<Consulta />} />
         <Route path="/Ofertaesim" element={<Ofertaesim />} />
+        <Route path="/Ofertasinternacional" element={<AiraloOffers />} />
         <Route path="/Esim" element={<Esim />} />
         <Route path="/login" element={<Login />} /> 
         <Route path="/Mensajeria" element={<Mensajeria />} />
