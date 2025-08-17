@@ -178,7 +178,7 @@ function Consulta() {
             )}
 
             {/* COMPRA */}
-            <h3>Compra oferta:</h3>
+            <h3>Compra tu oferta:</h3>
             <form onSubmit={handleSubmit3}>
               <select
                 id="options"
