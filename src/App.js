@@ -14,6 +14,7 @@ import Dashboard from './Dashboard';
 import Ofertaesim from './Ofertaesim';
 import CarruselOfertas from './CarruselOfertas';
 import AiraloOffers from './AiraloOffers';
+import NotificacionCorreo from  './NotificacionCorreo';
 
 import Esim from './Esim';
 import Planes from './Planes';
@@ -149,7 +150,8 @@ function App() {
         <Route path="/Mensajeria" element={<Mensajeria />} />
         <Route path="/Cobertura" element={<PageFrame url="https://recargas.monkeyfon.com/chango/cobertura_appx.php" />} />
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-        
+        <Route path="/NotificacionCorreo" element={<NotificacionCorreo />} />
+ 
         <Route path="/Ofertas" element={<CarruselOfertas />} />
 
       </Routes>
