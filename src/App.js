@@ -101,7 +101,12 @@ function App() {
       command: () => { window.location.href = '/Esim'; }
     }
     ,
- 
+    {
+      label: 'Compra de Esim Internacional',
+      icon: 'pi pi-calculator',
+      command: () => { window.location.href = '/Ofertasinternacional'; }
+    }
+    ,  
    
     {
         label: 'Cobertura',
