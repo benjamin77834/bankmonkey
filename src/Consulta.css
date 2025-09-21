@@ -22,8 +22,8 @@ html, body {
   justify-content: center;
   align-items: flex-start;
   min-height: 100vh;
-  padding-top: 20px; /* antes 80px, reducido para acercar al logo */
-  width: 90%; /* más ancho para móviles */
+  padding-top: 20px; /* menos espacio sobre gauges */
+  width: 90%;
   margin: auto;
 }
 
@@ -142,7 +142,7 @@ html, body {
   justify-content: center;
   gap: 12px;
   flex-wrap: wrap;
-  margin-top: 20px; /* reducido para acercar al contenido */
+  margin-top: 20px; /* acercamos gauges al contenido */
   overflow-x: auto;
   padding-bottom: 10px;
 }
@@ -160,26 +160,32 @@ html, body {
   font-size: 18px;
 }
 
-/* Media queries */
+/* =======================
+   MEDIA QUERIES PARA MÓVIL
+======================= */
 @media (max-width: 768px) {
   .gauge-item {
-    flex: 1 1 100px;
-    max-width: 120px;
+    flex: 1 1 90px;   /* más pequeño en tablet */
+    max-width: 100px;
   }
 
   .gauge-item div {
-    font-size: 16px;
+    font-size: 14px;  /* texto más pequeño */
   }
 }
 
 @media (max-width: 480px) {
   .gauge-item {
-    flex: 1 1 80px;
-    max-width: 100px;
+    flex: 1 1 70px;   /* iPhone / pantalla pequeña */
+    max-width: 80px;
   }
 
   .gauge-item div {
-    font-size: 14px;
+    font-size: 12px;
+  }
+
+  .content-container {
+    padding-top: 10px; /* menos espacio arriba */
   }
 }
 
@@ -219,12 +225,12 @@ iframe {
 
 @media (max-width: 768px) {
   iframe {
-    height: 800px; /* más alto en móvil */
+    height: 800px;
   }
 }
 
 @media (max-width: 480px) {
   iframe {
-    height: 1200px; /* para iPhone y pantallas pequeñas */
+    height: 1200px;
   }
 }
