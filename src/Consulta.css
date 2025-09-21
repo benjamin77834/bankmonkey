@@ -140,75 +140,58 @@ html, body {
   display: flex;
   justify-content: center;
   gap: 12px;
-  flex-wrap: nowrap;
+  flex-wrap: wrap; /* permite varias filas en móviles */
   margin-top: 30px;
+  overflow-x: auto; /* scroll horizontal si no caben */
+  padding-bottom: 10px;
 }
 
 .gauge-item {
   text-align: center;
-  width: 150px;
+  flex: 1 1 120px; /* crece y se reduce */
+  max-width: 150px; /* ancho máximo escritorio */
+  min-width: 100px; /* ancho mínimo móviles */
+  margin-bottom: 15px;
 }
 
 .gauge-item div {
   margin-top: 10px;
-  font-size: 20px;
+  font-size: 18px; /* ajustable */
 }
 
-/* =======================
-   MEDIA QUERIES
-======================= */
-@media (max-width: 500px) {
-  .gauge-container {
-    flex-wrap: wrap;
-  }
-
+/* Media queries para móviles */
+@media (max-width: 768px) {
   .gauge-item {
-    width: 50%;
-    margin: 0 auto 20px auto;
+    flex: 1 1 100px;
+    max-width: 120px;
   }
 
-  .content-container {
-    padding: 20px;
-  }
-
-  .responsive-button {
+  .gauge-item div {
     font-size: 16px;
-    padding: 10px 16px;
   }
 }
+
+@media (max-width: 480px) {
+  .gauge-item {
+    flex: 1 1 80px;
+    max-width: 100px;
+  }
+
+  .gauge-item div {
+    font-size: 14px;
+  }
+}
+
 /* =======================
-   GAUGES CONTAINER RESPONSIVE
+   OFERTAS / BOTONES DE COMPRA
 ======================= */
-.gauge-container {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: nowrap;
-  margin-top: 30px;
-  overflow-x: auto; /* scroll horizontal si no caben */
-  padding-bottom: 10px; /* espacio para scroll */
-}
-
-.gauge-container > div {
-  text-align: center;
-  width: 150px; /* ancho fijo para gauges */
-  flex: 0 0 auto; /* evita que se reduzcan */
-}
-
-/* Opcional: que el texto de los gauges se vea mejor en móvil */
-@media (max-width: 600px) {
-  .gauge-container > div {
-    width: 120px;
-  }
-}
-
 .offer-card button {
   width: 100%; /* ocupar todo el ancho de la tarjeta */
   padding: 10px 0;
   margin-top: 10px;
   font-size: 16px;
   border-radius: 8px;
-  background-color: #28a745; /* verde para compra */
+  background-color: #28a745; /* verde compra */
   color: white;
   border: none;
   cursor: pointer;
@@ -218,3 +201,4 @@ html, body {
 .offer-card button:hover {
   background-color: #218838;
 }
+
