@@ -1,133 +1,53 @@
-/* App.css */
-
-/* Reset y tipografía base */
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
+/* =======================
+   ESTILOS DEL MENUBAR
+======================= */
+.p-menubar {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f0f2f5;
-  color: #333;
-}
-
-/* Contenedor principal */
-.container {
-  width: 90%;
-  max-width: 1200px;
-  margin: auto;
-  padding: 2rem;
-  font-size: 18px;
-  background-color: #f9f9f9;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-/* Encabezado con flexbox */
-.header {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-  gap: 1rem;
-}
-
-/* Título personalizado */
-.h33 {
-  font-size: 2rem;
-  margin: 0.5rem 0;
-  color: #222;
-  font-weight: 600;
-  max-width: 100%;
-}
-
-/* Imágenes responsivas */
-img {
-  width: 100%;
-  max-width: 400px;
-  height: auto;
-  display: block;
-  margin: auto;
-  border-radius: 8px;
-}
-
-/* Estilo inputs y botones */
-input,
-textarea,
-select,
-button {
   font-size: 16px;
-  padding: 0.6rem 1rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  margin-bottom: 1rem;
-  width: 100%;
+  font-weight: 500;
+  background-color: #f5f5f5 !important;
+  border: none !important;
+  border-bottom: 4px solid #2f0f13; /* línea de acento */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  padding: 0.5rem 1rem;
 }
 
-button {
-  background-color: #c44609;
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+/* Links del menú */
+.p-menubar .p-menuitem-link {
+  color: #2f0f13 !important;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-button:hover {
-  background-color: #febe06;
+.p-menubar .p-menuitem-link:hover {
+  background-color: rgba(196, 70, 9, 0.08); /* naranja tenue */
+  color: #c44609 !important;
 }
 
-/* Responsive para móviles */
-@media screen and (max-width: 768px) {
-  .container {
-    padding: 1rem;
-    font-size: 16px;
-  }
-
-  .header {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .h33 {
-    font-size: 1.5rem;
-  }
-
-  img {
-    max-width: 10%;
-    height: auto;
-    display: block;
-
-  }
+/* Íconos dentro del menú */
+.p-menubar .p-menuitem-icon {
+  color: #c44609 !important;
+  margin-right: 8px;
 }
 
+/* Logo responsivo en el menú */
 .logo-responsive {
-  width: 100%;
-  max-width: 180px; /* Ajusta según lo que necesites en escritorio */
+  height: 40px;
+  width: auto;
+  margin-right: 10px;
+}
+
+/* Logo responsive */
+.logo-responsive {
+  width: auto;          /* respeta la proporción */
+  max-width: 250px;     /* tamaño máximo en escritorio */
   height: auto;
 }
 
-/* Ajuste opcional para móviles */
+/* Para móviles */
 @media screen and (max-width: 768px) {
   .logo-responsive {
-    max-width: 120px; /* O más pequeño si quieres */
+    max-width: 180px;   /* tamaño máximo en móviles */
   }
-}
-html, body, #root, .App {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-}
-
-iframe {
-  max-width: 100%;
-  width: 100%;
-  height: auto;
 }

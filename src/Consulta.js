@@ -1,22 +1,23 @@
-import axios from 'axios';
-import React, { useState, useEffect } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import GaugeChart from 'react-gauge-chart';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import GaugeChart from "react-gauge-chart";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./Consulta.css"; // tu CSS adaptado
 
-function Consulta() {
-  const [formData, setFormData] = useState({ name: '' });
+export default function Consulta() {
+  const [formData, setFormData] = useState({ name: "" });
   const [isLoadingConsulta, setIsLoadingConsulta] = useState(false);
   const [isLoadingCompra, setIsLoadingCompra] = useState(false);
   const [apiData, setApiData] = useState(null);
-  const [msisdn, setMsisdn] = useState('');
+  const [msisdn, setMsisdn] = useState("");
   const [options, setOptions] = useState([]);
-  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedOfferId, setSelectedOfferId] = useState(null);
 
   const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
-    const savedData = localStorage.getItem('formData');
+    const savedData = localStorage.getItem("formData");
     if (savedData) {
       const parsed = JSON.parse(savedData);
       setFormData({ name: parsed.msisdn });
@@ -29,8 +30,6 @@ function Consulta() {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleChange2 = (e) => setSelectedOption(e.target.value);
-
   const doConsulta = async (numero) => {
     if (!/^\d{10}$/.test(numero)) {
       toast.warn("Número inválido. Debe tener 10 dígitos.");
@@ -39,63 +38,49 @@ function Consulta() {
 
     setIsLoadingConsulta(true);
     try {
-      toast.success('¡Consulta en proceso!');
-
-      const data = {
-        msisdn: numero,
-        name: "",
-        app: '1',
-        serv: 'profile',
-      };
-
-      localStorage.setItem('formData', JSON.stringify(data));
+      toast.info("¡Consulta en proceso!");
+      const data = { msisdn: numero, name: "", app: "1", serv: "profile" };
+      localStorage.setItem("formData", JSON.stringify(data));
 
       const response = await axios.post(`${apiUrl}/prod/cambaceo_ofertas`, data);
       const data2 = response.data;
 
-      const flattenedOptions = (data2.info || []).flatMap(info => info);
-
+      const flattenedOptions = (data2.info || []).flatMap((info) => info || []);
       setApiData(data2);
       setOptions(flattenedOptions);
       setMsisdn(data2.msisdn);
+
+      if (!flattenedOptions.length) toast.info("No se encontraron ofertas para este número.");
+      else toast.success("Consulta completada!");
     } catch (error) {
-      toast.error('Checa tu número al realizar la consulta.');
+      toast.error(error.response?.data?.message || "Error al realizar la consulta.");
       console.error(error);
     } finally {
       setIsLoadingConsulta(false);
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    doConsulta(formData.name);
-  };
-
-  const handleSubmit3 = async (e) => {
-    e.preventDefault();
-    if (!selectedOption || !msisdn) {
-      toast.warn('Debes seleccionar una oferta y consultar primero.');
+  const handleCompra = async (id_oferta) => {
+    if (!msisdn) {
+      toast.warn("Primero consulta un número.");
       return;
     }
 
     setIsLoadingCompra(true);
     try {
-      toast.success('¡Estamos preparando tu compra!');
-      const data = {
-        msisdn,
-        id_oferta: selectedOption,
-        movil: msisdn,
-        app: '1',
-      };
+      toast.info("Preparando tu compra...");
+      const data = { msisdn, id_oferta, movil: msisdn, app: "1" };
 
       const response = await axios.post(`${apiUrl}/prod/genera_pago`, data);
       const api = response.data;
 
       if (api.payment_request_id) {
         window.location.href = `https://pago.clip.mx/${api.payment_request_id}`;
+      } else {
+        toast.error("No se pudo generar el pago. Intenta más tarde.");
       }
     } catch (error) {
-      toast.error('Error al generar pago.');
+      toast.error("Error al generar pago.");
       console.error(error);
     } finally {
       setIsLoadingCompra(false);
@@ -106,105 +91,80 @@ function Consulta() {
     <div className="content-container">
       <div className="absolute-container2">
         {/* FORMULARIO */}
-        <form onSubmit={handleSubmit} className="styled-select form-inline">
-  <label htmlFor="name" style={{ flexBasis: '100%', marginBottom: '6px' }}></label>
-  <input
-    id="name"
-    className="responsive-input"
-    type="number"
-    name="name"
-    placeholder="Tu Número"
-    value={formData.name}
-    onChange={handleChange}
-    required
-  />
-  <button className="responsive-button" disabled={isLoadingConsulta}>
-    {isLoadingConsulta ? 'Consultando...' : 'Consulta'}
-  </button>
-</form>
-
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            doConsulta(formData.name);
+          }}
+          className="form-inline"
+        >
+          <input
+            type="number"
+            name="name"
+            placeholder="Tu Número"
+            value={formData.name}
+            onChange={handleChange}
+            className="responsive-input"
+            required
+          />
+          <button
+            className="responsive-button"
+            disabled={isLoadingConsulta}
+          >
+            {isLoadingConsulta ? "Consultando..." : "Consulta"}
+          </button>
+        </form>
 
         {/* RESULTADOS */}
         {apiData && (
-          <div align="center">
+          <div style={{ marginTop: "20px", textAlign: "center" }}>
             <p><strong>Estatus de Línea:</strong> {apiData.estatus}</p>
             <p><strong>Vence:</strong> {apiData.fecha_vencimiento}</p>
 
             {/* GRÁFICAS */}
             {apiData.datos && (
-              <div style={{
-                display: 'flex',
-                justifyContent: 'center',
-                gap: '12px',
-                flexWrap: 'nowrap',
-                marginTop: '30px',
-              }}>
-                <div style={{ textAlign: 'center', width: '27%' }}>
-                  <GaugeChart
-                    id="gauge-gb"
-                    nrOfLevels={5}
-                    percent={Math.min(apiData.datos / 50, 1)}
-                    colors={['#000000', '#c34609']}
-                    hideText={true}
-                    style={{ width: '100%', height: '70px' }}
-                  />
-                  <div style={{ marginTop: '10px', fontSize: '20px' }}>{apiData.datos} Gb</div>
+              <div className="gauge-container">
+                <div className="gauge-item">
+                  <GaugeChart id="gauge-gb" nrOfLevels={5} percent={Math.min(apiData.datos / 50, 1)} colors={["#000000", "#c34609"]} hideText={true} />
+                  <div>{apiData.datos} Gb</div>
                 </div>
-
-                <div style={{ textAlign: 'center', width: '27%' }}>
-                  <GaugeChart
-                    id="gauge-sms"
-                    nrOfLevels={5}
-                    percent={Math.min(apiData.sms / 2000, 1)}
-                    colors={['#000000', '#c34609']}
-                    hideText={true}
-                    style={{ width: '100%', height: '70px' }}
-                  />
-                  <div style={{ marginTop: '10px', fontSize: '20px' }}>{apiData.sms} SMS</div>
+                <div className="gauge-item">
+                  <GaugeChart id="gauge-sms" nrOfLevels={5} percent={Math.min(apiData.sms / 2000, 1)} colors={["#000000", "#c34609"]} hideText={true} />
+                  <div>{apiData.sms} SMS</div>
                 </div>
-
-                <div style={{ textAlign: 'center', width: '27%' }}>
-                  <GaugeChart
-                    id="gauge-min"
-                    nrOfLevels={5}
-                    percent={Math.min(apiData.min / 5000, 1)}
-                    colors={['#000000', '#c34609']}
-                    hideText={true}
-                    style={{ width: '100%', height: '70px' }}
-                  />
-                  <div style={{ marginTop: '10px', fontSize: '20px' }}>{apiData.min} Min</div>
+                <div className="gauge-item">
+                  <GaugeChart id="gauge-min" nrOfLevels={5} percent={Math.min(apiData.min / 5000, 1)} colors={["#000000", "#c34609"]} hideText={true} />
+                  <div>{apiData.min} Min</div>
                 </div>
               </div>
             )}
 
-            {/* COMPRA */}
-            <h3>Compra tu oferta:</h3>
-            <form onSubmit={handleSubmit3}>
-              <select
-                id="options"
-                size="6"
-                className="responsive-select"
-                value={selectedOption}
-                onChange={handleChange2}
-                required
-              >
-                <option value="">-- Escoge Oferta --</option>
-                {options.map((item) => (
-                  <option key={item.idoferta_app} value={item.idoferta_app}>
-                    $ {item.precio_minorista} {item.descripcion_oferta_comercial}
-                  </option>
-                ))}
-              </select>
-              <button className="responsive-button" disabled={isLoadingCompra}>
-                {isLoadingCompra ? 'Enviando...' : 'Compra'}
-              </button>
-            </form>
+            {/* TARJETAS DE OFERTAS */}
+            <h3 style={{ marginTop: "20px" }}>Ofertas Disponibles:</h3>
+            <div style={{ display: "grid", gap: "15px" }}>
+              {options.map((item) => (
+                <div
+                  key={item.idoferta_app}
+                  className={`offer-card p-4 rounded-xl shadow transition hover:shadow-lg cursor-pointer ${
+                    selectedOfferId === item.idoferta_app ? "border-indigo-600 border-2" : "border-transparent border-2"
+                  }`}
+                  onClick={() => setSelectedOfferId(item.idoferta_app)}
+                >
+                  <p className="font-semibold">{item.descripcion_oferta_comercial}</p>
+                  <p className="text-indigo-600 font-bold text-lg">$ {item.precio_minorista}</p>
+                  <button
+                    onClick={() => handleCompra(item.idoferta_app)}
+                    disabled={isLoadingCompra}
+                  >
+                    {isLoadingCompra ? "Procesando..." : "Comprar"}
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>
-      <ToastContainer />
+      <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} />
     </div>
   );
 }
-
-export default Consulta;

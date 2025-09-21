@@ -201,3 +201,20 @@ html, body {
     width: 120px;
   }
 }
+
+.offer-card button {
+  width: 100%; /* ocupar todo el ancho de la tarjeta */
+  padding: 10px 0;
+  margin-top: 10px;
+  font-size: 16px;
+  border-radius: 8px;
+  background-color: #28a745; /* verde para compra */
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.offer-card button:hover {
+  background-color: #218838;
+}
