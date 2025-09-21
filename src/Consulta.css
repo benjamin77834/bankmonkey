@@ -22,8 +22,9 @@ html, body {
   justify-content: center;
   align-items: flex-start;
   min-height: 100vh;
-  padding-top: 80px;
-  width: 80%;
+  padding-top: 20px; /* antes 80px, reducido para acercar al logo */
+  width: 90%; /* más ancho para móviles */
+  margin: auto;
 }
 
 .absolute-container2 {
@@ -140,26 +141,26 @@ html, body {
   display: flex;
   justify-content: center;
   gap: 12px;
-  flex-wrap: wrap; /* permite varias filas en móviles */
-  margin-top: 30px;
-  overflow-x: auto; /* scroll horizontal si no caben */
+  flex-wrap: wrap;
+  margin-top: 20px; /* reducido para acercar al contenido */
+  overflow-x: auto;
   padding-bottom: 10px;
 }
 
 .gauge-item {
   text-align: center;
-  flex: 1 1 120px; /* crece y se reduce */
-  max-width: 150px; /* ancho máximo escritorio */
-  min-width: 100px; /* ancho mínimo móviles */
-  margin-bottom: 15px;
+  flex: 1 1 120px;
+  max-width: 150px;
+  min-width: 100px;
+  margin-bottom: 10px;
 }
 
 .gauge-item div {
-  margin-top: 10px;
-  font-size: 18px; /* ajustable */
+  margin-top: 8px;
+  font-size: 18px;
 }
 
-/* Media queries para móviles */
+/* Media queries */
 @media (max-width: 768px) {
   .gauge-item {
     flex: 1 1 100px;
@@ -185,13 +186,17 @@ html, body {
 /* =======================
    OFERTAS / BOTONES DE COMPRA
 ======================= */
+.offer-card {
+  margin-top: 20px;
+}
+
 .offer-card button {
-  width: 100%; /* ocupar todo el ancho de la tarjeta */
+  width: 100%;
   padding: 10px 0;
   margin-top: 10px;
   font-size: 16px;
   border-radius: 8px;
-  background-color: #28a745; /* verde compra */
+  background-color: #28a745;
   color: white;
   border: none;
   cursor: pointer;
@@ -202,3 +207,24 @@ html, body {
   background-color: #218838;
 }
 
+/* =======================
+   IFRAME OFERTAS
+======================= */
+iframe {
+  width: 100%;
+  height: 600px; /* altura mínima para ofertas */
+  border: none;
+  margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+  iframe {
+    height: 800px; /* más alto en móvil */
+  }
+}
+
+@media (max-width: 480px) {
+  iframe {
+    height: 1200px; /* para iPhone y pantallas pequeñas */
+  }
+}
