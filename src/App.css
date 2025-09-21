@@ -41,12 +41,12 @@
 /* Logo responsive */
 .logo-responsive {
   width: auto;          /* respeta la proporción */
-  max-width: 250px;     /* tamaño máximo en escritorio */
+  max-width: 200px;     /* tamaño máximo en escritorio */
   height: auto;
 }
 
 /* Para móviles */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 600px) {
   .logo-responsive {
     max-width: 180px;   /* tamaño máximo en móviles */
   }
