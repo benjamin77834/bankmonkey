@@ -50,48 +50,53 @@ function AiraloOffers() {
   if (loading) return <p style={{ textAlign: "center", marginTop: 20 }}>Cargando ofertas...</p>;
 
   return (
-    <div style={{ padding: 20 }}>
-      {/* 💎 Banner de información internacional */}
+    <div style={{ padding: 20, maxWidth: 1200, margin: "0 auto" }}>
+      
+      {/* 💎 Banner deluxe de eSIM internacional */}
       <div style={{
-        background: "linear-gradient(90deg, #6a11cb 0%, #2575fc 100%)",
+        background: "linear-gradient(135deg, #6a11cb, #2575fc)",
         color: "#fff",
         textAlign: "center",
-        borderRadius: 16,
-        padding: "20px 15px",
-        marginBottom: 30,
-        boxShadow: "0 8px 20px rgba(0,0,0,0.15)"
+        borderRadius: 20,
+        padding: "25px 20px",
+        marginBottom: 40,
+        boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
+        transition: "transform 0.3s ease",
       }}>
-        <h2 style={{ margin: 0, fontSize: "1.6rem", fontWeight: "700" }}>
-          🌐 eSIM Internacional
+        <h2 style={{ margin: 0, fontSize: "2rem", fontWeight: 700 }}>
+          🌐 eSIM Internacional Global
         </h2>
-        <p style={{ fontSize: "1rem", marginTop: 8 }}>
-          Compra tu eSIM global y disfruta de conexión en múltiples países sin complicaciones. Perfecta para viajeros y nómadas digitales.
+        <p style={{ fontSize: "1.1rem", marginTop: 10, lineHeight: 1.5 }}>
+          Conéctate en múltiples países sin complicaciones. Ideal para viajeros, nómadas digitales y quienes buscan libertad de conexión.
         </p>
       </div>
 
-      {/* 🌟 Lista de paquetes */}
+      {/* 🌟 Grid de ofertas con hover deluxe */}
       <div style={{
         display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-        gap: 16,
+        gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+        gap: 20,
       }}>
         {offers.length === 0 ? (
-          <p>No hay ofertas disponibles</p>
+          <p style={{ gridColumn: "1/-1", textAlign: "center" }}>No hay ofertas disponibles</p>
         ) : (
           offers.map((pkg, idx) => (
             <div
               key={idx}
               style={{
-                border: "1px solid #ccc",
-                borderRadius: 12,
-                padding: 16,
+                border: "1px solid #ddd",
+                borderRadius: 16,
+                padding: 20,
                 cursor: "pointer",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
                 backgroundColor: "#fff",
+                transition: "transform 0.3s, box-shadow 0.3s",
               }}
               onClick={() => setSelectedOffer(pkg)}
+              onMouseEnter={e => e.currentTarget.style.transform = "translateY(-5px) scale(1.03)"}
+              onMouseLeave={e => e.currentTarget.style.transform = "translateY(0) scale(1)"}
             >
-              <h3 style={{ fontWeight: "bold", marginBottom: 8 }}>📡 {pkg.title || "Sin nombre"}</h3>
+              <h3 style={{ fontWeight: 700, marginBottom: 10 }}>📡 {pkg.title || "Sin nombre"}</h3>
               <p>📶 {pkg.data_amount || pkg.datos_amount || "N/A"} Data</p>
               <p>⏱ {pkg.validity || pkg.vality || "N/A"}</p>
               <p>💲 {pkg.price} MXN</p>
@@ -100,7 +105,7 @@ function AiraloOffers() {
         )}
       </div>
 
-      {/* Modal de compra */}
+      {/* Modal de compra deluxe */}
       {selectedOffer && (
         <div
           style={{
@@ -109,7 +114,7 @@ function AiraloOffers() {
             left: 0,
             width: "100%",
             height: "100%",
-            background: "rgba(0,0,0,0.5)",
+            background: "rgba(0,0,0,0.6)",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -120,13 +125,15 @@ function AiraloOffers() {
           <div
             style={{
               background: "#fff",
-              borderRadius: 12,
-              padding: 24,
+              borderRadius: 16,
+              padding: 30,
               width: "400px",
+              boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
+              textAlign: "center",
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <h3 style={{ marginBottom: 12 }}>Comprar {selectedOffer.title || "Oferta"}</h3>
+            <h3 style={{ marginBottom: 16 }}>Comprar {selectedOffer.title || "Oferta"}</h3>
             <p>📶 {selectedOffer.data_amount || selectedOffer.datos_amount || "N/A"} de datos</p>
             <p>⏱ Validez: {selectedOffer.validity || selectedOffer.vality || "N/A"}</p>
             <p>💲 {selectedOffer.price || ""} MXN </p>
@@ -136,13 +143,30 @@ function AiraloOffers() {
               placeholder="Tu correo electrónico"
               value={customerEmail}
               onChange={(e) => setCustomerEmail(e.target.value)}
-              style={{ width: "100%", padding: "10px", margin: "12px 0", borderRadius: 8, border: "1px solid #ccc" }}
+              style={{
+                width: "100%",
+                padding: "10px",
+                margin: "15px 0",
+                borderRadius: 10,
+                border: "1px solid #ccc",
+                fontSize: "1rem"
+              }}
               required
             />
 
-            <div style={{ display: "flex", justifyContent: "space-between", marginTop: 16 }}>
-              <button onClick={() => setSelectedOffer(null)} style={{ padding: "8px 12px", cursor: "pointer" }}>Cancelar</button>
-              <button onClick={() => handleBuy(selectedOffer)} style={{ padding: "8px 12px", backgroundColor: "#4f46e5", color: "#fff", borderRadius: 8, border: "none", cursor: "pointer" }}>Comprar ahora</button>
+            <div style={{ display: "flex", justifyContent: "space-between", marginTop: 20 }}>
+              <button 
+                onClick={() => setSelectedOffer(null)}
+                style={{ padding: "10px 15px", cursor: "pointer", borderRadius: 10, border: "1px solid #ccc" }}
+              >
+                Cancelar
+              </button>
+              <button 
+                onClick={() => handleBuy(selectedOffer)}
+                style={{ padding: "10px 15px", backgroundColor: "#6a11cb", color: "#fff", borderRadius: 10, border: "none", cursor: "pointer" }}
+              >
+                Comprar ahora
+              </button>
             </div>
           </div>
         </div>
@@ -154,4 +178,5 @@ function AiraloOffers() {
 }
 
 export default AiraloOffers;
+
 
