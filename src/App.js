@@ -85,7 +85,7 @@ function App() {
         command: () => navigate('/Esim')
       },
       {
-        label: 'Compra de Esim Internacional',
+        label: 'Compra de Esim Internacional Monkey',
         icon: 'pi pi-calculator',
         command: () => navigate('/Ofertasinternacional')
       },
