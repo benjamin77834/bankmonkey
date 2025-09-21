@@ -3,6 +3,7 @@ import axios from "axios";
 import GaugeChart from "react-gauge-chart";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 import "./Consulta.css"; // tu CSS adaptado
 
 export default function Consulta() {
@@ -14,8 +15,7 @@ export default function Consulta() {
   const [options, setOptions] = useState([]);
   const [selectedOfferId, setSelectedOfferId] = useState(null);
 
-  const apiUrl = process.env.REACT_APP_API_URL;
-
+  const apiUrl = process.env.REACT_APP_API_URL
   useEffect(() => {
     const savedData = localStorage.getItem("formData");
     if (savedData) {
