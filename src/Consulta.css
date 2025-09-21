@@ -1,163 +1,26 @@
 /* =======================
-   RESET Y BASE
-======================= */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html, body {
-  height: 100%;
-  font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
-  overflow-y: auto;
-}
-
-/* =======================
-   ESTRUCTURA GENERAL
-======================= */
-.content-container {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
-  padding-top: 20px; /* menos espacio sobre gauges */
-  width: 90%;
-  margin: auto;
-}
-
-.absolute-container2 {
-  width: 100%;
-  max-width: 600px;
-  padding: 20px;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.05);
-}
-
-/* =======================
-   FORMULARIOS
-======================= */
-.styled-select {
-  margin-bottom: 20px;
-}
-
-.responsive-input {
-  width: 20%;
-  padding: 12px 15px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  margin-bottom: 10px;
-}
-
-.responsive-select {
-  width: 100%;
-  max-width: 400px;
-  height: auto;
-  padding: 10px 15px;
-  font-size: 16px;
-  border-radius: 8px;
-  border: 2px solid #5a9bf6;
-  background-color: #f0f4ff;
-  color: #333;
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(90, 155, 246, 0.4);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  max-height: 150px;
-  overflow-y: auto;
-}
-
-.responsive-select:hover,
-.responsive-select:focus {
-  border-color: #3a6fcc;
-  box-shadow: 0 0 8px rgba(58, 111, 204, 0.7);
-  outline: none;
-}
-
-.responsive-select option {
-  padding: 10px;
-  font-weight: 600;
-  background-color: white;
-  color: #333;
-}
-
-/* =======================
-   BOTÓN DE ACCIONES
-======================= */
-.responsive-button {
-  background-color: #c44609;
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 8px;
-  font-size: 18px;
-  cursor: pointer;
-  width: 50%;
-  max-width: 300px;
-  margin: 20px auto 0 auto;
-  display: block;
-  position: relative;
-  z-index: 1000;
-  transition: background-color 0.3s ease;
-}
-
-.responsive-button:hover,
-.responsive-button:focus {
-  background-color: #febe06;
-  outline: none;
-}
-
-/* =======================
-   FORMULARIO INLINE
-======================= */
-.form-inline {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.form-inline input.responsive-input {
-  flex: 1 1 auto;
-  max-width: 250px;
-  min-width: 150px;
-  margin-bottom: 0;
-}
-
-.form-inline button.responsive-button {
-  flex: 0 0 auto;
-  max-width: 150px;
-  min-width: 120px;
-  margin: 0;
-}
-
-/* =======================
    GAUGES
 ======================= */
 .gauge-container {
   display: flex;
   justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-top: 20px; /* acercamos gauges al contenido */
-  overflow-x: auto;
+  gap: 8px; /* espacio entre gauges */
+  flex-wrap: nowrap; /* fuerza que los 3 gauges queden en la misma línea */
+  margin-top: 20px;
+  overflow-x: auto; /* permite scroll horizontal si no caben */
   padding-bottom: 10px;
 }
 
 .gauge-item {
   text-align: center;
-  flex: 1 1 120px;
+  flex: 1 1 30%; /* cada gauge ocupa aprox un tercio del contenedor */
+  min-width: 90px; /* evita que se haga demasiado pequeño */
   max-width: 150px;
-  min-width: 100px;
-  margin-bottom: 10px;
 }
 
 .gauge-item div {
   margin-top: 8px;
-  font-size: 18px;
+  font-size: 14px; /* tamaño texto más pequeño en móvil */
 }
 
 /* =======================
@@ -165,72 +28,24 @@ html, body {
 ======================= */
 @media (max-width: 768px) {
   .gauge-item {
-    flex: 1 1 90px;   /* más pequeño en tablet */
+    flex: 1 1 30%; /* mantiene 3 en línea */
+    min-width: 70px; 
     max-width: 100px;
   }
 
   .gauge-item div {
-    font-size: 14px;  /* texto más pequeño */
+    font-size: 12px; 
   }
 }
 
 @media (max-width: 480px) {
   .gauge-item {
-    flex: 1 1 70px;   /* iPhone / pantalla pequeña */
-    max-width: 80px;
+    flex: 1 1 30%; /* sigue siendo 3 en línea */
+    min-width: 60px;
+    max-width: 90px;
   }
 
   .gauge-item div {
     font-size: 12px;
-  }
-
-  .content-container {
-    padding-top: 10px; /* menos espacio arriba */
-  }
-}
-
-/* =======================
-   OFERTAS / BOTONES DE COMPRA
-======================= */
-.offer-card {
-  margin-top: 20px;
-}
-
-.offer-card button {
-  width: 100%;
-  padding: 10px 0;
-  margin-top: 10px;
-  font-size: 16px;
-  border-radius: 8px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.offer-card button:hover {
-  background-color: #218838;
-}
-
-/* =======================
-   IFRAME OFERTAS
-======================= */
-iframe {
-  width: 100%;
-  height: 600px; /* altura mínima para ofertas */
-  border: none;
-  margin-top: 10px;
-}
-
-@media (max-width: 768px) {
-  iframe {
-    height: 800px;
-  }
-}
-
-@media (max-width: 480px) {
-  iframe {
-    height: 1200px;
   }
 }
