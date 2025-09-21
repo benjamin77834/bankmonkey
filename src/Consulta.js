@@ -65,6 +65,7 @@ export default function Consulta() {
       setIsLoadingConsulta(false);
     }
   };
+  
 
   const handleCompra = async (id_oferta) => {
     if (!msisdn) {
