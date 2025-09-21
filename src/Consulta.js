@@ -140,7 +140,7 @@ export default function Consulta() {
             )}
 
             {/* TARJETAS DE OFERTAS */}
-            <h3 style={{ marginTop: "20px" }}>Ofertas Disponibles:</h3>
+            <h3 style={{ marginTop: "20px" }}>Compra tus Ofertas Disponibles:</h3>
             <div style={{ display: "grid", gap: "15px" }}>
               {options.map((item) => (
                 <div
