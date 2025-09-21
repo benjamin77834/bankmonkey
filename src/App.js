@@ -80,7 +80,7 @@ function App() {
         ]
       },
       {
-        label: 'Compra de Esim',
+        label: 'Compra de Esim Monkey',
         icon: 'pi pi-calculator',
         command: () => navigate('/Esim')
       },
