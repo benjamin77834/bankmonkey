@@ -84,11 +84,11 @@ function App() {
         icon: 'pi pi-calculator',
         command: () => navigate('/Esim')
       },
-      //{
-       // label: 'Compra de Esim Internacional Monkey',
-        //icon: 'pi pi-calculator',
-        //command: () => navigate('/Ofertasinternacional')
-      //},
+      {
+        label: 'Compra de Esim Internacional Monkey',
+        icon: 'pi pi-calculator',
+        command: () => navigate('/Ofertasinternacional')
+      },
       {
         label: 'Cobertura',
         icon: 'pi pi-map-marker',

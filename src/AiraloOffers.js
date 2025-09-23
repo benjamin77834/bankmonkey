@@ -7,6 +7,7 @@ function AiraloOffers() {
   const [loading, setLoading] = useState(true);
   const [selectedOffer, setSelectedOffer] = useState(null);
   const [customerEmail, setCustomerEmail] = useState("");
+  const [promoCode, setPromoCode] = useState(""); // 👉 nuevo estado opcional
 
   useEffect(() => {
     fetch("https://l0sqt7a9v0.execute-api.us-east-1.amazonaws.com/prod/airalo", {
@@ -33,10 +34,16 @@ function AiraloOffers() {
       return;
     }
 
+    const payload = {
+      ...pkg,
+      email: customerEmail,
+      promoCode: promoCode || null // 👉 se envía solo si está
+    };
+
     fetch("https://l0sqt7a9v0.execute-api.us-east-1.amazonaws.com/prod/genera_pago_airalo", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...pkg, email: customerEmail })
+      body: JSON.stringify(payload)
     })
     .then(res => res.json())
     .then(data => {
@@ -51,8 +58,7 @@ function AiraloOffers() {
 
   return (
     <div style={{ padding: 20, maxWidth: 1200, margin: "0 auto" }}>
-      
-      {/* 💎 Banner deluxe de eSIM internacional */}
+      {/* 💎 Banner */}
       <div style={{
         background: "linear-gradient(135deg, #6a11cb, #2575fc)",
         color: "#fff",
@@ -61,17 +67,16 @@ function AiraloOffers() {
         padding: "25px 20px",
         marginBottom: 40,
         boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
-        transition: "transform 0.3s ease",
       }}>
         <h2 style={{ margin: 0, fontSize: "2rem", fontWeight: 700 }}>
           🌐 eSIM Internacional Global
         </h2>
-        <p style={{ fontSize: "1.1rem", marginTop: 10, lineHeight: 1.5 }}>
-          Conéctate en múltiples países sin complicaciones. Ideal para viajeros, nómadas digitales y quienes buscan libertad de conexión.
+        <p style={{ fontSize: "1.1rem", marginTop: 10 }}>
+          Conéctate en múltiples países sin complicaciones. Ideal para viajeros y nómadas digitales.
         </p>
       </div>
 
-      {/* 🌟 Grid de ofertas con hover deluxe */}
+      {/* 🌟 Grid de ofertas */}
       <div style={{
         display: "grid",
         gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
@@ -90,11 +95,8 @@ function AiraloOffers() {
                 cursor: "pointer",
                 boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
                 backgroundColor: "#fff",
-                transition: "transform 0.3s, box-shadow 0.3s",
               }}
               onClick={() => setSelectedOffer(pkg)}
-              onMouseEnter={e => e.currentTarget.style.transform = "translateY(-5px) scale(1.03)"}
-              onMouseLeave={e => e.currentTarget.style.transform = "translateY(0) scale(1)"}
             >
               <h3 style={{ fontWeight: 700, marginBottom: 10 }}>📡 {pkg.title || "Sin nombre"}</h3>
               <p>📶 {pkg.data_amount || pkg.datos_amount || "N/A"} Data</p>
@@ -105,31 +107,20 @@ function AiraloOffers() {
         )}
       </div>
 
-      {/* Modal de compra deluxe */}
+      {/* Modal de compra */}
       {selectedOffer && (
         <div
           style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            background: "rgba(0,0,0,0.6)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 1000,
+            position: "fixed", top: 0, left: 0, width: "100%", height: "100%",
+            background: "rgba(0,0,0,0.6)", display: "flex", justifyContent: "center",
+            alignItems: "center", zIndex: 1000,
           }}
           onClick={() => setSelectedOffer(null)}
         >
           <div
             style={{
-              background: "#fff",
-              borderRadius: 16,
-              padding: 30,
-              width: "400px",
-              boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
-              textAlign: "center",
+              background: "#fff", borderRadius: 16, padding: 30, width: "400px",
+              boxShadow: "0 10px 25px rgba(0,0,0,0.2)", textAlign: "center",
             }}
             onClick={(e) => e.stopPropagation()}
           >
@@ -138,20 +129,29 @@ function AiraloOffers() {
             <p>⏱ Validez: {selectedOffer.validity || selectedOffer.vality || "N/A"}</p>
             <p>💲 {selectedOffer.price || ""} MXN </p>
 
+            {/* Email obligatorio */}
             <input
               type="email"
               placeholder="Tu correo electrónico"
               value={customerEmail}
               onChange={(e) => setCustomerEmail(e.target.value)}
               style={{
-                width: "100%",
-                padding: "10px",
-                margin: "15px 0",
-                borderRadius: 10,
-                border: "1px solid #ccc",
-                fontSize: "1rem"
+                width: "100%", padding: "10px", margin: "10px 0",
+                borderRadius: 10, border: "1px solid #ccc", fontSize: "1rem"
               }}
               required
+            />
+
+            {/* Código promocional opcional */}
+            <input
+              type="text"
+              placeholder="Código promocional (opcional)"
+              value={promoCode}
+              onChange={(e) => setPromoCode(e.target.value)}
+              style={{
+                width: "100%", padding: "10px", margin: "10px 0",
+                borderRadius: 10, border: "1px solid #ccc", fontSize: "1rem"
+              }}
             />
 
             <div style={{ display: "flex", justifyContent: "space-between", marginTop: 20 }}>
@@ -178,5 +178,3 @@ function AiraloOffers() {
 }
 
 export default AiraloOffers;
-
-
