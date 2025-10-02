@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import GaugeChart from "react-gauge-chart";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 import "./Consulta.css";
 
 export default function Consulta() {
@@ -92,9 +94,9 @@ export default function Consulta() {
     }
   };
 
-  const scrollOffers = (scrollOffset) => {
+  const scrollOffers = (offset) => {
     if (offersRef.current) {
-      offersRef.current.scrollBy({ left: scrollOffset, behavior: "smooth" });
+      offersRef.current.scrollBy({ left: offset, behavior: "smooth" });
     }
   };
 
@@ -125,70 +127,80 @@ export default function Consulta() {
 
         {/* RESULTADOS */}
         {apiData && (
-          <div style={{ marginTop: "20px", textAlign: "center" }}>
-            <p><strong>Estatus de Línea:</strong> {apiData.estatus}</p>
-            <p><strong>Vence:</strong> {apiData.fecha_vencimiento}</p>
+          <>
+            <div className="api-info">
+              <p><strong>Estatus de Línea:</strong> {apiData.estatus}</p>
+              <p><strong>Vence:</strong> {apiData.fecha_vencimiento}</p>
+            </div>
 
-            {/* BARRAS PARA MÓVIL */}
-            {apiData.datos !== undefined && (
-              <div className="bars-container">
-                <div className="bar-item">
-                  <div className="bar-label">GB</div>
-                  <div className="bar">
-                    <div className="bar-fill" style={{ width: `${Math.min(apiData.datos / 50 * 100, 100)}%` }} />
+            {/* GAUGES / BARRAS */}
+            <div className="gauges-mobile-wrapper">
+              {/* Desktop - Gauges */}
+              <div className="gauges-desktop">
+                {apiData.datos && (
+                  <div className="gauge-container">
+                    <div className="gauge-item">
+                      <GaugeChart id="gauge-gb" nrOfLevels={5} percent={Math.min(apiData.datos / 50, 1)} colors={["#000","#c34609"]} hideText={true}/>
+                      <div>{apiData.datos} Gb</div>
+                    </div>
+                    <div className="gauge-item">
+                      <GaugeChart id="gauge-sms" nrOfLevels={5} percent={Math.min(apiData.sms / 2000, 1)} colors={["#000","#c34609"]} hideText={true}/>
+                      <div>{apiData.sms} SMS</div>
+                    </div>
+                    <div className="gauge-item">
+                      <GaugeChart id="gauge-min" nrOfLevels={5} percent={Math.min(apiData.min / 5000, 1)} colors={["#000","#c34609"]} hideText={true}/>
+                      <div>{apiData.min} Min</div>
+                    </div>
                   </div>
-                  <div>{apiData.datos} Gb</div>
-                </div>
-                <div className="bar-item">
-                  <div className="bar-label">SMS</div>
-                  <div className="bar">
-                    <div className="bar-fill" style={{ width: `${Math.min(apiData.sms / 2000 * 100, 100)}%` }} />
-                  </div>
-                  <div>{apiData.sms} SMS</div>
-                </div>
-                <div className="bar-item">
-                  <div className="bar-label">Min</div>
-                  <div className="bar">
-                    <div className="bar-fill" style={{ width: `${Math.min(apiData.min / 5000 * 100, 100)}%` }} />
-                  </div>
-                  <div>{apiData.min} Min</div>
-                </div>
+                )}
               </div>
-            )}
+
+              {/* Mobile - Barras en una sola línea */}
+              {apiData.datos && (
+                <div className="bars-mobile-wrapper">
+                  <div className="bars-mobile">
+                    <div className="bar-item">
+                      <div className="bar-label">GB</div>
+                      <div className="bar-wrapper"><div className="bar-fill" style={{width: `${(apiData.datos/50)*100}%`}}></div></div>
+                      <div className="bar-value">{apiData.datos} Gb</div>
+                    </div>
+                    <div className="bar-item">
+                      <div className="bar-label">SMS</div>
+                      <div className="bar-wrapper"><div className="bar-fill" style={{width: `${(apiData.sms/2000)*100}%`}}></div></div>
+                      <div className="bar-value">{apiData.sms} SMS</div>
+                    </div>
+                    <div className="bar-item">
+                      <div className="bar-label">Min</div>
+                      <div className="bar-wrapper"><div className="bar-fill" style={{width: `${(apiData.min/5000)*100}%`}}></div></div>
+                      <div className="bar-value">{apiData.min} Min</div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
 
             {/* OFERTAS */}
-            <h3 style={{ marginTop: "20px" }}>Compra tus Ofertas Disponibles:</h3>
-            <div className="offers-scroll-container" ref={offersRef}>
-              {options.map((item) => (
-                <div
-                  key={item.idoferta_app}
-                  className={`offer-card ${
-                    selectedOfferId === item.idoferta_app
-                      ? "border-selected"
-                      : ""
-                  }`}
-                >
-                  <p className="offer-desc">{item.descripcion_oferta_comercial}</p>
-                  <p className="offer-price">$ {item.precio_minorista}</p>
-                  <button
-                    onClick={() => handleCompra(item.idoferta_app)}
-                    disabled={isLoadingCompra}
-                  >
-                    {isLoadingCompra ? "Procesando..." : "Comprar"}
-                  </button>
-                </div>
-              ))}
+            <h3 className="offers-title">Compra tus Ofertas Disponibles:</h3>
+            <div className="offers-scroll-wrapper">
+              <button className="scroll-btn left" onClick={() => scrollOffers(-160)}>&lt;</button>
+              <div className="offers-wrapper" ref={offersRef}>
+                {options.map((item) => (
+                  <div key={item.idoferta_app} className={`offer-card ${selectedOfferId===item.idoferta_app?"border-selected":"border-normal"}`} onClick={() => setSelectedOfferId(item.idoferta_app)}>
+                    <p className="offer-text">{item.descripcion_oferta_comercial}</p>
+                    <p className="offer-price">$ {item.precio_minorista}</p>
+                    <button onClick={() => handleCompra(item.idoferta_app)} disabled={isLoadingCompra}>
+                      {isLoadingCompra ? "Procesando..." : "Comprar"}
+                    </button>
+                  </div>
+                ))}
+              </div>
+              <button className="scroll-btn right" onClick={() => scrollOffers(160)}>&gt;</button>
             </div>
-
-            <div className="scroll-buttons">
-              <button onClick={() => scrollOffers(-150)}>◀</button>
-              <button onClick={() => scrollOffers(150)}>▶</button>
-            </div>
-          </div>
+          </>
         )}
       </div>
-
-      <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} />
+      <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false}/>
     </div>
   );
 }
+
