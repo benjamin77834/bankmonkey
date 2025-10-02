@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import GaugeChart from "react-gauge-chart";
 import { ToastContainer, toast } from "react-toastify";
@@ -16,6 +16,14 @@ export default function Consulta() {
   const [selectedOfferId, setSelectedOfferId] = useState(null);
 
   const apiUrl = process.env.REACT_APP_API_URL;
+
+  const offersRef = useRef(null);
+
+  const scrollOffers = (scrollOffset) => {
+    if (offersRef.current) {
+      offersRef.current.scrollBy({ left: scrollOffset, behavior: "smooth" });
+    }
+  };
 
   useEffect(() => {
     const savedData = localStorage.getItem("formData");
@@ -39,7 +47,7 @@ export default function Consulta() {
 
     setIsLoadingConsulta(true);
     try {
-      toast.dismiss(); // limpiar cualquier toast activo
+      toast.dismiss();
       toast.info("¡Consulta en proceso!", { autoClose: 1500 });
 
       const data = { msisdn: numero, name: "", app: "1", serv: "profile" };
@@ -55,8 +63,6 @@ export default function Consulta() {
 
       if (!flattenedOptions.length) {
         toast.info("No se encontraron ofertas para este número.", { autoClose: 2000 });
-      } else {
-       // toast.success("Consulta completada!", { autoClose: 2000 });
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Error al realizar la consulta.", { autoClose: 3000 });
@@ -65,7 +71,6 @@ export default function Consulta() {
       setIsLoadingConsulta(false);
     }
   };
-  
 
   const handleCompra = async (id_oferta) => {
     if (!msisdn) {
@@ -164,27 +169,29 @@ export default function Consulta() {
 
             {/* OFERTAS */}
             <h3 style={{ marginTop: "20px" }}>Compra tus Ofertas Disponibles:</h3>
-            <div style={{ display: "grid", gap: "15px" }}>
-              {options.map((item) => (
-                <div
-                  key={item.idoferta_app}
-                  className={`offer-card p-4 rounded-xl shadow transition hover:shadow-lg cursor-pointer ${
-                    selectedOfferId === item.idoferta_app
-                      ? "border-indigo-600 border-2"
-                      : "border-transparent border-2"
-                  }`}
-                  onClick={() => setSelectedOfferId(item.idoferta_app)}
-                >
-                  <p className="font-semibold">{item.descripcion_oferta_comercial}</p>
-                  <p className="text-indigo-600 font-bold text-lg">$ {item.precio_minorista}</p>
-                  <button
-                    onClick={() => handleCompra(item.idoferta_app)}
-                    disabled={isLoadingCompra}
+            <div className="offers-wrapper">
+              <button className="scroll-btn" onClick={() => scrollOffers(-200)}>‹</button>
+              <div className="offers-container" ref={offersRef}>
+                {options.map((item) => (
+                  <div
+                    key={item.idoferta_app}
+                    className={`offer-card ${selectedOfferId === item.idoferta_app ? "selected" : ""}`}
+                    onClick={() => setSelectedOfferId(item.idoferta_app)}
                   >
-                    {isLoadingCompra ? "Procesando..." : "Comprar"}
-                  </button>
-                </div>
-              ))}
+                    <div className="offer-desc">
+                      <p className="font-semibold">{item.descripcion_oferta_comercial}</p>
+                      <p className="text-indigo-600 font-bold text-lg">$ {item.precio_minorista}</p>
+                    </div>
+                    <button
+                      onClick={() => handleCompra(item.idoferta_app)}
+                      disabled={isLoadingCompra}
+                    >
+                      {isLoadingCompra ? "Procesando..." : "Comprar"}
+                    </button>
+                  </div>
+                ))}
+              </div>
+              <button className="scroll-btn" onClick={() => scrollOffers(200)}>›</button>
             </div>
           </div>
         )}
@@ -195,3 +202,5 @@ export default function Consulta() {
     </div>
   );
 }
+
+
