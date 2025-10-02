@@ -3,7 +3,6 @@ import axios from "axios";
 import GaugeChart from "react-gauge-chart";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import "./Consulta.css";
 
 export default function Consulta() {
@@ -15,9 +14,8 @@ export default function Consulta() {
   const [options, setOptions] = useState([]);
   const [selectedOfferId, setSelectedOfferId] = useState(null);
 
-  const offersRef = useRef(null);
-
   const apiUrl = process.env.REACT_APP_API_URL;
+  const offersRef = useRef(null);
 
   useEffect(() => {
     const savedData = localStorage.getItem("formData");
@@ -94,9 +92,9 @@ export default function Consulta() {
     }
   };
 
-  const scrollOffers = (offset) => {
+  const scrollOffers = (scrollOffset) => {
     if (offersRef.current) {
-      offersRef.current.scrollBy({ left: offset, behavior: "smooth" });
+      offersRef.current.scrollBy({ left: scrollOffset, behavior: "smooth" });
     }
   };
 
@@ -125,67 +123,61 @@ export default function Consulta() {
           </button>
         </form>
 
-        {/* RESULTADOS */}
+        {/* ESTATUS DE LÍNEA */}
         {apiData && (
-          <>
-            <div className="api-info">
-              <p><strong>Estatus de Línea:</strong> {apiData.estatus}</p>
-              <p><strong>Vence:</strong> {apiData.fecha_vencimiento}</p>
-            </div>
+          <div className="status-wrapper">
+            <p><strong>Estatus de Línea:</strong> {apiData.estatus}</p>
+            <p><strong>Vence:</strong> {apiData.fecha_vencimiento}</p>
+          </div>
+        )}
 
-            {/* GAUGES / BARRAS */}
-            <div className="gauges-mobile-wrapper">
-              {/* Desktop - Gauges */}
-              <div className="gauges-desktop">
-                {apiData.datos && (
-                  <div className="gauge-container">
-                    <div className="gauge-item">
-                      <GaugeChart id="gauge-gb" nrOfLevels={5} percent={Math.min(apiData.datos / 50, 1)} colors={["#000","#c34609"]} hideText={true}/>
-                      <div>{apiData.datos} Gb</div>
-                    </div>
-                    <div className="gauge-item">
-                      <GaugeChart id="gauge-sms" nrOfLevels={5} percent={Math.min(apiData.sms / 2000, 1)} colors={["#000","#c34609"]} hideText={true}/>
-                      <div>{apiData.sms} SMS</div>
-                    </div>
-                    <div className="gauge-item">
-                      <GaugeChart id="gauge-min" nrOfLevels={5} percent={Math.min(apiData.min / 5000, 1)} colors={["#000","#c34609"]} hideText={true}/>
-                      <div>{apiData.min} Min</div>
-                    </div>
-                  </div>
-                )}
+        {/* GAUGES DESKTOP */}
+        {apiData && (
+          <div className="gauges-wrapper">
+            {apiData.datos !== undefined && (
+              <div className="gauge-item">
+                <GaugeChart id="gauge-gb" nrOfLevels={5} percent={Math.min(apiData.datos / 50, 1)} colors={["#c44609"]} hideText={true} />
+                <div>{apiData.datos} Gb</div>
               </div>
+            )}
+            {apiData.sms !== undefined && (
+              <div className="gauge-item">
+                <GaugeChart id="gauge-sms" nrOfLevels={5} percent={Math.min(apiData.sms / 2000, 1)} colors={["#c44609"]} hideText={true} />
+                <div>{apiData.sms} SMS</div>
+              </div>
+            )}
+            {apiData.min !== undefined && (
+              <div className="gauge-item">
+                <GaugeChart id="gauge-min" nrOfLevels={5} percent={Math.min(apiData.min / 5000, 1)} colors={["#c44609"]} hideText={true} />
+                <div>{apiData.min} Min</div>
+              </div>
+            )}
+          </div>
+        )}
 
-              {/* Mobile - Barras en una sola línea */}
-              {apiData.datos && (
-                <div className="bars-mobile-wrapper">
-                  <div className="bars-mobile">
-                    <div className="bar-item">
-                      <div className="bar-label">GB</div>
-                      <div className="bar-wrapper"><div className="bar-fill" style={{width: `${(apiData.datos/50)*100}%`}}></div></div>
-                      <div className="bar-value">{apiData.datos} Gb</div>
-                    </div>
-                    <div className="bar-item">
-                      <div className="bar-label">SMS</div>
-                      <div className="bar-wrapper"><div className="bar-fill" style={{width: `${(apiData.sms/2000)*100}%`}}></div></div>
-                      <div className="bar-value">{apiData.sms} SMS</div>
-                    </div>
-                    <div className="bar-item">
-                      <div className="bar-label">Min</div>
-                      <div className="bar-wrapper"><div className="bar-fill" style={{width: `${(apiData.min/5000)*100}%`}}></div></div>
-                      <div className="bar-value">{apiData.min} Min</div>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
+        {/* BARRAS MÓVIL */}
+        {apiData && (
+          <div className="bars-mobile-wrapper">
+            {apiData.datos !== undefined && <div className="bar-item">Gb: {apiData.datos}</div>}
+            {apiData.sms !== undefined && <div className="bar-item">SMS: {apiData.sms}</div>}
+            {apiData.min !== undefined && <div className="bar-item">Min: {apiData.min}</div>}
+          </div>
+        )}
 
-            {/* OFERTAS */}
-            <h3 className="offers-title">Compra tus Ofertas Disponibles:</h3>
-            <div className="offers-scroll-wrapper">
-              <button className="scroll-btn left" onClick={() => scrollOffers(-160)}>&lt;</button>
+        {/* OFERTAS */}
+        {options.length > 0 && (
+          <div className="offers-section">
+            <h3>Compra tus Ofertas Disponibles:</h3>
+
+            {/* FLECHAS CARRUSEL */}
+            <div className="offers-carousel-wrapper">
+              <button className="scroll-btn left" onClick={() => scrollOffers(-150)}>&lt;</button>
               <div className="offers-wrapper" ref={offersRef}>
                 {options.map((item) => (
-                  <div key={item.idoferta_app} className={`offer-card ${selectedOfferId===item.idoferta_app?"border-selected":"border-normal"}`} onClick={() => setSelectedOfferId(item.idoferta_app)}>
+                  <div
+                    key={item.idoferta_app}
+                    className={`offer-card ${selectedOfferId === item.idoferta_app ? "selected" : ""}`}
+                  >
                     <p className="offer-text">{item.descripcion_oferta_comercial}</p>
                     <p className="offer-price">$ {item.precio_minorista}</p>
                     <button onClick={() => handleCompra(item.idoferta_app)} disabled={isLoadingCompra}>
@@ -194,13 +186,16 @@ export default function Consulta() {
                   </div>
                 ))}
               </div>
-              <button className="scroll-btn right" onClick={() => scrollOffers(160)}>&gt;</button>
+              <button className="scroll-btn right" onClick={() => scrollOffers(150)}>&gt;</button>
             </div>
-          </>
+          </div>
         )}
       </div>
-      <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false}/>
+
+      <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} />
     </div>
   );
 }
+
+
 
