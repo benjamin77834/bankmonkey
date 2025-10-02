@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import GaugeChart from "react-gauge-chart";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import "./Consulta.css";
 
 export default function Consulta() {
@@ -15,8 +13,9 @@ export default function Consulta() {
   const [options, setOptions] = useState([]);
   const [selectedOfferId, setSelectedOfferId] = useState(null);
 
-  const apiUrl = process.env.REACT_APP_API_URL;
   const offersRef = useRef(null);
+
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     const savedData = localStorage.getItem("formData");
@@ -93,9 +92,9 @@ export default function Consulta() {
     }
   };
 
-  const scrollOffers = (offset) => {
+  const scrollOffers = (scrollOffset) => {
     if (offersRef.current) {
-      offersRef.current.scrollBy({ left: offset, behavior: "smooth" });
+      offersRef.current.scrollBy({ left: scrollOffset, behavior: "smooth" });
     }
   };
 
@@ -104,7 +103,10 @@ export default function Consulta() {
       <div className="absolute-container2">
         {/* FORMULARIO */}
         <form
-          onSubmit={(e) => { e.preventDefault(); doConsulta(formData.name); }}
+          onSubmit={(e) => {
+            e.preventDefault();
+            doConsulta(formData.name);
+          }}
           className="form-inline"
         >
           <input
@@ -127,50 +129,60 @@ export default function Consulta() {
             <p><strong>Estatus de Línea:</strong> {apiData.estatus}</p>
             <p><strong>Vence:</strong> {apiData.fecha_vencimiento}</p>
 
-            {/* GAUGES / BARRAS */}
-            {apiData.datos && (
-              <div className="gauge-container">
-                {["datos", "sms", "min"].map((key) => (
-                  <div key={key} className="gauge-item">
-                    <div className="desktop-gauge">
-                      <GaugeChart
-                        id={`gauge-${key}`}
-                        nrOfLevels={5}
-                        percent={Math.min(apiData[key] / (key === "datos" ? 50 : key === "sms" ? 2000 : 5000), 1)}
-                        colors={["#000000", "#c34609"]}
-                        hideText={true}
-                        arcPadding={0.05}
-                      />
-                      <div>{apiData[key]} {key === "datos" ? "Gb" : key === "sms" ? "SMS" : "Min"}</div>
-                    </div>
-                    <div className="mobile-bar">
-                      <span>{key === "datos" ? "Gb" : key === "sms" ? "SMS" : "Min"}:</span>
-                      <div className="progress-bar">
-                        <div className="progress" style={{ width: `${Math.min(apiData[key] / (key === "datos" ? 50 : key === "sms" ? 2000 : 5000), 1) * 100}%` }}></div>
-                      </div>
-                      <span>{apiData[key]}</span>
-                    </div>
+            {/* BARRAS PARA MÓVIL */}
+            {apiData.datos !== undefined && (
+              <div className="bars-container">
+                <div className="bar-item">
+                  <div className="bar-label">GB</div>
+                  <div className="bar">
+                    <div className="bar-fill" style={{ width: `${Math.min(apiData.datos / 50 * 100, 100)}%` }} />
                   </div>
-                ))}
+                  <div>{apiData.datos} Gb</div>
+                </div>
+                <div className="bar-item">
+                  <div className="bar-label">SMS</div>
+                  <div className="bar">
+                    <div className="bar-fill" style={{ width: `${Math.min(apiData.sms / 2000 * 100, 100)}%` }} />
+                  </div>
+                  <div>{apiData.sms} SMS</div>
+                </div>
+                <div className="bar-item">
+                  <div className="bar-label">Min</div>
+                  <div className="bar">
+                    <div className="bar-fill" style={{ width: `${Math.min(apiData.min / 5000 * 100, 100)}%` }} />
+                  </div>
+                  <div>{apiData.min} Min</div>
+                </div>
               </div>
             )}
 
             {/* OFERTAS */}
             <h3 style={{ marginTop: "20px" }}>Compra tus Ofertas Disponibles:</h3>
-            <div className="offers-wrapper">
-              <button className="scroll-btn left" onClick={() => scrollOffers(-150)}>◀</button>
-              <div className="offers-container" ref={offersRef}>
-                {options.map((item) => (
-                  <div key={item.idoferta_app} className={`offer-card ${selectedOfferId === item.idoferta_app ? "selected" : ""}`}>
-                    <p className="offer-desc">{item.descripcion_oferta_comercial}</p>
-                    <p className="offer-price">$ {item.precio_minorista}</p>
-                    <button onClick={() => handleCompra(item.idoferta_app)} disabled={isLoadingCompra}>
-                      {isLoadingCompra ? "Procesando..." : "Comprar"}
-                    </button>
-                  </div>
-                ))}
-              </div>
-              <button className="scroll-btn right" onClick={() => scrollOffers(150)}>▶</button>
+            <div className="offers-scroll-container" ref={offersRef}>
+              {options.map((item) => (
+                <div
+                  key={item.idoferta_app}
+                  className={`offer-card ${
+                    selectedOfferId === item.idoferta_app
+                      ? "border-selected"
+                      : ""
+                  }`}
+                >
+                  <p className="offer-desc">{item.descripcion_oferta_comercial}</p>
+                  <p className="offer-price">$ {item.precio_minorista}</p>
+                  <button
+                    onClick={() => handleCompra(item.idoferta_app)}
+                    disabled={isLoadingCompra}
+                  >
+                    {isLoadingCompra ? "Procesando..." : "Comprar"}
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            <div className="scroll-buttons">
+              <button onClick={() => scrollOffers(-150)}>◀</button>
+              <button onClick={() => scrollOffers(150)}>▶</button>
             </div>
           </div>
         )}
