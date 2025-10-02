@@ -1,8 +1,8 @@
 {
   "packageId": "com.monkeyfon.app.twa",
   "host": "app.monkeyfon.com",
-  "name": "MonKeyPhone",
-  "launcherName": "MonkeyPhone",
+  "name": "App MonkeyPhone",
+  "launcherName": "AppMonkey",
   "display": "standalone",
   "themeColor": "#000000",
   "themeColorDark": "#000000",
@@ -19,8 +19,8 @@
     "path": "/Users/benjamingarcia/sam/monk/reac/monkeyapp/android.keystore",
     "alias": "android"
   },
-  "appVersionName": "2",
-  "appVersionCode": 2,
+  "appVersionName": "1",
+  "appVersionCode": 1,
   "shortcuts": [],
   "generatorApp": "bubblewrap-cli",
   "webManifestUrl": "https://app.monkeyfon.com/manifest.json",
@@ -39,5 +39,8 @@
   "additionalTrustedOrigins": [],
   "retainedBundles": [],
   "protocolHandlers": [],
-  "appVersion": "2"
+  "fileHandlers": [],
+  "launchHandlerClientMode": "",
+  "displayOverride": [],
+  "appVersion": "1"
 }

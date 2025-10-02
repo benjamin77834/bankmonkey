@@ -1,13 +1,22 @@
-body {
+/* Reset y tipografía */
+body, html, #root {
   margin: 0;
+  padding: 0;
+  height: auto; /* importante para que crezca con el contenido */
+  min-height: 100%;
+  overflow-y: auto; /* scroll vertical */
+  -webkit-overflow-scrolling: touch; /* smooth scroll en móviles */
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* Opcional: asegurar scroll en contenedores internos */
+#root > * {
+  overflow: auto;
 }

@@ -1,0 +1,11 @@
+{
+  "appId": "com.tuempresa.monkeyphone",
+  "appName": "MonkeyPhone",
+  "webDir": "build",
+  "bundledWebRuntime": false,
+  "server": {
+    "url": "https://app.monkeyfon.com", 
+    "cleartext": true
+  }
+}
+
