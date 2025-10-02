@@ -13,14 +13,14 @@
   "backgroundColor": "#FFFFFF",
   "enableNotifications": true,
   "startUrl": "/",
-  "iconUrl": "https://app.monkeyfon.com/monito.png",
+  "iconUrl": "https://app.monkeyfon.com/static/media/monkey512x512.edf0a33ad79362ccd16a.png",
   "splashScreenFadeOutDuration": 300,
   "signingKey": {
     "path": "/Users/benjamingarcia/sam/monk/reac/monkeyapp/android.keystore",
     "alias": "android"
   },
-  "appVersionName": "3",
-  "appVersionCode": 3,
+  "appVersionName": "4",
+  "appVersionCode": 4,
   "shortcuts": [],
   "generatorApp": "bubblewrap-cli",
   "webManifestUrl": "https://app.monkeyfon.com/manifest.json",
@@ -42,5 +42,5 @@
   "fileHandlers": [],
   "launchHandlerClientMode": "",
   "displayOverride": [],
-  "appVersion": "3"
+  "appVersion": "4"
 }

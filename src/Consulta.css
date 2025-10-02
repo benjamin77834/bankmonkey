@@ -1,12 +1,9 @@
-/* =======================
-   RESET Y BASE
-======================= */
+/* RESET */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
-
 html, body {
   height: 100%;
   font-family: Arial, sans-serif;
@@ -14,190 +11,89 @@ html, body {
   overflow-y: auto;
 }
 
-/* =======================
-   ESTRUCTURA GENERAL
-======================= */
+/* CONTENEDORES */
 .content-container {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
   padding-top: 20px;
   width: 90%;
   margin: auto;
 }
-
 .absolute-container2 {
   width: 100%;
-  max-width: 800px;
+  max-width: 600px;
   padding: 20px;
   background: white;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0,0,0,0.05);
 }
 
-/* =======================
-   FORMULARIOS
-======================= */
+/* FORMULARIO */
 .form-inline {
   display: flex;
   gap: 10px;
   justify-content: center;
-  align-items: center;
   flex-wrap: wrap;
 }
-
 .responsive-input {
   flex: 1 1 auto;
   max-width: 250px;
   min-width: 150px;
-  padding: 12px 15px;
+  padding: 12px;
   font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
 }
-
 .responsive-button {
   flex: 0 0 auto;
-  max-width: 150px;
-  min-width: 120px;
   padding: 12px 20px;
-  font-size: 18px;
-  border-radius: 8px;
   background-color: #c44609;
   color: white;
   border: none;
+  border-radius: 8px;
+  font-size: 16px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
+.responsive-button:hover { background-color: #febe06; }
 
-.responsive-button:hover {
-  background-color: #febe06;
-}
-
-/* =======================
-   GAUGES (siempre en línea)
-======================= */
-.gauge-container-wrapper {
-  overflow-x: auto; /* scroll horizontal si no cabe */
-  padding-bottom: 10px;
-}
-
+/* GAUGES / BARRAS */
 .gauge-container {
   display: flex;
-  gap: 15px;
-  flex-wrap: nowrap; /* nunca se rompen */
-  justify-content: flex-start;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  margin-top: 10px;
 }
-
 .gauge-item {
+  flex: 1 1 0;
   text-align: center;
-  flex: 0 0 150px; /* tamaño fijo para cada gauge */
+  min-width: 60px;
+  max-width: 120px;
 }
-
-.gauge-item div {
-  margin-top: 5px;
-  font-size: 14px;
-  color: #333;
-}
-
-/* =======================
-   OFERTAS / CARRUSEL
-======================= */
-.offers-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  margin-top: 20px;
-}
-
-.offers-container {
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  padding: 10px 0;
-}
-
-.offer-card {
-  flex: 0 0 auto;
-  width: 180px;
-  background: white;
-  padding: 10px;
-  border-radius: 10px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.1);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  text-align: center;
-}
-
-.offer-card.selected {
-  border: 2px solid #3a6fcc;
-}
-
-.offer-card .offer-desc {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
-.offer-card .offer-desc p {
-  margin-bottom: 5px;
-}
-
-.offer-card button {
-  flex-shrink: 0;
+.desktop-gauge { display: block; }
+.mobile-bar { display: none; }
+.progress-bar {
+  background: #eee;
+  border-radius: 6px;
   width: 100%;
-  padding: 8px 0;
-  font-size: 14px;
-  border-radius: 6px;
-  background-color: #c44609;
-  color: white;
-  border: none;
-  cursor: pointer;
+  height: 12px;
+  overflow: hidden;
+  margin: 5px 0;
 }
+.progress { background: #c34609; height: 100%; }
 
-.offer-card button:hover {
-  background-color: #febe06;
-}
+/* OFERTAS */
+.offers-wrapper { display: flex; align-items: center; gap: 5px; position: relative; margin-top: 20px; }
+.offers-container { display: flex; overflow-x: auto; gap: 10px; scroll-behavior: smooth; }
+.offer-card { flex: 0 0 auto; background: #fff; padding: 10px; border-radius: 8px; border: 2px solid transparent; display: flex; flex-direction: column; justify-content: space-between; min-width: 150px; }
+.offer-card.selected { border-color: #3a6fcc; }
+.offer-desc { font-weight: 600; margin-bottom: 5px; }
+.offer-price { font-weight: bold; margin-bottom: 5px; text-align: center; }
 
-.scroll-btn {
-  background: #c44609;
-  color: white;
-  border: none;
-  font-size: 28px;
-  padding: 5px 12px;
-  cursor: pointer;
-  border-radius: 6px;
-  z-index: 10;
-}
+/* FLECHAS */
+.scroll-btn { background: #c44609; color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; }
+.scroll-btn:hover { background: #febe06; }
 
-.scroll-btn:hover {
-  background-color: #febe06;
-}
-
-/* =======================
-   MEDIA QUERIES
-======================= */
+/* MEDIA QUERIES */
 @media (max-width: 768px) {
-  .gauge-item {
-    flex: 0 0 120px;
-  }
-
-  .offer-card {
-    width: 150px;
-  }
+  .desktop-gauge { display: none; }
+  .mobile-bar { display: block; }
 }
-
-@media (max-width: 480px) {
-  .gauge-item {
-    flex: 0 0 100px;
-  }
-
-  .offer-card {
-    width: 120px;
-  }
-}
-

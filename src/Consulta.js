@@ -16,14 +16,7 @@ export default function Consulta() {
   const [selectedOfferId, setSelectedOfferId] = useState(null);
 
   const apiUrl = process.env.REACT_APP_API_URL;
-
   const offersRef = useRef(null);
-
-  const scrollOffers = (scrollOffset) => {
-    if (offersRef.current) {
-      offersRef.current.scrollBy({ left: scrollOffset, behavior: "smooth" });
-    }
-  };
 
   useEffect(() => {
     const savedData = localStorage.getItem("formData");
@@ -100,15 +93,18 @@ export default function Consulta() {
     }
   };
 
+  const scrollOffers = (offset) => {
+    if (offersRef.current) {
+      offersRef.current.scrollBy({ left: offset, behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="content-container">
       <div className="absolute-container2">
         {/* FORMULARIO */}
         <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            doConsulta(formData.name);
-          }}
+          onSubmit={(e) => { e.preventDefault(); doConsulta(formData.name); }}
           className="form-inline"
         >
           <input
@@ -131,76 +127,56 @@ export default function Consulta() {
             <p><strong>Estatus de Línea:</strong> {apiData.estatus}</p>
             <p><strong>Vence:</strong> {apiData.fecha_vencimiento}</p>
 
-            {/* GAUGES */}
+            {/* GAUGES / BARRAS */}
             {apiData.datos && (
               <div className="gauge-container">
-                <div className="gauge-item">
-                  <GaugeChart
-                    id="gauge-gb"
-                    nrOfLevels={5}
-                    percent={Math.min(apiData.datos / 50, 1)}
-                    colors={["#000000", "#c34609"]}
-                    hideText={true}
-                  />
-                  <div>{apiData.datos} Gb</div>
-                </div>
-                <div className="gauge-item">
-                  <GaugeChart
-                    id="gauge-sms"
-                    nrOfLevels={5}
-                    percent={Math.min(apiData.sms / 2000, 1)}
-                    colors={["#000000", "#c34609"]}
-                    hideText={true}
-                  />
-                  <div>{apiData.sms} SMS</div>
-                </div>
-                <div className="gauge-item">
-                  <GaugeChart
-                    id="gauge-min"
-                    nrOfLevels={5}
-                    percent={Math.min(apiData.min / 5000, 1)}
-                    colors={["#000000", "#c34609"]}
-                    hideText={true}
-                  />
-                  <div>{apiData.min} Min</div>
-                </div>
+                {["datos", "sms", "min"].map((key) => (
+                  <div key={key} className="gauge-item">
+                    <div className="desktop-gauge">
+                      <GaugeChart
+                        id={`gauge-${key}`}
+                        nrOfLevels={5}
+                        percent={Math.min(apiData[key] / (key === "datos" ? 50 : key === "sms" ? 2000 : 5000), 1)}
+                        colors={["#000000", "#c34609"]}
+                        hideText={true}
+                        arcPadding={0.05}
+                      />
+                      <div>{apiData[key]} {key === "datos" ? "Gb" : key === "sms" ? "SMS" : "Min"}</div>
+                    </div>
+                    <div className="mobile-bar">
+                      <span>{key === "datos" ? "Gb" : key === "sms" ? "SMS" : "Min"}:</span>
+                      <div className="progress-bar">
+                        <div className="progress" style={{ width: `${Math.min(apiData[key] / (key === "datos" ? 50 : key === "sms" ? 2000 : 5000), 1) * 100}%` }}></div>
+                      </div>
+                      <span>{apiData[key]}</span>
+                    </div>
+                  </div>
+                ))}
               </div>
             )}
 
             {/* OFERTAS */}
             <h3 style={{ marginTop: "20px" }}>Compra tus Ofertas Disponibles:</h3>
             <div className="offers-wrapper">
-              <button className="scroll-btn" onClick={() => scrollOffers(-200)}>‹</button>
+              <button className="scroll-btn left" onClick={() => scrollOffers(-150)}>◀</button>
               <div className="offers-container" ref={offersRef}>
                 {options.map((item) => (
-                  <div
-                    key={item.idoferta_app}
-                    className={`offer-card ${selectedOfferId === item.idoferta_app ? "selected" : ""}`}
-                    onClick={() => setSelectedOfferId(item.idoferta_app)}
-                  >
-                    <div className="offer-desc">
-                      <p className="font-semibold">{item.descripcion_oferta_comercial}</p>
-                      <p className="text-indigo-600 font-bold text-lg">$ {item.precio_minorista}</p>
-                    </div>
-                    <button
-                      onClick={() => handleCompra(item.idoferta_app)}
-                      disabled={isLoadingCompra}
-                    >
+                  <div key={item.idoferta_app} className={`offer-card ${selectedOfferId === item.idoferta_app ? "selected" : ""}`}>
+                    <p className="offer-desc">{item.descripcion_oferta_comercial}</p>
+                    <p className="offer-price">$ {item.precio_minorista}</p>
+                    <button onClick={() => handleCompra(item.idoferta_app)} disabled={isLoadingCompra}>
                       {isLoadingCompra ? "Procesando..." : "Comprar"}
                     </button>
                   </div>
                 ))}
               </div>
-              <button className="scroll-btn" onClick={() => scrollOffers(200)}>›</button>
+              <button className="scroll-btn right" onClick={() => scrollOffers(150)}>▶</button>
             </div>
           </div>
         )}
       </div>
 
-      {/* TOAST CONTAINER */}
       <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} />
     </div>
   );
 }
-
-
