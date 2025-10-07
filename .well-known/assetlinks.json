@@ -1,0 +1,15 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls",
+      "delegate_permission/common.get_login_creds"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.monkeyfon.app.twa",
+      "sha256_cert_fingerprints": [
+        "10:F3:79:DD:9E:CF:74:D6:A4:6E:F8:AB:F7:B8:D9:9C:40:6A:E0:49:48:6D:5E:E8:97:1E:09:54:88:25:31:67"
+      ]
+    }
+  }
+]
