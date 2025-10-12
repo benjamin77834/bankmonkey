@@ -13,8 +13,9 @@ function AiraloOffers() {
   const [customerEmail, setCustomerEmail] = useState("");
   const [promoCode, setPromoCode] = useState("");
   const [selectedOffer, setSelectedOffer] = useState(null);
+  const [showCoverage, setShowCoverage] = useState({}); // 🔹 Control de visibilidad de cobertura
 
-  // Cargar dispositivos con debug
+  // Cargar dispositivos
   useEffect(() => {
     fetch("https://l0sqt7a9v0.execute-api.us-east-1.amazonaws.com/prod/getdisp", {
       method: "POST",
@@ -23,16 +24,12 @@ function AiraloOffers() {
     })
       .then(res => res.json())
       .then(result => {
-        console.log("🔹 API getdisp response:", result); // <-- DEBUG crudo
-
         let list = [];
         if (Array.isArray(result.body?.data)) {
           list = result.body.data.map(d =>
             d.name || d.device_name || d.title || d.toString()
           );
         }
-
-        console.log("📊 Total dispositivos:", list.length, "Ejemplo:", list.slice(0, 5));
         setDevices(list);
         setLoadingDevices(false);
       })
@@ -85,12 +82,9 @@ function AiraloOffers() {
       .catch(() => toast.error("Error al procesar la compra"));
   };
 
-  // Filtrar dispositivos con debug
   const filteredDevices = devices
     .filter(d => d.toLowerCase().includes(searchDevice.toLowerCase()))
     .slice(0, 10);
-
-  console.log("🔎 Input:", searchDevice, "| Filtrados:", filteredDevices);
 
   const handleKeyDown = (e) => {
     if (!filteredDevices.length) return;
@@ -112,32 +106,36 @@ function AiraloOffers() {
 
   return (
     <div style={{ padding: 20, maxWidth: 1200, margin: "0 auto" }}>
-      <h1 style={{ textAlign: "center",
-  fontSize: "3rem",
-  fontWeight: "900",
-  background: "linear-gradient(90deg, #ff8a00, #e52e71, #6a11cb)",
-  WebkitBackgroundClip: "text",
-  WebkitTextFillColor: "transparent",
-  textShadow: "0 0 10px rgba(255,255,255,0.6), 0 0 20px rgba(255,255,255,0.4)",
-  marginBottom: "15px" }}>🌐 eSIM Internacional Global 
+      <h1 style={{
+        textAlign: "center",
+        fontSize: "3rem",
+        fontWeight: "900",
+        background: "linear-gradient(90deg, #ff8a00, #e52e71, #6a11cb)",
+        WebkitBackgroundClip: "text",
+        WebkitTextFillColor: "transparent",
+        textShadow: "0 0 10px rgba(255,255,255,0.6), 0 0 20px rgba(255,255,255,0.4)",
+        marginBottom: "15px"
+      }}>
+        🌐 eSIM Internacional Global
       </h1>
+
       <p style={{
-  textAlign: "center",
-  fontSize: "1.25rem",
-  color: "#333",
-  maxWidth: "800px",
-  margin: "0 auto 30px auto",
-  lineHeight: "1.6",
-  textShadow: "0 1px 2px rgba(0,0,0,0.1)"
-}}>
-  Conéctate en múltiples países sin complicaciones. Ideal para viajeros frecuentes, nómadas digitales y cualquier persona que quiera datos móviles al instante sin cambiar de tarjeta SIM.
-</p>
+        textAlign: "center",
+        fontSize: "1.25rem",
+        color: "#333",
+        maxWidth: "800px",
+        margin: "0 auto 30px auto",
+        lineHeight: "1.6",
+        textShadow: "0 1px 2px rgba(0,0,0,0.1)"
+      }}>
+        Conéctate en múltiples países sin complicaciones. Ideal para viajeros frecuentes, nómadas digitales y cualquier persona que quiera datos móviles al instante sin cambiar de tarjeta SIM.
+      </p>
 
       {/* Buscador de móviles */}
       <div style={{ margin: "20px 0", position: "relative" }}>
         <input
           type="text"
-          placeholder="🔍 Escribe el nombre de tu móvil...para que sea compatible con nuestro servicio"
+          placeholder="🔍 Escribe el nombre de tu móvil..."
           value={searchDevice}
           onChange={(e) => { setSearchDevice(e.target.value); setHighlightIndex(-1); }}
           onKeyDown={handleKeyDown}
@@ -200,10 +198,32 @@ function AiraloOffers() {
         {offers.map((pkg, idx) => (
           <div key={idx} style={{ border: "1px solid #ddd", borderRadius: 16, padding: 20, cursor: "pointer" }}
                onClick={() => setSelectedOffer(pkg)}>
+            <h3>{pkg.site || "Sin nombre"}</h3>
             <h3>{pkg.title || "Sin nombre"}</h3>
+            <h3>{pkg.package_id  || "Sin nombre"}</h3>
             <p>📶 {pkg.data_amount || pkg.datos_amount || "N/A"} Data</p>
             <p>⏱ {pkg.validity || pkg.vality || "N/A"}</p>
             <p>💲 {pkg.price} MXN</p>
+
+            {/* Botón para mostrar cobertura */}
+            {pkg.coverage && pkg.coverage.length > 0 && (
+              <>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowCoverage(prev => ({ ...prev, [pkg.package_id]: !prev[pkg.package_id] }));
+                  }}
+                  style={{ marginTop: 10, padding: "6px 10px", borderRadius: 8, backgroundColor: "#6a11cb", color: "#fff", border: "none" }}
+                >
+                  {showCoverage[pkg.package_id] ? "Ocultar cobertura" : "Ver cobertura"}
+                </button>
+                {showCoverage[pkg.package_id] && (
+                  <ul style={{ marginTop: 10, paddingLeft: 20, maxHeight: 150, overflowY: "auto" }}>
+                    {pkg.coverage.map((c, i) => <li key={i}>{c}</li>)}
+                  </ul>
+                )}
+              </>
+            )}
           </div>
         ))}
       </div>
@@ -217,10 +237,30 @@ function AiraloOffers() {
              onClick={() => setSelectedOffer(null)}>
           <div style={{ background: "#fff", borderRadius: 16, padding: 30, width: "400px" }}
                onClick={(e) => e.stopPropagation()}>
+            <h3>Sirve para: {selectedOffer.site || "Oferta"}</h3>
             <h3>Comprar {selectedOffer.title || "Oferta"}</h3>
             <p>📶 {selectedOffer.data_amount || selectedOffer.datos_amount || "N/A"} de datos</p>
             <p>⏱ Validez: {selectedOffer.validity || selectedOffer.vality || "N/A"}</p>
             <p>💲 {selectedOffer.price || ""} MXN</p>
+
+            {/* Cobertura en modal */}
+            {selectedOffer.coverage && selectedOffer.coverage.length > 0 && (
+              <>
+                <button
+                  onClick={() =>
+                    setShowCoverage(prev => ({ ...prev, [selectedOffer.package_id]: !prev[selectedOffer.package_id] }))
+                  }
+                  style={{ marginTop: 10, padding: "6px 10px", borderRadius: 8, backgroundColor: "#6a11cb", color: "#fff", border: "none" }}
+                >
+                  {showCoverage[selectedOffer.package_id] ? "Ocultar cobertura" : "Ver cobertura"}
+                </button>
+                {showCoverage[selectedOffer.package_id] && (
+                  <ul style={{ marginTop: 10, paddingLeft: 20, maxHeight: 150, overflowY: "auto" }}>
+                    {selectedOffer.coverage.map((c, i) => <li key={i}>{c}</li>)}
+                  </ul>
+                )}
+              </>
+            )}
 
             <input
               type="email"
