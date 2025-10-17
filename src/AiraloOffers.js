@@ -198,8 +198,8 @@ function AiraloOffers() {
         {offers.map((pkg, idx) => (
           <div key={idx} style={{ border: "1px solid #ddd", borderRadius: 16, padding: 20, cursor: "pointer" }}
                onClick={() => setSelectedOffer(pkg)}>
-            <h3>{pkg.site || "Sin nombre"}</h3>
-            <h3>{pkg.title || "Sin nombre"}</h3>
+            <h3>{pkg.site || ""}</h3>
+            <h3>{pkg.title || ""}</h3>
             <h3>{pkg.package_id  || "Sin nombre"}</h3>
             <p>📶 {pkg.data_amount || pkg.datos_amount || "N/A"} Data</p>
             <p>⏱ {pkg.validity || pkg.vality || "N/A"}</p>
