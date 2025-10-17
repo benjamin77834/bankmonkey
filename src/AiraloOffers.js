@@ -67,7 +67,7 @@ function AiraloOffers() {
             <p>🕒 Validez: {pkg.vality}</p>
 
             <p>
-              💲 {pkg.price_mxn?.toLocaleString("es-MX", { style: "currency", currency: "MXN" }) || "N/D"}
+              💲 {pkg.price_usd?.toLocaleString("es-MX", { style: "currency", currency: "MXN" }) || "N/D"}
               {pkg.price_usd ? ` (${pkg.price_usd.toLocaleString("en-US", { style: "currency", currency: "USD" })})` : ""}
             </p>
 
