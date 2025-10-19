@@ -272,7 +272,7 @@ function AiraloOffers() {
             <p>📶 {pkg.datos_amount || "N/A"} de datos</p>
             <p>⏱ {pkg.vality || "N/A"}</p>
             <p>💲 {formatCurrency(pkg.price_mxn, "es-MX", "MXN")}</p>
-
+            <p> {pkg.descripcion}</p>
             {/* Botón de cobertura elegante */}
             {pkg.coverage && pkg.coverage.length > 0 && (
               <>
